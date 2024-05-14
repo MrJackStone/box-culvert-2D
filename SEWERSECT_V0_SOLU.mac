@@ -1,0 +1,28 @@
+!!
+!!
+!! 6. SOLUTION
+!!
+!!
+/solu
+
+! Análise estática
+ANTYPE,0
+
+! Armazenar apenas o último substep
+OUTRES,ERASE
+OUTRES,ALL,LAST
+
+NLDIAG,NRRE,ON
+
+ALLSEL
+/uis,ABORT,OFF
+
+*if,SewerType,EQ,2,THEN
+    LSSOLVE,2
+*else
+    KEYW,pr_sgui,1
+    LSSOLVE,1,2
+    KEYW,pr_sgui,0
+*endif
+
+

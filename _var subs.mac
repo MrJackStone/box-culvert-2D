@@ -1,0 +1,22 @@
+! Componentes (área):
+! COMPA_Galeria_04     | COMPA_Culvert
+! COMPA_EPS_02         | COMPA_EPS
+! COMPA_Pavement_04    | COMPA_Pavement
+! COMPA_SoilSubs_07    | COMPA_SoilSubs
+! COMPA_SoilBase_09    | COMPA_SoilBase
+! COMPA_Laje_03        | COMPA_Slab
+! COMPA_SoilRefill_08  | COMPA_SoilRefill
+
+
+! Componentes (linha):
+! COMPL_LatSupport_05  | COMPL_HorSupport
+! COMPL_Support_06     | COMPL_VerSupport
+! COMPL_Load_01        | COMPL_PointLoads
+! COMPL_08             | -
+! COMPL_02             | -
+
+
+! PointLoadCount       | LOADTRAIN_VAR_count
+! PointLoadValues      | LOADTRAIN_ARR_loads
+! PointLoadPositions   | LOADTRAIN_ARR_positions
+! UniformLoad          | LOAD_Uniform

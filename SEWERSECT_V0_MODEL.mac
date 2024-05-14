@@ -1,0 +1,168 @@
+! Switch output to file
+/output,'outfile',OUT
+
+! Display options
+/prep7
+/uis,MSGPOP,3
+/uis,REPLOT,0
+IMMED,0
+/vup,ALL,Y
+/plopts,DATE,OFF
+/device,VECTOR,OFF
+
+! Colors for material-based plot
+/color,NUM,DGRA,1
+/color,NUM,BMAG,2
+/color,NUM,MRED,3
+/color,NUM,CBLU,4
+/color,NUM,ORAN,5
+/color,NUM,GREE,6
+/color,NUM,YELL,7
+/color,NUM,CBLU,8
+/color,NUM,YGRE,9
+/color,NUM,BLUE,10
+/color,NUM,GCYA,11
+
+! Create results folder to store images
+/inquire,currDir,DIRECTORY
+*del,imgFolderPath
+*dim,imgFolderPath,STRING,248
+imgFolderName=FILE_name
+imgFolderPath(1)=STRCAT(currDir(1),STRCAT('\',imgFolderName))
+/syp,mkdir,imgFolderName
+/cwd,'%imgFolderPath(1)%'
+! Folder for results from first load step (dead weight)
+*del,dwFolderPath
+*dim,dwFolderPath,STRING,248
+dwFolderName='DW'
+dwFolderPath(1)=STRCAT(imgFolderPath(1),STRCAT('\',dwFolderName))
+/syp,mkdir,dwFolderName
+! Folder for results from second load step (load train)
+*del,ltFolderPath
+*dim,ltFolderPath,STRING,248
+ltFolderName='LT'
+ltFolderPath(1)=STRCAT(imgFolderPath(1),STRCAT('\',ltFolderName))
+/syp,mkdir,ltFolderName
+! Revert to working directory
+/cwd,'%currDir(1)%'
+
+!!
+!!
+!! 2. ATTRIBUTES
+!!
+!!
+SEWERSECT_V0_ATTR
+
+
+
+
+
+!!
+!!
+!! 3. SOLID MODEL
+!!
+!!
+SEWERSECT_V0_SM
+
+
+
+
+
+!!
+!!
+!! 4. FINITE ELEMENT MODEL
+!!
+!!
+SEWERSECT_V0_FEM
+
+
+
+
+
+!!
+!!
+!! 5. BOUNDARY CONDITIONS
+!!
+!!
+SEWERSECT_V0_BC
+
+
+
+
+
+!!
+!!
+!! 6. SOLUTION
+!!
+!!
+SAVE,,,,ALL
+SEWERSECT_V0_SOLU
+
+
+
+
+
+!!
+!!
+!! 7. POST-PROCESS
+!!
+!!
+/post1
+
+! Report file: initialize
+*if,SOLU_reportMode,EQ,0,THEN
+    BOXCULVERT_V0_REPHDR
+*endif
+
+*if,SewerType,NE,2,THEN
+    ! Results from first load step (dead weight)
+    SET,1,LAST
+    /cwd,'%dwFolderPath(1)%'
+    BOXCULVERT_V0_POST
+    /cwd,'%currDir(1)%'
+    BOXCULVERT_V0_WRRES
+
+    ! Results from second load step (load train)
+    SET,2,LAST
+    /cwd,'%ltFolderPath(1)%'
+    BOXCULVERT_V0_POST
+    /cwd,'%currDir(1)%'
+    BOXCULVERT_V0_WRRES
+
+*else
+    /post1
+    SET,LAST
+    ALLSEL
+    /auto,1
+    /type,,3
+    /edge,,0
+    /plopts,MINM,0
+    /plopts,DATE,OFF
+    baseScale=SewerOuterWidth+SewerOuterHeight
+    /device,VECTOR,OFF
+    /edge,,0
+    /uis,MSGPOP,3
+    ALLSEL
+    CMSEL,S,COMPA_SoilSubs
+    CMSEL,A,COMPA_SoilBase
+    CMSEL,A,COMPA_SoilRefill
+    CMSEL,A,COMPA_SoilBed
+    ESLA,S
+    NSLE,S
+    PATH,'SoilTop',2,20,200
+    PPATH,1,,X9,Y4,0
+    PPATH,2,,X0,Y4,0
+    PATH,'SoilTop'
+    SEWERSECT_V0_PTHMAP
+    PLPAGM,SY,10,NODE
+
+*endif
+
+*msg,UI,
+DONE!
+
+
+
+
+
+

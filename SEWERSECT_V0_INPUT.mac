@@ -1,0 +1,119 @@
+
+!!
+!!
+!! 2. INPUT DATA
+!!
+!!
+
+!!
+!! 2.1 MATERIALS
+!!
+
+!! 2.1.1 CONCRETE SEWER
+!!
+! Coeficiente de Poisson
+MAT_SEWER_Poisson=0.2
+! Resistência característica à compressão (fck)
+MAT_SEWER_fck=40e6
+! Densidade
+MAT_SEWER_dens=2500
+
+
+!! 2.1.2 CONCRETE SLAB
+!!
+! Coeficiente de Poisson
+MAT_SLAB_Poisson=0.2
+! Resistência característica à compressão (fck)
+MAT_SLAB_fck=30e6
+! Densidade
+MAT_SLAB_dens=2500
+
+
+!! 2.1.3 NATURAL SOIL (SEWER FOUNDATION)
+!!
+! Módulo de elasticidade
+MAT_SOIL_BASE_E=       20e6
+! Coeficiente de poisson
+MAT_SOIL_BASE_Poisson=  0.2
+! Densidade
+MAT_SOIL_BASE_dens=    1800
+! Ângulo de atrito
+MAT_SOIL_BASE_fi=        20
+! Coesão
+MAT_SOIL_BASE_c=       1000
+
+
+!! 2.1.4 REFILL SOIL
+!!
+! Módulo de elasticidade
+MAT_SOIL_TOP_E=       10e6
+! Coeficiente de poisson
+MAT_SOIL_TOP_Poisson=  0.2
+! Densidade
+MAT_SOIL_TOP_dens=    1800
+! Ângulo de atrito
+MAT_SOIL_TOP_fi=        20
+! Coesão
+MAT_SOIL_TOP_c=       1000
+
+
+!! 2.1.5 SOIL SUBSTITUTION (SLAB FOUNDATION)
+!!
+! Módulo de elasticidade
+MAT_SOIL_MID_E=       60e6
+! Coeficiente de poisson
+MAT_SOIL_MID_Poisson=  0.2
+! Densidade
+MAT_SOIL_MID_dens=    2000
+! Ângulo de atrito
+MAT_SOIL_MID_fi=        45
+! Coesão
+MAT_SOIL_MID_c=       1000
+
+
+!! 2.1.6 PAVEMENT
+!!
+! Coeficiente de Poisson
+MAT_PAVEMENT_Poisson=0.2
+! Módulo de elasticidade
+MAT_PAVEMENT_E=3e9
+! Densidade
+MAT_PAVEMENT_dens=300
+
+
+!! 2.1.7 EPS
+!!
+! Coeficiente de Poisson
+MAT_EPS_Poisson=0.3
+! Módulo de elasticidade
+MAT_EPS_E=0.5e9
+! Densidade
+MAT_EPS_dens=45
+
+
+
+!!
+!! 2.2 LOADS
+!!
+LOAD_lTrain=-150e3*0.5
+LOAD_distr=5e3
+! [0]: Deactivate
+! [1]: Activate
+LOAD_plStatus=0
+
+
+
+!!
+!! 2.3 SOLUTION OPTIONS
+!!
+! Teoria de grandes deslocamentos:
+!    [0] Desativar
+!    [1] Ativar
+SOLU_largeDisp=0
+
+! Número de substeps
+SOLU_nSubstep=200
+
+
+
+

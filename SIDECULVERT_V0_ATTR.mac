@@ -1,0 +1,205 @@
+!!
+!!
+!! 2. ATTRIBUTES
+!!
+!!
+
+!!
+!! 2.1 PARAMETERS
+!!
+
+!! 2.1.1 IDENTIFIERS
+!!
+TYPE_PLANE182=1
+
+! Main materials
+MAT_SEWER=1
+MAT_SLAB=2
+MAT_SOIL_BASE=3
+MAT_SOIL_MID=4
+MAT_SOIL_TOP=5
+MAT_PAVEMENT=6
+MAT_EPS=7
+MAT_SOIL_BED=8
+
+! Linear counterparts
+LMAT_SEWER=MAT_SEWER+100
+LMAT_SLAB=MAT_SLAB+100
+LMAT_SOIL_BASE=MAT_SOIL_BASE+100
+LMAT_SOIL_MID=MAT_SOIL_MID+100
+LMAT_SOIL_TOP=MAT_SOIL_TOP+100
+LMAT_PAVEMENT=MAT_PAVEMENT+100
+LMAT_EPS=MAT_EPS+100
+LMAT_SOIL_BED=MAT_SOIL_BED+100
+
+
+!! 2.1.2 CALCULATED
+!!
+
+!! 2.1.2.1 GEOMETRY
+SewerOuterWidth=SewerWidth+2*SewerWallThk
+SewerOuterHeight=SewerHeight+2*SewerWallThk
+
+SlabWidth=SlabStatus*(SewerOuterWidth+2*SlabExtraWidth)
+EPSWidth=EPSStatus*(SewerOuterWidth+2*EPSExtraWidth)
+BedWidth=SoilBedStatus*(SewerOuterWidth+2*SoildBedExtraWidth)
+
+*del,temp_widths
+*dim,temp_widths,ARRAY,4
+temp_widths(1)=SewerOuterWidth, SlabWidth, EPSWidth, BedWidth
+*vscfun,MaxWidth,MAX,temp_widths
+
+*del,temp_widths
+*dim,temp_widths,ARRAY,4
+temp_widths(1)=SoilExtraWidth, SoilCover, SewerOuterHeight, 0!MaxWidth
+*vscfun,ExtraWidth,MAX,temp_widths
+
+TotalWidth=MaxWidth+(2*ExtraWidth)
+TotalHeight=SewerOuterHeight+SoilCover+SoilBase+PavementThk
+
+X0=0
+X1=(TotalWidth-SlabWidth)/2
+X2=(TotalWidth-EPSWidth)/2
+X3=(TotalWidth-SewerOuterWidth)/2
+X4=X3+SewerWallThk
+X5=X4+SewerWidth
+X6=X5+SewerWallThk
+X7=(TotalWidth+EPSWidth)/2
+X8=(TotalWidth+SlabWidth)/2
+X9=TotalWidth
+
+X10=X3-SoildBedExtraWidth
+X11=X6+SoildBedExtraWidth
+
+*del,ARRUNIQ_ARR_input
+*dim,ARRUNIQ_ARR_input,ARRAY,10
+ARRUNIQ_ARR_input(1)=X1,X2,X3,X4,X5,X6,X7,X8,X10,X11
+ARRUNIQ
+*del,xSlices
+*vfun,xSlices,COPY,ARRUNIQ_ARR_OUTPUT
+*get,xSliceCount,PARM,xSlices,DIM,X
+
+Y0=0
+Y1=SoilBase
+Y2=Y1+SewerWallThk
+Y3=Y2+SewerHeight
+Y4=Y3+SewerWallThk
+Y5=TotalHeight-PavementThk-EPSDepth-EPSThk
+Y6=TotalHeight-PavementThk-EPSDepth
+Y7=TotalHeight-PavementThk-SlabDepth-SlabThk-SoilSubsThk
+Y8=TotalHeight-PavementThk-SlabDepth-SlabThk
+Y9=TotalHeight-PavementThk-SlabDepth-SlabThk
+Y10=TotalHeight-PavementThk-SlabDepth
+Y11=TotalHeight-PavementThk
+Y12=TotalHeight
+
+Y13=Y1-SoilBedThk
+
+*del,ARRUNIQ_ARR_input
+*dim,ARRUNIQ_ARR_input,ARRAY,12
+ARRUNIQ_ARR_input(1)=Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,Y9,Y10,Y11,Y13
+ARRUNIQ
+*del,ySlices
+*vfun,ySlices,COPY,ARRUNIQ_ARR_OUTPUT
+*get,ySliceCount,PARM,ySlices,DIM,X
+
+SewerCenterX=TotalWidth/2
+SewerCenterY=Y2+(SewerHeight/2)
+
+!! 2.1.2.2 MATERIALS
+! Concrete elastic modulus
+MAT_SLAB_E=5600*SQRT(MAT_SLAB_fck*1e-6)*1e6
+MAT_SEWER_E=5600*SQRT(MAT_SEWER_fck*1e-6)*1e6
+
+!! 2.1.2.3 LOADS
+! Load train
+LOADTRAIN,LOADTRAIN_name,1,LOADTRAIN_offset,LOADTRAIN_impact
+
+
+
+!!
+!! 2.2 ELEMENT TYPES
+!!
+! Elementos do solo & das lajes: PLANE182 (plane strain, enhanced strain formulation)
+ET,TYPE_PLANE182,182
+KEYOPT,TYPE_PLANE182,1,1
+KEYOPT,TYPE_PLANE182,3,2
+
+
+
+!!
+!! 2.3 MATERIAL MODELS
+!!
+
+!! 2.3.1 STRUCTURAL ELEMENTS
+!!
+! Concrete slab
+MP,EX,MAT_SLAB,MAT_SLAB_E
+MP,PRXY,MAT_SLAB,MAT_SLAB_Poisson
+MP,DENS,MAT_SLAB,MAT_SLAB_dens
+
+! Box culvert concrete
+MP,EX,MAT_SEWER,MAT_SEWER_E
+MP,PRXY,MAT_SEWER,MAT_SEWER_Poisson
+MP,DENS,MAT_SEWER,MAT_SEWER_dens
+
+! Pavement
+MP,EX,MAT_PAVEMENT,MAT_PAVEMENT_E
+MP,PRXY,MAT_PAVEMENT,MAT_PAVEMENT_Poisson
+MP,DENS,MAT_PAVEMENT,MAT_PAVEMENT_dens
+
+! EPS
+MP,EX,MAT_EPS,MAT_EPS_E
+MP,PRXY,MAT_EPS,MAT_EPS_Poisson
+MP,DENS,MAT_EPS,MAT_EPS_dens
+
+! Natural soil under box culvert (extended Drucker-Prager)
+EDPSOIL, MAT_SOIL_BASE, MAT_SOIL_BASE_E, MAT_SOIL_BASE_Poisson, MAT_SOIL_BASE_dens, MAT_SOIL_BASE_fi, MAT_SOIL_BASE_c       ,MAT_SOIL_BASE_fi
+
+! Refill soil (extended Drucker-Prager)
+EDPSOIL, MAT_SOIL_TOP, MAT_SOIL_TOP_E, MAT_SOIL_TOP_Poisson, MAT_SOIL_TOP_dens, MAT_SOIL_TOP_fi, MAT_SOIL_TOP_c             ,MAT_SOIL_TOP_fi
+
+! Soil substitution beneath slab (extended Drucker-Prager)
+EDPSOIL, MAT_SOIL_MID, MAT_SOIL_MID_E, MAT_SOIL_MID_Poisson, MAT_SOIL_MID_dens, MAT_SOIL_MID_fi, MAT_SOIL_MID_c             ,MAT_SOIL_MID_fi
+
+! Soil bed (substitution) directly under box culvert (extended Drucker-Prager)
+EDPSOIL, MAT_SOIL_BED, MAT_SOIL_BED_E, MAT_SOIL_BED_Poisson, MAT_SOIL_BED_dens, MAT_SOIL_BED_fi, MAT_SOIL_BED_c             ,MAT_SOIL_BED_fi
+
+
+!! 2.3.2 INFINITE BOUNDARY ELEMENTS
+!!
+! Linear material counterparts for INFIN257 infinite boundary elements
+MP,EX,LMAT_SLAB,MAT_SLAB_E
+MP,PRXY,LMAT_SLAB,MAT_SLAB_Poisson
+MP,DENS,LMAT_SLAB,MAT_SLAB_dens
+
+MP,EX,LMAT_SEWER,MAT_SEWER_E
+MP,PRXY,LMAT_SEWER,MAT_SEWER_Poisson
+MP,DENS,LMAT_SEWER,MAT_SEWER_dens
+
+MP,EX,LMAT_PAVEMENT,MAT_PAVEMENT_E
+MP,PRXY,LMAT_PAVEMENT,MAT_PAVEMENT_Poisson
+MP,DENS,LMAT_PAVEMENT,MAT_PAVEMENT_dens
+
+MP,EX,LMAT_EPS,MAT_EPS_E
+MP,PRXY,LMAT_EPS,MAT_EPS_Poisson
+MP,DENS,LMAT_EPS,MAT_EPS_dens
+
+MP,EX,LMAT_SOIL_BASE,MAT_SOIL_BASE_E
+MP,PRXY,LMAT_SOIL_BASE,MAT_SOIL_BASE_Poisson
+MP,DENS,LMAT_SOIL_BASE,MAT_SOIL_BASE_dens
+
+MP,EX,LMAT_SOIL_TOP,MAT_SOIL_TOP_E
+MP,PRXY,LMAT_SOIL_TOP,MAT_SOIL_TOP_Poisson
+MP,DENS,LMAT_SOIL_TOP,MAT_SOIL_TOP_dens
+
+MP,EX,LMAT_SOIL_MID,MAT_SOIL_MID_E
+MP,PRXY,LMAT_SOIL_MID,MAT_SOIL_MID_Poisson
+MP,DENS,LMAT_SOIL_MID,MAT_SOIL_MID_dens
+
+MP,EX,LMAT_SOIL_BED,MAT_SOIL_BED_E
+MP,PRXY,LMAT_SOIL_BED,MAT_SOIL_BED_Poisson
+MP,DENS,LMAT_SOIL_BED,MAT_SOIL_BED_dens
+
+
+

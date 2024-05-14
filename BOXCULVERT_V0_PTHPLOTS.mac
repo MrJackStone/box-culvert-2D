@@ -1,0 +1,44 @@
+! BOXCULVERT_V0_PTHPLOTS, windowTitle, scale, imgName
+! BOXCULVERT_V0_PTHPLOTS,        arg1,  arg2,    arg3
+
+
+
+!    *del,MPATHPLOT_ARR_pathNames
+!    *dim,MPATHPLOT_ARR_pathNames,char,4
+!    *del,MPATHPLOT_ARR_labels
+!    *dim,MPATHPLOT_ARR_labels,char,4
+!
+!    MPATHPLOT_ARR_pathNames(1)=       'SoilTop',       'SoilBot',      'SoilLeft',     'SoilRight'
+!    MPATHPLOT_ARR_labels(1)=            'SYKPA',         'SYKPA',         'SXKPA',         'SXKPA'
+
+/device,font,3,Arial,1000,0,-64,0,0
+/device,font,1,Arial,1000,0,-42,0,0
+/device,text,1,100
+/tspec,15,1.5,4,0,0
+/annot,dele
+
+!view1w
+!windefa,1
+wincln,1
+wntitle,'%arg1%',1,1
+/plopts,leg3,on
+
+/udoc,1,cntr,right
+/gformat,f,1,1
+/edge,1,1
+
+go2png,1200
+    !allsel
+    !/auto,1
+    /device,vector,on
+    eplot
+    !/user,1
+    /noerase
+    /device,vector,off
+    cleanplot,'mpathplot','%arg2%'
+
+endpng,'%arg3%'
+/erase
+/annot,dele
+view1w
+windefa,1

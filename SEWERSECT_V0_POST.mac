@@ -1,0 +1,113 @@
+!!
+!!
+!! 7. POST-PROCESS
+!!
+!!
+/post1
+
+! Exibição
+/type,,3
+/edge,,0
+/plopts,MINM,0
+/plopts,DATE,OFF
+
+SET,LAST
+
+! Deslocamentos na direção Y (peso próprio)
+PLNSOL,U,Y
+TAKEPIC,'UY'
+
+! Deslocamentos na direção X (peso próprio)
+PLNSOL,U,X
+TAKEPIC,'UX'
+
+
+CMSEL,S,COMPA_SoilSubs
+CMSEL,A,COMPA_SoilRefill
+CMSEL,A,COMPA_SoilBase
+CMSEL,A,COMPA_SoilBed
+ESLA,S
+
+! Tensões na direção X
+PLNSOL,S,X
+TAKEPIC,'SOLO_SX'
+
+! Tensões na direção Y
+PLNSOL,S,Y
+TAKEPIC,'SOLO_SY'
+
+! Tensões cisalhantes XY
+PLNSOL,S,XY
+TAKEPIC,'SOLO_SXY'
+
+! Deformação plástica
+PLNSOL,EPPL,EQV
+TAKEPIC,'SOLO_EPPL'
+
+! Tensão principal S1 (bicolor)
+PLNSOL,S,1
+TAKEPIC,'SOLO_S1'
+
+! Tensão principal S1 (bicolor)
+/contour,1,1,-1,,0
+/color,SMIN,BLUE
+/color,SMAX,RED
+PLNSOL,S,1
+TAKEPIC,'SOLO_S1b'
+/contour,1,9
+
+! Deformação total equivalente
+PLNSOL,EPTO,EQV
+TAKEPIC,'SOLO_EPTO'
+
+CMSEL,S,COMPA_Culvert
+ESLA,S
+DSCALEFCT,5,1,1
+PLNSOL,S,X
+TAKEPIC,'GALERIA_SX'
+/dscale,1,AUTO
+
+CMSEL,S,COMPA_Slab
+ESLA,S
+*get,ECount,ELEM,,COUNT
+*if,ECount,GT,0,THEN
+    PLNSOL,S,X
+    TAKEPIC,'LAJE_SX'
+*endif
+
+
+!!
+!! 7.1 PATHS
+!!
+SEWERSECT_V1_PATHS
+
+
+
+!    *cfopen,'results_summary_2',TXT
+!       *vwrite,
+!       ('  SOIL INTERFACE [kPa]            SEWER TOP [MPa]           SEWER BOT [MPa]     WALL [MPa]')
+!       *vwrite,
+!       ('       TOP         BOT            POS         NEG            POS        NEG            NEG')
+!       *vwrite,soil_top_output,soil_bot_output,sewer_top_pos_output,sewer_top_neg_output,sewer_bot_pos_output,sewer_bot_neg_output,sewer_wall_neg_output
+!       (F10.3,'  ',F10.3,'     ',F10.3,'  ',F10.3,'     ',F10.3,' ',F10.3,'     ',F10.3)
+!    *cfclos
+
+
+SEWERSECT_V1_S2MN
+
+
+!    *cfopen,'results_summary',TXT
+!       *vwrite,
+!       ('  SOIL INTERFACE [kPa]           SEWER TOP [kNm/m]        SEWER BOT [kNm/m]             WALLS [kNm/m]')
+!       *vwrite,
+!       ('       TOP         BOT            POS         NEG            POS        NEG            POS        NEG')
+!       *vwrite,soil_top_output,soil_bot_output,topSlab_M_max/1e3,topSlab_M_min/1e3,botSlab_M_max/1e3,botSlab_M_min/1e3,wall_M_max/1e3,wall_M_min/1e3
+!       (F10.2,'  ',F10.2,'     ',F10.2,'  ',F10.2,'     ',F10.2,' ',F10.2,'     ',F10.2,' ',F10.2)
+!    *cfclos
+!
+
+
+
+
+
+

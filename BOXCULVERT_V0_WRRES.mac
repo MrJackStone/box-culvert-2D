@@ -1,0 +1,209 @@
+!!
+!! 7.3 WRITE RESULTS
+!!
+
+!! 7.3.1 DEFINE ZONES
+!!
+! Left corners
+LEFT_b=X3
+LEFT_e=X4+SewerWidth/4
+
+! Right corners
+RIGHT_b=X5-SewerWidth/4
+RIGHT_e=X6
+
+! Inner supports
+*del,INNER_b
+*dim,INNER_b,ARRAY,CulvertCells-1
+*del,INNER_e
+*dim,INNER_e,ARRAY,CulvertCells-1
+*do,nthCell,1,CulvertCells-1,1
+    beg=Xi(nthCell)-SewerWidth/4
+    end=Xj(nthCell)+SewerWidth/4
+    INNER_b(nthCell)=beg
+    INNER_e(nthCell)=end
+*enddo
+
+! Bottom corners
+BOTTOM_b=Y1
+BOTTOM_e=Y2+SewerHeight/4
+
+! Top corners
+TOP_b=Y3-SewerHeight/4
+TOP_e=Y4
+
+! Slab spans
+*del,SLABSPAN_b
+*dim,SLABSPAN_b,ARRAY,CulvertCells
+*del,SLABSPAN_e
+*dim,SLABSPAN_e,ARRAY,CulvertCells
+*do,nthCell,1,CulvertCells,1
+    beg=Xi(nthCell)-(3*SewerWidth/4)
+    end=beg+(SewerWidth/2)
+    SLABSPAN_b(nthCell)=beg
+    SLABSPAN_e(nthCell)=end
+*enddo
+
+! Wall spans
+WALLSPAN_b=Y2+(SewerHeight/4)
+WALLSPAN_e=Y3-(SewerHeight/4)
+
+
+!! 7.3.2 COLLECT VALUES
+!!
+
+!! 7.3.2.1 TOP SLAB
+! Left support
+VMFUN,'TOP_M_left',  'TOP_M',     'MAX', 'TOP_XG',       LEFT_b,       LEFT_e
+VMFUN,'TOP_V_left',  'TOP_V', 'SABSMAX', 'TOP_XV',       LEFT_b,       LEFT_e
+VMFUN,'TOP_N_left',  'TOP_N', 'SABSMAX', 'TOP_XG',       LEFT_b,       LEFT_e
+! Right support
+VMFUN,'TOP_M_right', 'TOP_M',     'MAX', 'TOP_XG',      RIGHT_b,      RIGHT_e
+VMFUN,'TOP_V_right', 'TOP_V', 'SABSMAX', 'TOP_XV',      RIGHT_b,      RIGHT_e
+VMFUN,'TOP_N_right', 'TOP_N', 'SABSMAX', 'TOP_XG',      RIGHT_b,      RIGHT_e
+! Inner supports
+VMFUN,'TOP_M_inner', 'TOP_M',     'MAX', 'TOP_XG',    'INNER_b',    'INNER_e'
+VMFUN,'TOP_V_inner', 'TOP_V', 'SABSMAX', 'TOP_XV',    'INNER_b',    'INNER_e'
+VMFUN,'TOP_N_inner', 'TOP_N', 'SABSMAX', 'TOP_XG',    'INNER_b',    'INNER_e'
+! Span
+VMFUN,'TOP_M_span',  'TOP_M',     'MIN', 'TOP_XG', 'SLABSPAN_b', 'SLABSPAN_e'
+VMFUN,'TOP_N_span',  'TOP_N', 'SABSMAX', 'TOP_XG', 'SLABSPAN_b', 'SLABSPAN_e'
+
+!! 7.3.2.2 BOTTOM SLAB
+! Left support
+VMFUN,'BOT_M_left',  'BOT_M',     'MAX', 'BOT_XG',       LEFT_b,       LEFT_e
+VMFUN,'BOT_V_left',  'BOT_V', 'SABSMAX', 'BOT_XV',       LEFT_b,       LEFT_e
+VMFUN,'BOT_N_left',  'BOT_N', 'SABSMAX', 'BOT_XG',       LEFT_b,       LEFT_e
+! Right support
+VMFUN,'BOT_M_right', 'BOT_M',     'MAX', 'BOT_XG',      RIGHT_b,      RIGHT_e
+VMFUN,'BOT_V_right', 'BOT_V', 'SABSMAX', 'BOT_XV',      RIGHT_b,      RIGHT_e
+VMFUN,'BOT_N_right', 'BOT_N', 'SABSMAX', 'BOT_XG',      RIGHT_b,      RIGHT_e
+! Inner supports
+VMFUN,'BOT_M_inner', 'BOT_M',     'MAX', 'BOT_XG',    'INNER_b',    'INNER_e'
+VMFUN,'BOT_V_inner', 'BOT_V', 'SABSMAX', 'BOT_XV',    'INNER_b',    'INNER_e'
+VMFUN,'BOT_N_inner', 'BOT_N', 'SABSMAX', 'BOT_XG',    'INNER_b',    'INNER_e'
+! Span
+VMFUN,'BOT_M_span',  'BOT_M',     'MIN', 'BOT_XG', 'SLABSPAN_b', 'SLABSPAN_e'
+VMFUN,'BOT_N_span',  'BOT_N', 'SABSMAX', 'BOT_XG', 'SLABSPAN_b', 'SLABSPAN_e'
+
+!! 7.3.2.3 LEFT WALL
+! Bottom support
+VMFUN,'LFT_M_bot',  'LFT_M',     'MAX', 'LFT_YG',   BOTTOM_b,   BOTTOM_e
+VMFUN,'LFT_V_bot',  'LFT_V', 'SABSMAX', 'LFT_YV',   BOTTOM_b,   BOTTOM_e
+VMFUN,'LFT_N_bot',  'LFT_N', 'SABSMAX', 'LFT_YG',   BOTTOM_b,   BOTTOM_e
+! Top support
+VMFUN,'LFT_M_top',  'LFT_M',     'MAX', 'LFT_YG',      TOP_b,      TOP_e
+VMFUN,'LFT_V_top',  'LFT_V', 'SABSMAX', 'LFT_YV',      TOP_b,      TOP_e
+VMFUN,'LFT_N_top',  'LFT_N', 'SABSMAX', 'LFT_YG',      TOP_b,      TOP_e
+! Span
+VMFUN,'LFT_M_span', 'LFT_M',     'MIN', 'LFT_YG', WALLSPAN_b, WALLSPAN_e
+VMFUN,'LFT_N_span', 'LFT_N', 'SABSMAX', 'LFT_YG', WALLSPAN_b, WALLSPAN_e
+
+!! 7.3.2.4 RIGHT WALL
+! Bottom support
+VMFUN,'RGT_M_bot',  'RGT_M',     'MAX', 'RGT_YG',   BOTTOM_b,   BOTTOM_e
+VMFUN,'RGT_V_bot',  'RGT_V', 'SABSMAX', 'RGT_YV',   BOTTOM_b,   BOTTOM_e
+VMFUN,'RGT_N_bot',  'RGT_N', 'SABSMAX', 'RGT_YG',   BOTTOM_b,   BOTTOM_e
+! Top support
+VMFUN,'RGT_M_top',  'RGT_M',     'MAX', 'RGT_YG',      TOP_b,      TOP_e
+VMFUN,'RGT_V_top',  'RGT_V', 'SABSMAX', 'RGT_YV',      TOP_b,      TOP_e
+VMFUN,'RGT_N_top',  'RGT_N', 'SABSMAX', 'RGT_YG',      TOP_b,      TOP_e
+! Span
+VMFUN,'RGT_M_span', 'RGT_M',     'MIN', 'RGT_YG', WALLSPAN_b, WALLSPAN_e
+VMFUN,'RGT_N_span', 'RGT_N', 'SABSMAX', 'RGT_YG', WALLSPAN_b, WALLSPAN_e
+
+!! 7.3.2.5 INNER WALLS
+*if,CulvertCells,GT,1,THEN
+    ! Compile data from all inner walls into a single array
+    TBL2ARR,'INN_M', 'SABSMAX', 'INN_M_table'
+    TBL2ARR,'INN_N', 'SABSMAX', 'INN_N_table'
+    TBL2ARR,'INN_V', 'SABSMAX', 'INN_V_table'
+
+    ! Bottom support
+    VMFUN,'INN_M_bot',  'INN_M', 'SABSMAX', 'INN_YG',   BOTTOM_b,   BOTTOM_e
+    VMFUN,'INN_V_bot',  'INN_V', 'SABSMAX', 'INN_YV',   BOTTOM_b,   BOTTOM_e
+    VMFUN,'INN_N_bot',  'INN_N', 'SABSMAX', 'INN_YG',   BOTTOM_b,   BOTTOM_e
+    ! Top support
+    VMFUN,'INN_M_top',  'INN_M', 'SABSMAX', 'INN_YG',      TOP_b,      TOP_e
+    VMFUN,'INN_V_top',  'INN_V', 'SABSMAX', 'INN_YV',      TOP_b,      TOP_e
+    VMFUN,'INN_N_top',  'INN_N', 'SABSMAX', 'INN_YG',      TOP_b,      TOP_e
+    ! Span
+    VMFUN,'INN_M_span', 'INN_M', 'SABSMAX', 'INN_YG', WALLSPAN_b, WALLSPAN_e
+    VMFUN,'INN_N_span', 'INN_N', 'SABSMAX', 'INN_YG', WALLSPAN_b, WALLSPAN_e
+
+*else
+    INN_M_bot=0
+    INN_V_bot=0
+    INN_N_bot=0
+    INN_M_top=0
+    INN_V_top=0
+    INN_N_top=0
+    INN_M_span=0
+    INN_N_span=0
+
+*endif
+
+!! 7.3.2.6 DISPLACEMENTS
+*vscfun,TOP_U_max,MAX,TOP_U
+*vscfun,TOP_D_max,MAX,TOP_D
+*vscfun,BOT_U_max,MAX,BOT_U
+*vscfun,BOT_D_max,MAX,BOT_D
+
+!! 7.3.2.7 SOIL
+*vabs,1,1
+*vscfun,SOIL_S_max,MAX,SOIL_S
+*vabs,1
+*vscfun,SOIL_S_avg,MEAN,SOIL_S
+*vabs
+
+!!  7.3.2.8 COMBINE SIMILAR ZONES
+! Top slab (ends)
+COMPARE,'TOP_M_ends','SABSMAX',2,TOP_M_left,TOP_M_right
+COMPARE,'TOP_V_ends','SABSMAX',2,TOP_V_left,TOP_V_right
+COMPARE,'TOP_N_ends','SABSMAX',2,TOP_N_left,TOP_N_right
+
+! Bottom slab (ends)
+COMPARE,'BOT_M_ends','SABSMAX',2,BOT_M_left,BOT_M_right
+COMPARE,'BOT_V_ends','SABSMAX',2,BOT_V_left,BOT_V_right
+COMPARE,'BOT_N_ends','SABSMAX',2,BOT_N_left,BOT_N_right
+
+! External walls (left & write, ends & span)
+COMPARE,'OUT_M_ends','SABSMAX',4,LFT_M_bot,LFT_M_top,RGT_M_bot,RGT_M_top
+COMPARE,'OUT_V_ends','SABSMAX',4,LFT_V_bot,LFT_V_top,RGT_V_bot,RGT_V_top
+COMPARE,'OUT_N_ends','SABSMAX',4,LFT_N_bot,LFT_N_top,RGT_N_bot,RGT_N_top
+COMPARE,'OUT_M_span','SABSMAX',2,LFT_M_span,RGT_M_span
+COMPARE,'OUT_N_span','SABSMAX',2,LFT_N_span,RGT_N_span
+
+! Inner walls (ends)
+COMPARE,'INN_M_ends','SABSMAX',2,INN_M_bot,INN_M_top
+COMPARE,'INN_V_ends','SABSMAX',2,INN_V_bot,INN_V_top
+COMPARE,'INN_N_ends','SABSMAX',2,INN_N_bot,INN_N_top
+
+
+!! 7.3.3 WRITE TO FILE
+!!
+! Write values to file
+*cfopen,SOLU_reportFilename,TXT,,APPEND
+    ! Depth
+    *vwrite,SoilCover, SewerWallThk
+    (F9.2,'  ',F8.2,'    ',\b)
+    ! Top slab results
+    *vwrite,TOP_M_ends,TOP_V_ends,TOP_N_ends,TOP_M_span,TOP_N_span,TOP_M_inner,TOP_V_inner,TOP_N_inner
+    (F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'    ',\b)
+    ! Bottom slab results
+    *vwrite,BOT_M_ends,BOT_V_ends,BOT_N_ends,BOT_M_span,BOT_N_span,BOT_M_inner,BOT_V_inner,BOT_N_inner
+    (F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'    ',\b)
+    ! Outer walls results
+    *vwrite,OUT_M_ends,OUT_V_ends,OUT_N_ends,OUT_M_span,OUT_N_span
+    (F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'    ',\b)
+    ! Inner walls results
+    *vwrite,INN_M_ends,INN_V_ends,INN_N_ends,INN_M_span,INN_N_span
+    (F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'    ',\b)
+    ! Miscellany: soil pressure (bottom), settlements, deflections (top and bottom)
+    *vwrite,SOIL_S_avg*1e-3,SOIL_S_max*1e-3,TOP_U_max,BOT_U_max,TOP_D_max,BOT_D_max
+    (F8.1,'  ',F8.1,'  ',F8.3,'  ',F8.3,'  ',F8.3,'  ',F8.3)
+*cfclos
+
+
+
+

@@ -1,0 +1,51 @@
+! BOXCULVERT_V0_DPL
+
+! *del,BOXCULVERT_ARR_loopParams
+! *dim,BOXCULVERT_ARR_loopParams
+! BOXCULVERT_ARR_loopParams(1)='SoilCover', 'SewerWallThk'
+
+PARSAV,ALL,'LOOP_GLOBALS',PARM
+
+BOXCULVERT_V0_REPHDR
+
+*get,depthCount,PARM,depths,DIM,X
+*do,nthDepth,1,depthCount,1
+
+    /input,'D:\Ansys\03 Design\26 Passagens Inferiores\03 MODELOS\Galerias\013_PGPF\_BASE_INPUT',MAC
+
+    PARRES,CHANGE,'LOOP_GLOBALS',PARM
+
+    SoilCover=depths(nthDepth)
+    SewerWallThk=wallThks(nthDepth)
+    *if,SoilCover,EQ,0,THEN
+        PavementThk=0
+        LOAD_liveMode=2
+    *endif
+
+    !SoilBase=SoilCover+4
+
+    FILE_name=STRCAT('Z',CHRVAL(NINT(SoilCover*100)))
+
+    SOLU_reportMode=1
+
+    SEWERSECT_V0_MODEL
+
+    *if,nthDepth,LT,depthCount,THEN
+        BOXCULVERT_V0_CLEAR
+    *endif
+
+*enddo
+
+
+
+
+
+
+
+
+
+
+
+
+
+

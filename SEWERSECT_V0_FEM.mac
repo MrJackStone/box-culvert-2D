@@ -1,0 +1,111 @@
+!!
+!!
+!! 4. FINITE ELEMENT MODEL
+!!
+!!
+! Line components:
+! COMPL_HorSupport
+! COMPL_VerSupport
+! COMPL_PointLoads
+
+! Area components:
+! COMPA_Culvert
+! COMPA_EPS
+! COMPA_Pavement
+! COMPA_SoilSubs
+! COMPA_SoilBase
+! COMPA_Slab
+! COMPA_SoilRefill
+! COMPA_SoilBed
+
+CMSEL,S,COMPA_SoilBase
+AATT,MAT_SOIL_BASE,,TYPE_PLANE182
+
+CMSEL,S,COMPA_SoilRefill
+AATT,MAT_SOIL_TOP,,TYPE_PLANE182
+
+*get,compCheck,COMP,COMPA_SoilSubs,TYPE
+*if,compCheck,EQ,8,THEN
+    CMSEL,S,COMPA_SoilSubs
+    AATT,MAT_SOIL_MID,,TYPE_PLANE182
+*else
+    ASEL,U,AREA,,ALL
+    CM,COMPA_SoilSubs ,AREA
+*endif
+
+*get,compCheck,COMP,COMPA_Slab,TYPE
+*if,compCheck,EQ,8,THEN
+    CMSEL,S,COMPA_Slab
+    AATT,MAT_SLAB,,TYPE_PLANE182
+*else
+    ASEL,U,AREA,,ALL
+    CM,COMPA_Slab,AREA
+*endif
+
+*get,compCheck,COMP,COMPA_EPS,TYPE
+*if,compCheck,EQ,8,THEN
+    CMSEL,S,COMPA_EPS
+    AATT,MAT_EPS,,TYPE_PLANE182
+*else
+    ASEL,U,AREA,,ALL
+    CM,COMPA_EPS,AREA
+*endif
+
+*get,compCheck,COMP,COMPA_Culvert,TYPE
+*if,compCheck,EQ,8,THEN
+    CMSEL,S,COMPA_Culvert
+    AATT,MAT_SEWER,,TYPE_PLANE182
+*else
+    ASEL,U,AREA,,ALL
+    CM,COMPA_Culvert,AREA
+*endif
+
+*get,compCheck,COMP,COMPA_SoilBed,TYPE
+*if,compCheck,EQ,8,THEN
+    CMSEL,S,COMPA_SoilBed
+    AATT,MAT_SOIL_BED,,TYPE_PLANE182
+*else
+    ASEL,U,AREA,,ALL
+    CM,COMPA_SoilBed,AREA
+*endif
+
+CMSEL,S,COMPA_Pavement
+AATT,MAT_PAVEMENT,,TYPE_PLANE182
+
+ALLSEL
+AESIZE,ALL,FEM_meshSize
+AMESH,ALL
+
+! Infinite boundary elements
+*if,SOLU_BCopt,EQ,1,THEN
+    ALLSEL
+    CM,COMPE_valid,ELEM
+    LSEL,S,LOC,X,0
+    LSEL,A,LOC,X,TotalWidth
+    LSEL,A,LOC,Y,0
+    NSLL,S,1
+    CM,COMPN_temp,NODE
+    ESLN,S
+    CM,COMPE_temp,ELEM
+    NSLE,S
+    *get,ECount,ELEM,,COUNT
+    ENum=0
+    *do,nthElem,1,ECount,1
+        CMSEL,S,COMPE_temp
+        ENum=ELNEXT(ENum)
+        ESEL,S,ELEM,,ENum
+        *get,nthMatNum,ELEM,ENum,ATTR,MAT
+        infMat=nthMatNum+100
+        NSLE,S
+        CMSEL,U,COMPN_temp
+        *get,refNode1,NODE,,NUM,MIN
+        *get,refNode2,NODE,,NUM,MAX
+        NSLE,S
+        CMSEL,R,COMPN_temp
+        *if,refNode1,NE,refNode2,THEN
+            EINFIN,,refNode1,refNode2,,infMat
+        *else
+            EINFIN,,refNode1,,,infMat
+        *endif
+    *enddo
+

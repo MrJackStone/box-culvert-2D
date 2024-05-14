@@ -1,0 +1,114 @@
+!    *cfopen,SOLU_reportFilename,TXT
+!        *vwrite,
+!        ('Bending moments [M, kNm/m]  ·  [+] external face in TENSION and internal face in COMPRESSION')
+!        *vwrite,
+!        ('Shear forces    [V, kN/m]')
+!        *vwrite,
+!        ('Axial forces    [N, kN/m]   ·  [+] tension, [-] compression')
+!        *vwrite,
+!        ('Deformations    [mm]        ·  [+] always absolute values')
+!        *vwrite,
+!        (' ')
+!        *vwrite,
+!        (' ')
+!        *vwrite,
+!        (' ---DEPTH',\b)
+!        *vwrite,
+!        ('    --------------------------------------------------TOP SLAB',\b)
+!        *vwrite,
+!        ('    --------------------------------------------------BOT SLAB',\b)
+!        *vwrite,
+!        ('    -------------------------------------------------LEFT WALL',\b)
+!        *vwrite,
+!        ('    ------------------------------------------------RIGHT WALL',\b)
+!        *vwrite,
+!        ('    -----------------------------------------------INNER WALLS',\b)
+!        *vwrite,
+!        ('    ------------------------------------------------------MISC')
+!        *vwrite,
+!        (' --------',\b)
+!        *vwrite,
+!        ('    -------------------------MIN  -------------------------MAX',\b)
+!        *vwrite,
+!        ('    -------------------------MIN  -------------------------MAX',\b)
+!        *vwrite,
+!        ('    -------------------------MIN  -------------------------MAX',\b)
+!        *vwrite,
+!        ('    -------------------------MIN  -------------------------MAX',\b)
+!        *vwrite,
+!        ('    -------------------------MIN  -------------------------MAX',\b)
+!        *vwrite,
+!        ('    ---------SOIL PRES  --------SETTLEMENT  --------DEFLECTION')
+!        *vwrite,
+!        ('        Y',\b)
+!        *vwrite,
+!        ('           M         V         N         M         V         N',\b)
+!        *vwrite,
+!        ('           M         V         N         M         V         N',\b)
+!        *vwrite,
+!        ('           M         V         N         M         V         N',\b)
+!        *vwrite,
+!        ('           M         V         N         M         V         N',\b)
+!        *vwrite,
+!        ('           M         V         N         M         V         N',\b)
+!        *vwrite,
+!        ('         AVG       MAX       TOP       BOT       TOP       BOT')
+!    *cfclos
+
+
+*cfopen,SOLU_reportFilename,TXT
+    *vwrite,
+    ('Bending moments [M, kNm/m]  ·  [+] external face in TENSION and internal face in COMPRESSION')
+    *vwrite,
+    ('Shear forces    [V, kN/m]')
+    *vwrite,
+    ('Axial forces    [N, kN/m]   ·  [+] tension, [-] compression')
+    *vwrite,
+    ('Deformations    [mm]        ·  [+] always absolute values')
+    *vwrite,
+    (' ')
+    *vwrite,
+    (' ')
+    *vwrite,
+    (' ----------GEOMETRY',\b)
+    *vwrite,
+    ('    ----------------------------------------------------------------------TOP SLAB',\b)
+    *vwrite,
+    ('    ----------------------------------------------------------------------BOT SLAB',\b)
+    *vwrite,
+    ('    -------------------------------------OUTER WALLS',\b)
+    *vwrite,
+    ('    -------------------------------------INNER WALLS',\b)
+    *vwrite,
+    ('    ------------------------------------------------------MISC')
+    *vwrite,
+    (' ---DEPTH  -----THK',\b)
+    *vwrite,
+    ('    ------------------------ENDS  --------------SPAN  -----------------------INNER',\b)
+    *vwrite,
+    ('    ------------------------ENDS  --------------SPAN  -----------------------INNER',\b)
+    *vwrite,
+    ('    ------------------------ENDS  --------------SPAN',\b)
+    *vwrite,
+    ('    ------------------------ENDS  --------------SPAN',\b)
+    *vwrite,
+    ('    ---------SOIL PRES  --------SETTLEMENT  --------DEFLECTION')
+    *vwrite,
+    ('        Y         t',\b)
+    *vwrite,
+    ('           M         V         N         M         N         M         V         N',\b)
+    *vwrite,
+    ('           M         V         N         M         N         M         V         N',\b)
+    *vwrite,
+    ('           M         V         N         M         N',\b)
+    *vwrite,
+    ('           M         V         N         M         N',\b)
+    *vwrite,
+    ('         AVG       MAX       TOP       BOT       TOP       BOT')
+*cfclos
+
+
+
+
+
+

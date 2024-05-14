@@ -1,0 +1,179 @@
+/device,font,3,Arial,1000,0,-64,0,0
+/device,font,1,Arial,1000,0,-42,0,0
+/device,text,1,100
+/tspec,15,1.5,4,0,0
+/annot,dele
+
+
+!!
+!! SOIL_PRES
+!!
+view1w
+windefa,1
+wincln,1
+wntitle,'SOIL PRESSURES [kPa]',1,1
+/plopts,leg3,on
+!/plopts,info,3
+
+/udoc,1,cntr,right
+/gformat,f,1,1
+/edge,1,1
+
+
+go2png,1200
+    allsel
+    /auto,1
+    /device,vector,on
+    eplot
+    /user,1
+    /noerase
+    /device,vector,off
+
+    *del,MPATHPLOT_ARR_pathNames
+    *dim,MPATHPLOT_ARR_pathNames,char,4
+    *del,MPATHPLOT_ARR_labels
+    *dim,MPATHPLOT_ARR_labels,char,4
+
+    MPATHPLOT_ARR_pathNames(1)='SoilTop', 'SoilBot', 'SoilLeft', 'SoilRight'
+    MPATHPLOT_ARR_labels(1)=     'SYKPA',   'SYKPA',    'SXKPA',     'SXKPA'
+    !mpathplot,4
+    cleanplot,'mpathplot','4'
+
+endpng,'memo_SOIL_PRES'
+/erase
+/annot,dele
+view1w
+windefa,1
+! MPATHPLOT, baseScale, manualClim
+! MPATHPLOT_ARR_pathNames  -  names of the paths to be plotted
+! MPATHPLOT_ARR_labels     -  label to be plotted for each path
+
+!!
+!! SOILBED_SY
+!!
+view1w
+windefa,1
+wincln,1
+wntitle,'SOIL BED PRESSURES [kPa]',1,1
+/plopts,leg3,on
+!/plopts,info,3
+
+/udoc,1,cntr,right
+/gformat,f,1,1
+/edge,1,1
+
+
+go2png,1200
+    allsel
+    /auto,1
+    /device,vector,on
+    eplot
+    /user,1
+    /noerase
+    /device,vector,off
+
+    *del,MPATHPLOT_ARR_pathNames
+    *dim,MPATHPLOT_ARR_pathNames,char,3
+    *del,MPATHPLOT_ARR_labels
+    *dim,MPATHPLOT_ARR_labels,char,3
+
+    MPATHPLOT_ARR_pathNames(1)= 'BedLeft', 'BedCntr', 'BedRight'
+    MPATHPLOT_ARR_labels(1)=      'SYKPA',   'SYKPA',    'SYKPA'
+    !mpathplot,4
+    cleanplot,'mpathplot','4'
+
+endpng,'memo_SOILBED_SY'
+/erase
+/annot,dele
+view1w
+windefa,1
+! MPATHPLOT, baseScale, manualClim
+! MPATHPLOT_ARR_pathNames  -  names of the paths to be plotted
+! MPATHPLOT_ARR_labels     -  label to be plotted for each path
+
+!!
+!! SOIL_S1
+!!
+view1w
+windefa,1
+wincln,1
+/edge,,0
+/udoc,1,cntr,right
+/plopts,leg3,on
+clims
+/gformat,f,1,1
+
+wntitle,'FIRST PRINCIPAL STRESS S1 [kPa]',1,1
+
+allsel
+/auto,1
+/dscale,1,auto
+pldisp
+/dscale,1,user
+/user,1
+
+go2png,1200
+    /device,vector,on
+    /edge,,1
+    CMSEL,S,COMPA_culvert
+    esla,s
+    nsle,s
+    pldisp
+    /noerase
+    /device,vector,off
+    CMSEL,S,COMPA_SoilSubs
+    CMSEL,A,COMPA_SoilRefill
+    CMSEL,A,COMPA_SoilBase
+    CMSEL,A,COMPA_SoilBed
+    ESLA,S
+    nsle,s
+    cleanplot,'pletab','S1KPA','avg'
+endpng,'memo_SOIL_S1'
+/erase
+/annot,dele
+view1w
+
+!!
+!! SOIL_EPPL
+!!
+view1w
+windefa,1
+wincln,1
+/edge,,0
+/udoc,1,cntr,right
+/plopts,leg3,on
+clims
+/gformat,f,1,1
+
+wntitle,'1st PLASTIC STRAIN (e1 x 1000)',1,1
+
+allsel
+/auto,1
+/dscale,1,auto
+pldisp
+/dscale,1,user
+/user,1
+
+go2png,1200
+    /device,vector,on
+    /edge,,1
+    CMSEL,S,COMPA_culvert
+    esla,s
+    nsle,s
+    pldisp
+    /noerase
+    /device,vector,off
+    CMSEL,S,COMPA_SoilSubs
+    CMSEL,A,COMPA_SoilRefill
+    CMSEL,A,COMPA_SoilBase
+    CMSEL,A,COMPA_SoilBed
+    ESLA,S
+    nsle,s
+    cleanplot,'plnsol','eppl','1','avg',,,,,1e3
+endpng,'memo_SOIL_EPPL1'
+/erase
+/annot,dele
+view1w
+
+
+

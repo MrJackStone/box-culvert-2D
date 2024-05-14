@@ -1,0 +1,112 @@
+CMSEL,S,COMPA_Culvert
+ESLA,S
+NSLE,S
+CM,COMPN_Sewer,NODE
+
+NSEL,S,LOC,Y,Y1
+NSEL,A,LOC,Y,Y2
+NSEL,A,LOC,Y,Y3
+NSEL,A,LOC,Y,Y4
+NSEL,A,LOC,X,X3
+NSEL,A,LOC,X,X4
+NSEL,A,LOC,X,X5
+NSEL,A,LOC,X,X6
+CMSEL,R,COMPN_Sewer
+CM,COMPN_Corners,NODE
+
+CMSEL,S,COMPN_Corners
+N11=NODE(X4,Y2,0)
+N12=NODE(X3,Y2,0)
+N13=NODE(X4,Y1,0)
+
+N21=NODE(X5,Y2,0)
+N22=NODE(X6,Y2,0)
+N23=NODE(X5,Y1,0)
+
+N31=NODE(X4,Y3,0)
+N32=NODE(X3,Y3,0)
+N33=NODE(X4,Y4,0)
+
+N41=NODE(X5,Y3,0)
+N42=NODE(X6,Y3,0)
+N43=NODE(X5,Y4,0)
+
+CMSEL,S,COMPA_Culvert
+ESLA,S
+CM,COMPN_Sewer,NODE
+
+! Propriedades geométricas
+wallThk=(DISTND(N12,N22)-DISTND(N11,N21))/2
+secProp_I=(wallThk**3)/12
+secProp_W=secProp_I/(wallThk/2)
+secProp_A=wallThk
+
+! Laje inferior
+PTHS2MN,N13,N23,N11,N21,'LJ_INF','X',200,secProp_W,secProp_A,0
+PTHLIMS,'M'
+botSlab_M_min=PTHLIMS_MIN_OUTPUT
+botSlab_M_max=PTHLIMS_MAX_OUTPUT
+
+! Laje superior
+PTHS2MN,N33,N43,N31,N41,'LJ_SUP','X',200,secProp_W,secProp_A,0
+PTHLIMS,'M'
+topSlab_M_min=PTHLIMS_MIN_OUTPUT
+topSlab_M_max=PTHLIMS_MAX_OUTPUT
+
+! Parede esquerda
+PTHS2MN,N12,N32,N11,N31,'PR_ESQ','Y',200,secProp_W,secProp_A,0
+PTHLIMS,'M'
+leftWall_M_min=PTHLIMS_MIN_OUTPUT
+leftWall_M_max=PTHLIMS_MAX_OUTPUT
+
+! Parede direita
+PTHS2MN,N22,N42,N21,N41,'PR_DIR','Y',200,secProp_W,secProp_A,0
+PTHLIMS,'M'
+rightWall_M_min=PTHLIMS_MIN_OUTPUT
+rightWall_M_max=PTHLIMS_MAX_OUTPUT
+
+*if,ABS(leftWall_M_min),GT,ABS(rightWall_M_min),THEN
+    wall_M_min=leftWall_M_min
+*else
+    wall_M_min=rightWall_M_min
+*endif
+*if,ABS(leftWall_M_max),GT,ABS(rightWall_M_max),THEN
+    wall_M_max=leftWall_M_max
+*else
+    wall_M_max=rightWall_M_max
+*endif
+
+
+/annot,DEFA
+/annot,TMOD,1
+/device,FONT,3,ARIAL,400,0,-21
+/annot,ON
+/annot,SCALE,1
+/tspec,15,100,100
+/annot,DELE
+ALLSEL
+
+GO2PNG
+/device,VECTOR,ON
+/edge,,1
+EPLOT
+/device,VECTOR,OFF
+/noerase
+/tlabel,0.8,-0.70,'Top Slab: %topSlab_M_min% ; %topSlab_M_max%'
+/tlabel,0.8,-0.75,'Bot Slab: %botSlab_M_min% ; %botSlab_M_max%'
+/tlabel,0.8,-0.80,'Lft Wall: %leftWall_M_min% ; %leftWall_M_max%'
+/tlabel,0.8,-0.85,'Rgt Wall: %rightWall_M_min% ; %rightWall_M_max%'
+PATH,'LJ_INF_B'
+PLPAGM,'M',5,NODE
+PATH,'LJ_SUP_T'
+PLPAGM,'M',5,NODE
+PATH,'PR_ESQ_T'
+PLPAGM,'M',5,NODE
+PATH,'PR_DIR_T'
+PLPAGM,'M',5,NODE
+ENDPNG,'SEWER_M'
+/erase
+/annot,DELE
+
+
+

@@ -1,0 +1,52 @@
+! BOXCULVERT_V0_DEPTHLOOP
+
+! *del,BOXCULVERT_ARR_loopParams
+! *dim,BOXCULVERT_ARR_loopParams
+! BOXCULVERT_ARR_loopParams(1)='SoilCover', 'SewerWallThk'
+
+LOOP_CONTROL=7
+
+PARSAV,ALL,'LOOP_GLOBALS',PARM
+
+*del,depths
+*dim,depths,ARRAY,LOOP_CONTROL
+depths(1)=0, 1.0, 2.5, 5.0, 7.5, 12.5, 20.0
+
+BOXCULVERT_V0_REPHDR
+
+*do,nthDepth,1,LOOP_CONTROL,1
+
+    /input,'D:\Ansys\03 Design\28 Culverts\01 APDL\_BASE_INPUT',MAC
+
+    PARRES,CHANGE,'LOOP_GLOBALS',PARM
+
+    SoilCover=depths(nthDepth)
+    SewerWallThk=wallThks(nthDepth)
+    *if,SoilCover,EQ,0,THEN
+        PavementThk=0
+        LOAD_liveMode=2
+    *endif
+
+    FILE_name=STRCAT('Z',CHRVAL(NINT(SoilCover*100)))
+
+    SOLU_reportMode=1
+
+    SEWERSECT_V0_MODEL
+
+    *if,nthDepth,LT,LOOP_CONTROL,THEN
+        BOXCULVERT_V0_CLEAR
+    *endif
+
+*enddo
+
+
+
+
+
+
+
+
+
+
+
+

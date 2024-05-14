@@ -1,0 +1,229 @@
+!!
+!!
+!! 1. INPUT DATA
+!!
+!!
+
+!!
+!! 1.1 GEOMETRY
+!!
+! Inner width
+SewerWidth=2
+! Inner height
+SewerHeight=2
+! Wall thickness
+SewerWallThk=0.20
+! Corbel size
+Corbel=0.15
+! Number of cells
+CulvertCells=1
+
+! Pavement thickness
+PavementThk=0.2
+
+
+
+!!
+!! 1.2 SOIL
+!!
+! Culvert depth (soil height)
+SoilCover=2
+! Soil thickness underneath culvert
+SoilBase=2
+! Soil width offset beyond external face of culvert walls
+SoilExtraWidth=5
+
+
+
+
+!!
+!! 1.3 STRUCTURE OPTIONS
+!!
+! Culvert type (single cell only):
+!    [0] Continuous
+!    [1] Articulated
+SewerType=0
+
+! Soil bed underneath culvert:
+!    [0] Off
+!    [1] On
+SoilBedStatus=1
+! Soil bed thickness
+SoilBedThk=0.5
+! Soil bed width increment (offset from outer face of culvert walls)
+SoildBedWidth=0.5
+
+! Slab above culvert:
+!    [0] Off
+!    [1] On
+SlabStatus=0
+! Slab thickness
+SlabThk=0.2
+! Slab position (vertical)
+SlabDepth=0.5
+! Slab width (offset beyond culvert walls)
+SlabExtraWidth=1
+
+! Soil substitution layer (directly underneath concrete slab):
+!    [0] Off
+!    [1] On
+SoilSubsStatus=0
+! Thickness of soil substitution layer
+SoilSubsThk=0.4
+
+! EPS layer:
+!    [0] Off
+!    [1] On
+EPSStatus=0
+! Thickness of EPS layer
+EPSThk=0.5
+! Vertical position of EPS layer
+EPSDepth=0.7
+! EPS width (offset beyond culvert walls)
+EPSExtraWidth=1
+
+
+
+!!
+!! 1.4 MATERIALS
+!!
+
+!! 1.4.1 CONCRETE CULVERT
+!!
+! Poisson's coefficient
+MAT_SEWER_Poisson=0.2
+! Concrete fck
+MAT_SEWER_fck=30e6
+! Mass density
+MAT_SEWER_dens=2500
+
+
+!! 1.4.2 CONCRETE SLAB
+!!
+! Poisson's coefficient
+MAT_SLAB_Poisson=0.2
+! Concrete fck
+MAT_SLAB_fck=30e6
+! Mass density
+MAT_SLAB_dens=2500
+
+
+!! 1.4.3 NATURAL SOIL (BELOW CULVERT)
+!!
+! Elastic modulus
+MAT_SOIL_BASE_E=       55e6
+! Poisson's coefficient
+MAT_SOIL_BASE_Poisson=  0.2
+! Mass density
+MAT_SOIL_BASE_dens=    1800
+! Friction angle
+MAT_SOIL_BASE_fi=        20
+! Cohesion
+MAT_SOIL_BASE_c=       1000
+
+
+!! 1.4.4 REFILL SOIL (AROUND AND ABOVE CULVERT)
+!!
+! Elastic modulus
+MAT_SOIL_TOP_E=       10e6
+! Poisson's coefficient
+MAT_SOIL_TOP_Poisson=  0.2
+! Mass density
+MAT_SOIL_TOP_dens=    1800
+! Friction angle
+MAT_SOIL_TOP_fi=        20
+! Cohesion
+MAT_SOIL_TOP_c=       1000
+
+
+!! 1.4.5 SOIL SUBSTITUTION (SLAB FOUNDATION)
+!!
+! Elastic modulus
+MAT_SOIL_MID_E=      120e6
+! Poisson's coefficient
+MAT_SOIL_MID_Poisson=  0.2
+! Mass density
+MAT_SOIL_MID_dens=    2000
+! Friction angle
+MAT_SOIL_MID_fi=        45
+! Cohesion
+MAT_SOIL_MID_c=       1000
+
+
+!! 1.4.6 SOIL BED (CULVERT FOUNDATION)
+!!
+! Elastic modulus
+MAT_SOIL_BED_E=      120e6
+! Poisson's coefficient
+MAT_SOIL_BED_Poisson=  0.2
+! Mass density
+MAT_SOIL_BED_dens=    2000
+! Friction angle
+MAT_SOIL_BED_fi=        45
+! Cohesion
+MAT_SOIL_BED_c=       1000
+
+
+!! 1.4.7 PAVEMENT
+!!
+! Poisson's coefficient
+MAT_PAVEMENT_Poisson=0.2
+! Elastic modulus
+MAT_PAVEMENT_E=      3e9
+! Mass density
+MAT_PAVEMENT_dens=   300
+
+
+!! 1.4.8 EPS
+!!
+! Poisson's coefficient
+MAT_EPS_Poisson=0.3
+! Elastic modulus
+MAT_EPS_E=    0.5e9
+! Mass density
+MAT_EPS_dens=    45
+
+
+
+!!
+!! 1.5 LOADS
+!!
+! Gravity
+LOAD_g=9.81
+
+! Uniformly distributed load on pavement
+LOAD_Uniform=0
+
+! Load train
+LOADTRAIN,'COOPER E-80'
+! LOADTRAIN_VAR_count
+! LOADTRAIN_ARR_positions
+! LOADTRAIN_ARR_loads
+
+! Load train offset
+LOADTRAIN_offset=-4.65
+
+
+
+!!
+!! 1.6 ANALYSIS OPTIONS
+!!
+! Large displacement theory:
+!    [0] Deactivate
+!    [1] Activate
+SOLU_largeDisp=0
+
+! Mesh size
+FEM_meshSize=0.1
+
+! Number of substeps
+SOLU_nSubstep=200
+
+
+
+!!
+!!
+!!
+SEWERSECT_V0_MODEL
+
+

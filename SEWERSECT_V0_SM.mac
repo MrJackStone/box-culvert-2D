@@ -1,0 +1,323 @@
+!!
+!!
+!! 3. SOLID MODEL
+!!
+!!
+
+!! ────────────────────────────────────────────────────────────────────────────────────────────── !!
+!! Croquis: solid model coordinates.                                                              !!
+!!                                                                                                !!
+!!                                                                           ¸¸¸¸¸¸ y12           !!
+!!  PAVIMENTO ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓¸¸¸¸¸¸ y11           !!
+!!            │                                                       ¸¸¸¸¸¸│¸¸¸¸¸¸ y10           !!
+!!            │  LAJE ███████████████████████████████████████████████ ¸¸¸¸¸¸│¸¸¸¸¸¸ y9            !!
+!!            │       ¦                                             ¦       │                     !!
+!!            │       ¦                                             ¦ ¸¸¸¸¸¸│¸¸¸¸¸¸ y8            !!
+!!   SOLO SUBSTITUÍDO ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ¸¸¸¸¸¸│¸¸¸¸¸¸ y7            !!
+!!            │       ¦                                             ¦       │                     !!
+!!            │       ¦                                             ¦       │                     !!
+!!            │       ¦                                         ¸¸¸¸¦¸¸¸¸¸¸¸│¸¸¸¸¸¸ y6            !!
+!!            │       ¦ EPS ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ¸¸¸¸¦¸¸¸¸¸¸¸│¸¸¸¸¸¸ y5            !!
+!!            │       ¦     ¦                                 ¦     ¦       │                     !!
+!!            │       ¦     ¦                                 ¦     ¦       │                     !!
+!!            │       ¦     ¦         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ········¦·····¦·······│······ y4            !!
+!!            │       ¦     ¦         ███████████████ ¸¸¸¸¸¸¸¸¦¸¸¸¸¸¦¸¸¸¸¸¸¸│¸¸¸¸¸¸ y3            !!
+!!            │       ¦     ¦         ███         ███         ¦     ¦       │                     !!
+!!            │       ¦     ¦         ███         ███         ¦     ¦       │                     !!
+!!            │       ¦     ¦         ███ GALERIA ███         ¦     ¦       │                     !!
+!!            │       ¦     ¦         ███         ███ ¸¸¸¸¸¸¸¸¦¸¸¸¸¸¦¸¸¸¸¸¸¸│¸¸¸¸¸¸ y2            !!
+!!            │       ¦     ¦         ███████████████         ¦     ¦       │                     !!
+!!            │       ¦     ¦         ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ········¦·····¦·······│······ y1            !!
+!!         SOLO SUBSTITUÍDO (BED) ░░░░░░░░░░░░░░░░░░░░░░░¸¸¸¸¸¦¸¸¸¸¸¦¸¸¸¸¸¸¸│¸¸¸¸¸¸ y13           !!
+!!            │       ¦     ¦     ¦   ¦ ¦         ¦ ¦   ¦     ¦     ¦       │                     !!
+!!            │       ¦     ¦     ¦   ¦ ¦         ¦ ¦   ¦     ¦     ¦       │                     !!
+!!            │       ¦     ¦     ¦   ¦ ¦         ¦ ¦   ¦     ¦     ¦       │                     !!
+!!            │       ¦     ¦     ¦   ¦ ¦         ¦ ¦   ¦     ¦     ¦       │                     !!
+!!            ⌂───────⌂─────⌂─────⌂───⌂─⌂─────────⌂─⌂───⌂─────⌂─────⌂───────⌂ ····· y0            !!
+!!            x0      x1    x2  x10  x3 x4       x5 x6  x11   x7    x8     x9                     !!
+!!                                                                                                !!
+!!                                                                                                !!
+!!                                                                                                !!
+!!                                                                                                !!
+!!                                                                                                !!
+!!                                                                                                !!
+!!                                                                                                !!
+!!                                                                                      ¸¸¸¸ y12  !!
+!! PAVIMENTO ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓¸¸¸¸ y11  !!
+!!           │                                                                   ¸¸¸¸¸¸│¸¸¸¸ y10  !!
+!!           │  LAJE ███████████████████████████████████████████████████████████ ¸¸¸¸¸¸│¸¸¸¸ y9   !!
+!!           │       ¦                                                         ¦       │          !!
+!!           │       ¦                                                         ¦ ¸¸¸¸¸¸│¸¸¸¸ y8   !!
+!!  SOLO SUBSTITUÍDO ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ¸¸¸¸¸¸│¸¸¸¸ y7   !!
+!!           │       ¦                                                         ¦       │          !!
+!!           │       ¦                                                         ¦       │          !!
+!!           │       ¦                                                     ¸¸¸¸¦¸¸¸¸¸¸¸│¸¸¸¸ y6   !!
+!!           │       ¦ EPS ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ¸¸¸¸¦¸¸¸¸¸¸¸│¸¸¸¸ y5   !!
+!!           │       ¦     ¦                                             ¦     ¦       │          !!
+!!           │       ¦     ¦                                             ¦     ¦       │          !!
+!!           │       ¦     ¦         ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ········¦·····¦·······│···· y4   !!
+!!           │       ¦     ¦         ███████████████████████████ ¸¸¸¸¸¸¸¸¦¸¸¸¸¸¦¸¸¸¸¸¸¸│¸¸¸¸ y3   !!
+!!           │       ¦     ¦         ███         ███         ███         ¦     ¦       │          !!
+!!           │       ¦     ¦         ███ GALERIA ███ GALERIA ███         ¦     ¦       │          !!
+!!           │       ¦     ¦         ███   (m)   ███   (n)   ███         ¦     ¦       │          !!
+!!           │       ¦     ¦         ███         ███         ███ ¸¸¸¸¸¸¸¸¦¸¸¸¸¸¦¸¸¸¸¸¸¸│¸¸¸¸ y2   !!
+!!           │       ¦     ¦         ███████████████████████████         ¦     ¦       │          !!
+!!           │       ¦     ¦         ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ········¦·····¦·······│···· y1   !!
+!!        SOLO SUBSTITUÍDO (BED) ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░¸¸¸¸¸¦¸¸¸¸¸¦¸¸¸¸¸¸¸│¸¸¸¸ y13  !!
+!!           │       ¦     ¦     ¦   ¦ ¦         ¦ ¦         ¦ ¦   ¦     ¦     ¦       │          !!
+!!           │       ¦     ¦     ¦   ¦ ¦         ¦ ¦         ¦ ¦   ¦     ¦     ¦       │          !!
+!!           │       ¦     ¦     ¦   ¦ ¦         ¦ ¦         ¦ ¦   ¦     ¦     ¦       │          !!
+!!           │       ¦     ¦     ¦   ¦ ¦         ¦ ¦         ¦ ¦   ¦     ¦     ¦       │          !!
+!!           ⌂───────⌂─────⌂─────⌂───⌂─⌂─────────⌂─⌂─────────⌂─⌂───⌂─────⌂─────⌂───────⌂ ··· y0   !!
+!!           x0      x1    x2  x10  x3 x4     xi,m xj,m     x5 x6  x11   x7    x8     x9          !!
+!!                                                          e: e:                                 !!
+!!                                                      (xi,n) (xj,n)                             !!
+!!                                                                                                !!
+!! ────────────────────────────────────────────────────────────────────────────────────────────── !!
+
+! Solid model components:
+! COMPA_Culvert
+! COMPA_EPS
+! COMPA_Pavement
+! COMPA_SoilSubs
+! COMPA_SoilBase
+! COMPA_Slab
+! COMPA_SoilRefill
+! COMPA_SoilBed
+! COMPL_HorSupport
+! COMPL_VerSupport
+! COMPL_PointLoads
+
+/prep7
+
+!!
+!! 3.1 SOIL & BOX CULVERT
+!!
+RECTNG,0,TotalWidth,0,TotalHeight
+*if,SewerType,NE,2,THEN
+    CM,COMPA_temp,AREA
+    ASEL,U,AREA,,ALL
+    xLeft=X4
+    *do,nthCell,1,CulvertCells,1
+        xRight=Xi(nthCell)
+        RECTNG,xLeft,xRight,Y2,Y3
+        xLeft=Xj(nthCell)
+    *enddo
+    CM,COMPA_sub,AREA
+    CMSEL,A,COMPA_temp
+    ASBA,COMPA_temp,COMPA_sub,,DELETE,DELETE
+*else
+    Corbel=0
+*endif
+
+
+
+!!
+!! 3.2 ARTICULATED BOX CULVERT
+!!
+*if,SewerType,EQ,1,THEN
+    ALLSEL
+    leftCenterX=X3+(SewerWallThk/2)
+    rightCenterX=X5+(SewerWallThk/2)
+    WPSLICEXZ,SewerCenterY
+
+    *get,KMaxD,KP,,NUM,MAXD
+    K1=KMaxD+1
+    K2=KMaxD+2
+    K3=KMaxD+3
+    K4=KMaxD+4
+    K5=KMaxD+5
+    K6=KMaxD+6
+    K,K1,leftCenterX+(SewerWallThk/8),SewerCenterY,0
+    K,K2,leftCenterX+(SewerWallThk/2),SewerCenterY-(SewerWallThk/8),0
+    K,K3,leftCenterX+(SewerWallThk/2),SewerCenterY+(SewerWallThk/8),0
+    K,K4,leftCenterX-(SewerWallThk/8),SewerCenterY,0
+    K,K5,leftCenterX-(SewerWallThk/2),SewerCenterY-(SewerWallThk/8),0
+    K,K6,leftCenterX-(SewerWallThk/2),SewerCenterY+(SewerWallThk/8),0
+    ASEL,U,AREA,,ALL
+    A,K1,K2,K3
+    A,K4,K5,K6
+    CM,COMPA_sub,AREA
+
+    *get,KMaxD,KP,,NUM,MAXD
+    K1=KMaxD+1
+    K2=KMaxD+2
+    K3=KMaxD+3
+    K4=KMaxD+4
+    K5=KMaxD+5
+    K6=KMaxD+6
+    K,K1,rightCenterX+(SewerWallThk/8),SewerCenterY,0
+    K,K2,rightCenterX+(SewerWallThk/2),SewerCenterY-(SewerWallThk/8),0
+    K,K3,rightCenterX+(SewerWallThk/2),SewerCenterY+(SewerWallThk/8),0
+    K,K4,rightCenterX-(SewerWallThk/8),SewerCenterY,0
+    K,K5,rightCenterX-(SewerWallThk/2),SewerCenterY-(SewerWallThk/8),0
+    K,K6,rightCenterX-(SewerWallThk/2),SewerCenterY+(SewerWallThk/8),0
+    ASEL,U,AREA,,ALL
+    A,K1,K2,K3
+    A,K4,K5,K6
+    CMSEL,A,COMPA_sub
+    CM,COMPA_sub,AREA
+
+    ASEL,INVE
+    CM,COMPA_from,AREA
+
+    ALLSEL
+    ASBA,COMPA_from,COMPA_sub,,DELETE,DELETE
+*endif
+
+
+
+!!
+!! 3.3 SLICE AREAS
+!!
+ALLSEL
+*do,nthX,1,xSliceCount,1
+    xCoord=xSlices(nthX)
+    WPSLICEYZ,xCoord
+*enddo
+
+ALLSEL
+*do,nthY,1,ySliceCount,1
+    yCoord=ySlices(nthY)
+    WPSLICEXZ,yCoord
+*enddo
+
+
+
+!!
+!! 3.4 DRAW CORBELS
+!!
+*if,Corbel,GT,0,THEN
+
+    WPSLICEXZ,Y2+CorbelHeight
+    WPSLICEXZ,Y3-CorbelHeight
+
+    xLeft=X4
+
+    *do,nthCell,1,CulvertCells,1
+
+        xRight=Xi(nthCell)
+        WPSLICEYZ,xLeft+CorbelLength
+        WPSLICEYZ,xRight-CorbelLength
+
+        *if,Corbel,EQ,1,OR,Corbel,EQ,3,THEN
+            K1=KP(xLeft             ,              Y2, 0)
+            K2=KP(xLeft+CorbelLength,              Y2, 0)
+            K3=KP(xLeft             , Y2+CorbelHeight, 0)
+            A,K1,K2,K3
+
+            K1=KP(xRight             ,              Y2, 0)
+            K2=KP(xRight-CorbelLength,              Y2, 0)
+            K3=KP(xRight             , Y2+CorbelHeight, 0)
+            A,K1,K2,K3
+        *endif
+
+        *if,Corbel,EQ,1,OR,Corbel,EQ,2,THEN
+            K1=KP(xLeft             ,              Y3, 0)
+            K2=KP(xLeft+CorbelLength,              Y3, 0)
+            K3=KP(xLeft             , Y3-CorbelHeight, 0)
+            A,K1,K2,K3
+
+            K1=KP(xRight             ,              Y3, 0)
+            K2=KP(xRight-CorbelLength,              Y3, 0)
+            K3=KP(xRight             , Y3-CorbelHeight, 0)
+            A,K1,K2,K3
+        *endif
+
+        xLeft=Xj(nthCell)
+
+    *enddo
+*endif
+
+
+
+!!
+!! 3.5 CREATE COMPONENTS
+!!
+ASEL,S,LOC,X,X3,X6
+ASEL,R,LOC,Y,Y1,Y4
+CM,COMPA_Culvert,AREA
+
+ASEL,S,LOC,Y,Y11,Y12
+CM,COMPA_Pavement,AREA
+
+ASEL,S,LOC,Y,Y0,Y1
+CM,COMPA_SoilBase,AREA
+
+*if,EPSStatus,EQ,1,THEN
+    ASEL,S,LOC,X,X2,X7
+    ASEL,R,LOC,Y,Y5,Y6
+    CM,COMPA_EPS,AREA
+*else
+    ASEL,U,AREA,,ALL
+    CM,COMPA_EPS,AREA
+*endif
+
+*if,SlabStatus,EQ,1,THEN
+    ASEL,S,LOC,X,X1,X8
+    ASEL,R,LOC,Y,Y9,Y10
+    CM,COMPA_Slab,AREA
+*else
+    ASEL,U,AREA,,ALL
+    CM,COMPA_Slab,AREA
+*endif
+
+*if,SoilSubsStatus,EQ,1,THEN
+    ASEL,S,LOC,X,X1,X8
+    ASEL,R,LOC,Y,Y7,Y8
+    CM,COMPA_SoilSubs,AREA
+*else
+    ASEL,U,AREA,,ALL
+    CM,COMPA_SoilSubs,AREA
+*endif
+
+*if,SoilBedStatus,EQ,1,THEN
+    ASEL,S,LOC,X,X10,X11
+    ASEL,R,LOC,Y,Y13,Y1
+    CM,COMPA_SoilBed,AREA
+    CMSEL,S,COMPA_SoilBase
+    CMSEL,U,COMPA_SoilBed
+    CM,COMPA_SoilBase,AREA
+*else
+    ASEL,U,AREA,,ALL
+    CM,COMPA_SoilBed,AREA
+*endif
+
+ALLSEL
+CMSEL,U,COMPA_Culvert
+CMSEL,U,COMPA_EPS
+CMSEL,U,COMPA_Pavement
+CMSEL,U,COMPA_SoilBase
+CMSEL,U,COMPA_Slab
+CMSEL,U,COMPA_SoilSubs
+CMSEL,U,COMPA_SoilBed
+CM,COMPA_SoilRefill,AREA
+
+LSEL,S,LOC,Y,Y0
+CM,COMPL_VerSupport,LINE
+
+LSEL,S,LOC,X,X0
+LSEL,A,LOC,X,X9
+CM,COMPL_HorSupport,LINE
+
+LSEL,U,LINE,,ALL
+*get,KMaxD,KP,,NUM,MAXD
+KNum=KMaxD+1
+*do,nthLoad,1,LOADTRAIN_VAR_count,1
+    xCoord=SewerCenterX+LOADTRAIN_ARR_positions(nthLoad)
+    *if,xCoord,GE,x0,AND,xCoord,LE,x9,THEN
+        K,KNum,xCoord,Y12,0
+        K,KNum+1,xCoord,Y12+1,0
+        L,KNum,KNum+1
+        KNum=KNum+2
+    *endif
+*enddo
+CM,COMPL_PointLoads,LINE
+
+ALLSEL
+/auto,ALL
+
+
+
+
+

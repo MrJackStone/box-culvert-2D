@@ -1,0 +1,445 @@
+!!
+!!
+!! 7. POST-PROCESS
+!!
+!!
+/post1
+
+!!
+!! 7.0 ELEMENT TABLES
+!!
+allsel
+etable,'SY',s,y
+etable,'SX',s,x
+
+etable,'S1',s,1
+sadd,'S1KPA','S1',,1e-3
+
+!!
+!! 7.1 CONTOUR PLOTS
+!!
+! Display mode
+ALLSEL
+/auto,1
+/type,,3
+/edge,,0
+/plopts,MINM,0
+/plopts,DATE,OFF
+clims
+
+! Global X and Y displacements
+PLNSOL,U,Y
+TAKEPIC,'UY'
+PLNSOL,U,X
+TAKEPIC,'UX'
+
+! Soil stresses & strains
+CMSEL,S,COMPA_SoilSubs
+CMSEL,A,COMPA_SoilRefill
+CMSEL,A,COMPA_SoilBase
+CMSEL,A,COMPA_SoilBed
+ESLA,S
+PLNSOL,S,X
+TAKEPIC,'SOIL_SX'
+PLNSOL,S,Y
+TAKEPIC,'SOIL_SY'
+PLNSOL,S,XY
+TAKEPIC,'SOIL_SXY'
+PLNSOL,EPPL,EQV
+TAKEPIC,'SOIL_EPPL'
+PLNSOL,S,1
+TAKEPIC,'SOIL_S1'
+/contour,1,1,-1,,0
+/color,SMIN,BLUE
+/color,SMAX,RED
+PLNSOL,S,1
+TAKEPIC,'SOIL_S1b'
+/contour,1,9
+PLNSOL,EPTO,EQV
+TAKEPIC,'SOIL_EPTO'
+
+! Box culvert first principal stress
+CMSEL,S,COMPA_Culvert
+ESLA,S
+DSCALEFCT,5,1,1
+PLNSOL,S,X
+TAKEPIC,'CULVERT_S1'
+/dscale,1,AUTO
+
+CMSEL,S,COMPA_Slab
+ESLA,S
+*get,ECount,ELEM,,COUNT
+*if,ECount,GT,0,THEN
+    PLNSOL,S,X
+    TAKEPIC,'SLAB_SX'
+*endif
+
+
+
+!!
+!! 7.2 PATH PLOTS
+!!
+baseScale=SewerOuterWidth+SewerOuterHeight
+/device,VECTOR,OFF
+/edge,,0
+/uis,MSGPOP,3
+ALLSEL
+
+!! 7.2.1 SOIL RESULTS
+!!
+
+!! 7.2.1.1 CREATE PATHS
+! Select soil elements
+CMSEL,S,COMPA_SoilSubs
+CMSEL,A,COMPA_SoilBase
+CMSEL,A,COMPA_SoilRefill
+CMSEL,A,COMPA_SoilBed
+ESLA,S
+NSLE,S
+
+! Top slab
+PATH,'SoilTop',2,20,200
+PPATH,1,,X9,Y4,0
+PPATH,2,,X0,Y4,0
+PATH,'SoilTop'
+SEWERSECT_V0_PTHMAP
+
+! Bottom slab
+PATH,'SoilBot',2,20,200
+PPATH,1,,X0,Y1,0
+PPATH,2,,X9,Y1,0
+PATH,'SoilBot'
+SEWERSECT_V0_PTHMAP
+
+! Left wall
+PATH,'SoilLeft',2,20,200
+PPATH,1,,X3,Y12,0
+PPATH,2,,X3,Y0,0
+PATH,'SoilLeft'
+SEWERSECT_V0_PTHMAP
+
+! Right wall
+PATH,'SoilRight',2,20,200
+PPATH,1,,X6,Y0,0
+PPATH,2,,X6,Y12,0
+PATH,'SoilRight'
+SEWERSECT_V0_PTHMAP
+
+! Foundation (left side)
+PATH,'BedLeft',2,20,200
+PPATH,1,,X3,Y1,0
+PPATH,2,,X3,Y0,0
+PATH,'BedLeft'
+SEWERSECT_V0_PTHMAP
+
+! Foundation (center)
+PATH,'BedCntr',2,20,200
+PPATH,1,,(X4+X5)/2,Y1,0
+PPATH,2,,(X4+X5)/2,Y0,0
+PATH,'BedCntr'
+SEWERSECT_V0_PTHMAP
+
+! Foundation (right side)
+PATH,'BedRight',2,20,200
+PPATH,1,,X6,Y1,0
+PPATH,2,,X6,Y0,0
+PATH,'BedRight'
+SEWERSECT_V0_PTHMAP
+
+!! 7.2.1.2 COLLECT RESULTS
+PATH,'SoilBot'
+PTH2ARR,'SY','SOIL_S'
+
+!! 7.2.1.3 PLOT PATHS
+ALLSEL
+VIEW1W
+/auto,1
+LPLOT
+/annot,DEFA
+/annot,TMOD,1
+/device,FONT,3,ARIAL,800,0,-21
+/annot,ON
+/annot,SCALE,1
+/tspec,15,100,100
+/annot,DELE
+
+! Plot contact pressures
+*del,MULTIPATHPLOT_ARR_pathNames
+*del,MULTIPATHPLOT_ARR_labels
+*del,MULTIPATHPLOT_ARR_parts
+*dim,MULTIPATHPLOT_ARR_pathNames,CHAR,4
+*dim,MULTIPATHPLOT_ARR_labels,CHAR,4
+*dim,MULTIPATHPLOT_ARR_parts,CHAR,4
+MULTIPATHPLOT_ARR_pathNames(1)=       'SoilTop',       'SoilBot',      'SoilLeft',     'SoilRight'
+MULTIPATHPLOT_ARR_labels(1)=               'SY',            'SY',            'SX',            'SX'
+MULTIPATHPLOT_ARR_parts(1)=     'Top Slab (SY)', 'Bot Slab (SY)', 'Lft Wall (SX)', 'Rgt Wall (SX)'
+MULTIPATHPLOT, 'SOIL_PRES', baseScale, 0.8, -0.70
+
+! Plot pressure dissipation beneath soil bed
+*del,MULTIPATHPLOT_ARR_pathNames
+*del,MULTIPATHPLOT_ARR_labels
+*del,MULTIPATHPLOT_ARR_parts
+*dim,MULTIPATHPLOT_ARR_pathNames,CHAR,3
+*dim,MULTIPATHPLOT_ARR_labels,CHAR,3
+*dim,MULTIPATHPLOT_ARR_parts,CHAR,3
+MULTIPATHPLOT_ARR_pathNames(1)= 'BedLeft', 'BedCntr', 'BedRight'
+MULTIPATHPLOT_ARR_labels(1)=         'SY',      'SY',       'SY'
+MULTIPATHPLOT_ARR_parts(1)=        'Left',  'Center',    'Right'
+MULTIPATHPLOT, 'SOILBED_SY', baseScale, 0.8, -0.70
+
+
+!! 7.2.2 CULVERT RESULTS
+!!
+
+!! 7.2.2.1 CREATE PATHS
+! Get culvert corner nodes
+CMSEL,S,COMPA_culvert
+NSLA,S,1
+
+N10=NODE(X4,Y2,0)
+N11=NODE(X3,Y1,0)
+N12=NODE(X3,Y2,0)
+N13=NODE(X4,Y1,0)
+
+N20=NODE(X5,Y2,0)
+N21=NODE(X6,Y1,0)
+N22=NODE(X6,Y2,0)
+N23=NODE(X5,Y1,0)
+
+N30=NODE(X4,Y3,0)
+N31=NODE(X3,Y4,0)
+N32=NODE(X3,Y3,0)
+N33=NODE(X4,Y4,0)
+
+N40=NODE(X5,Y3,0)
+N41=NODE(X6,Y4,0)
+N42=NODE(X6,Y3,0)
+N43=NODE(X5,Y4,0)
+
+! Virtual cross-sections: calculate geometric properties
+secProp_I=(SewerWallThk**3)/12
+secProp_W=secProp_I/(SewerWallThk/2)
+secProp_A=SewerWallThk
+
+! Number of shear force cross-sections
+NSEL,S,LOC,X,X4,X5
+NSEL,R,LOC,Y,Y1
+*get,VSEC_horCount,NODE,,COUNT
+NSEL,S,LOC,X,X4
+NSEL,R,LOC,Y,Y2,Y3
+*get,VSEC_verCount,NODE,,COUNT
+CMSEL,S,COMPA_culvert
+ESLA,S
+NSLE,S,1
+
+! Top slab
+*del,TOP_M
+*del,TOP_N
+*del,TOP_V
+*del,TOP_U
+*del,TOP_D
+*del,TOP_XG
+*del,TOP_XV
+
+PTHS2MN,N30,N40,N33,N43,'MN_Top','X',200,secProp_W,secProp_A,0
+PTH2ARR,'XG','TOP_XG'
+*voper,TOP_M,PTHS2MN_ARR_bendingMoment,DIV,1000
+*voper,TOP_N,PTHS2MN_ARR_axialForce,DIV,1000
+
+PTHS2V,N33,N43,N30,N40,'V_Top','XY',VSEC_horCount,,secProp_A,0
+PTH2ARR,'XG','TOP_XV'
+*voper,TOP_V,PTHS2V_ARR_shear,DIV,1000
+
+PTH2DFL,N30,N40,,,'DF_Top','Y',100,,0
+*vabs,1
+*voper,TOP_U,PTH2DFL_ARR_disp,MULT,1000
+*vabs,1
+*voper,TOP_D,PTH2DFL_ARR_defl,MULT,1000
+*vabs
+
+! Bottom slab
+*del,BOT_M
+*del,BOT_N
+*del,BOT_V
+*del,BOT_U
+*del,BOT_D
+*del,BOT_XG
+*del,BOT_XV
+
+PTHS2MN,N20,N10,N23,N13,'MN_Bot','X',200,secProp_W,secProp_A,0
+PTH2ARR,'XG','BOT_XG'
+*voper,BOT_M,PTHS2MN_ARR_bendingMoment,DIV,1000
+*voper,BOT_N,PTHS2MN_ARR_axialForce,DIV,1000
+
+PTHS2V,N10,N20,N13,N23,'V_Bot','XY',VSEC_horCount,,secProp_A,0
+PTH2ARR,'XG','BOT_XV'
+*voper,BOT_V,PTHS2V_ARR_shear,DIV,1000
+
+PTH2DFL,N10,N20,,,'DF_Bot','Y',100,,0
+*vabs,1
+*voper,BOT_U,PTH2DFL_ARR_disp,MULT,1000
+*vabs,1
+*voper,BOT_D,PTH2DFL_ARR_defl,MULT,1000
+*vabs
+
+! Left wall
+*del,LFT_M
+*del,LFT_N
+*del,LFT_V
+*del,LFT_YG
+*del,LFT_YV
+
+PTHS2MN,N10,N30,N12,N32,'MN_Lft','Y',200,secProp_W,secProp_A,0
+PTH2ARR,'YG','LFT_YG'
+*voper,LFT_M,PTHS2MN_ARR_bendingMoment,DIV,1000
+*voper,LFT_N,PTHS2MN_ARR_axialForce,DIV,1000
+
+PTHS2V,N12,N32,N10,N30,'V_Lft','XY',VSEC_verCount,,secProp_A,0
+PTH2ARR,'YG','LFT_YV'
+*voper,LFT_V,PTHS2V_ARR_shear,DIV,1000
+
+! Right wall
+*del,RGT_M
+*del,RGT_N
+*del,RGT_V
+*del,RGT_YG
+*del,RGT_YV
+
+PTHS2MN,N40,N20,N42,N22,'MN_Rgt','Y',200,secProp_W,secProp_A,0
+PTH2ARR,'YG','RGT_YG'
+*voper,RGT_M,PTHS2MN_ARR_bendingMoment,DIV,1000
+*voper,RGT_N,PTHS2MN_ARR_axialForce,DIV,1000
+
+PTHS2V,N20,N40,N22,N42,'V_Rgt','XY',VSEC_verCount,,secProp_A,0
+PTH2ARR,'YG','RGT_YV'
+*voper,RGT_V,PTHS2V_ARR_shear,DIV,1000
+
+! Inner walls
+*if,CulvertCells,GT,1,THEN
+    *del,INN_M_table
+    *del,INN_N_table
+    *del,INN_V_table
+    *dim,INN_M_table,ARRAY,200,CulvertCells-1
+    *dim,INN_N_table,ARRAY,200,CulvertCells-1
+    *dim,INN_V_table,ARRAY,VSEC_verCount,CulvertCells-1
+    *do,nthCell,1,CulvertCells-1,1
+        xLeft=Xi(nthCell)
+        xRight=Xj(nthCell)
+        N_llc=NODE(xLeft,Y2,0)
+        N_lrc=NODE(xRight,Y2,0)
+        N_ulc=NODE(xLeft,Y3,0)
+        N_urc=NODE(xRight,Y3,0)
+
+        MNpathName=STRCAT('MN_In',CHRVAL(nthCell))
+        VpathName=STRCAT('V_In',CHRVAL(nthCell))
+
+        *del,nthINN_M
+        *del,nthINN_N
+        *del,nthINN_V
+        *del,INN_YG
+        *del,INN_YV
+
+        PTHS2MN,N_lrc,N_urc,N_llc,N_ulc,MNpathName,'Y',200,secProp_W,secProp_A,0
+        PTH2ARR,'YG','INN_YG'
+        *voper,nthINN_M,PTHS2MN_ARR_bendingMoment,DIV,1000
+        *voper,nthINN_N,PTHS2MN_ARR_axialForce,DIV,1000
+
+        PTHS2V,N_llc,N_ulc,N_lrc,N_urc,VpathName,'XY',VSEC_verCount,,secProp_A,0
+        PTH2ARR,'YG','INN_YV'
+        *voper,nthINN_V,PTHS2V_ARR_shear,DIV,1000
+
+        *do,nthValue,1,200,1
+            INN_M_table(nthValue,nthCell)=nthINN_M(nthValue)
+            INN_N_table(nthValue,nthCell)=nthINN_N(nthValue)
+        *enddo
+        *do,nthValue,1,VSEC_verCount,1
+            INN_V_table(nthValue,nthCell)=nthINN_V(nthValue)
+        *enddo
+    *enddo
+*endif
+
+!! 7.2.2.2 PLOT PATHS
+! Display settings
+/annot,DEFA
+/annot,TMOD,1
+/device,FONT,3,ARIAL,800,0,-21
+/annot,ON
+/annot,SCALE,1
+/tspec,15,100,100
+/annot,DELE
+CMSEL,S,COMPA_culvert
+ESLA,S
+NSLE,S,1
+/auto
+NPLOT
+/dist,1,2,1
+
+! Plot bending moments
+*del,MULTIPATHPLOT_ARR_pathNames
+*del,MULTIPATHPLOT_ARR_labels
+*del,MULTIPATHPLOT_ARR_parts
+*dim,MULTIPATHPLOT_ARR_pathNames,CHAR,4+CulvertCells-1
+*dim,MULTIPATHPLOT_ARR_labels,CHAR,4+CulvertCells-1
+*dim,MULTIPATHPLOT_ARR_parts,CHAR,4+CulvertCells-1
+MULTIPATHPLOT_ARR_pathNames(1)= 'MN_Top_T', 'MN_Bot_T', 'MN_Lft_T', 'MN_Rgt_T'
+MULTIPATHPLOT_ARR_parts(1)=     'Top Slab', 'Bot Slab', 'Lft Wall', 'Rgt Wall'
+MULTIPATHPLOT_ARR_labels(1)=           'M',        'M',        'M',        'M'
+*if,CulvertCells,GT,1,THEN
+    *do,nthCell,1,CulvertCells-1,1
+        nthPathName=STRCAT('MN_In',STRCAT(CHRVAL(nthCell),'_T'))
+        MULTIPATHPLOT_ARR_pathNames(4+nthCell)= nthPathName
+        MULTIPATHPLOT_ARR_parts(4+nthCell)=     'Inn Wall'
+        MULTIPATHPLOT_ARR_labels(4+nthCell)=    'M'
+    *enddo
+*endif
+MULTIPATHPLOT, 'CULVERT_M', baseScale, 0.8, -0.60
+
+! Plot axial forces
+*del,MULTIPATHPLOT_ARR_pathNames
+*del,MULTIPATHPLOT_ARR_labels
+*del,MULTIPATHPLOT_ARR_parts
+*dim,MULTIPATHPLOT_ARR_pathNames,CHAR,4+CulvertCells-1
+*dim,MULTIPATHPLOT_ARR_labels,CHAR,4+CulvertCells-1
+*dim,MULTIPATHPLOT_ARR_parts,CHAR,4+CulvertCells-1
+MULTIPATHPLOT_ARR_pathNames(1)= 'MN_Lft_T', 'MN_Rgt_T', 'MN_Top_T', 'MN_Bot_T'
+MULTIPATHPLOT_ARR_labels(1)=           'N',        'N',        'N',        'N'
+MULTIPATHPLOT_ARR_parts(1)=     'Lft Wall', 'Rgt Wall', 'Top Slab', 'Bot Slab'
+*if,CulvertCells,GT,1,THEN
+    *do,nthCell,1,CulvertCells-1,1
+        nthPathName=STRCAT('MN_In',STRCAT(CHRVAL(nthCell),'_T'))
+        MULTIPATHPLOT_ARR_pathNames(4+nthCell)= nthPathName
+        MULTIPATHPLOT_ARR_parts(4+nthCell)=     'Inn Wall'
+        MULTIPATHPLOT_ARR_labels(4+nthCell)=    'N'
+    *enddo
+*endif
+MULTIPATHPLOT, 'CULVERT_N', baseScale, 0.8, -0.60
+
+! Plot shear forces
+*del,MULTIPATHPLOT_ARR_pathNames
+*del,MULTIPATHPLOT_ARR_labels
+*del,MULTIPATHPLOT_ARR_parts
+*dim,MULTIPATHPLOT_ARR_pathNames,CHAR,4+CulvertCells-1
+*dim,MULTIPATHPLOT_ARR_labels,CHAR,4+CulvertCells-1
+*dim,MULTIPATHPLOT_ARR_parts,CHAR,4+CulvertCells-1
+MULTIPATHPLOT_ARR_pathNames(1)=    'V_Top',    'V_Bot',    'V_Lft',    'V_Rgt'
+MULTIPATHPLOT_ARR_labels(1)=           'V',        'V',        'V',        'V'
+MULTIPATHPLOT_ARR_parts(1)=     'Top Slab', 'Bot Slab', 'Lft Wall', 'Rgt Wall'
+*if,CulvertCells,GT,1,THEN
+    *do,nthCell,1,CulvertCells-1,1
+        nthPathName=STRCAT('V_In',STRCAT(CHRVAL(nthCell),'_T'))
+        MULTIPATHPLOT_ARR_pathNames(4+nthCell)= nthPathName
+        MULTIPATHPLOT_ARR_parts(4+nthCell)=     'Inn Wall'
+        MULTIPATHPLOT_ARR_labels(4+nthCell)=    'V'
+    *enddo
+*endif
+MULTIPATHPLOT, 'CULVERT_V', baseScale, 0.8, -0.60
+
+
+
+
+
+!! memo images
+/input,'F:\Cloud\Code\02 APDL\04 Structures\02 Box Culvert (2D)\_plot_bending_moments',mac
+/input,'F:\Cloud\Code\02 APDL\04 Structures\02 Box Culvert (2D)\_plot_soil_pres',mac
+
+

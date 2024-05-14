@@ -1,0 +1,129 @@
+!!
+!!
+!! 5. BOUNDARY CONDITIONS
+!!
+!!
+/solu
+
+!!
+!! 5.1 SUPPORTS
+!!
+*if,SOLU_BCopt,EQ,0,THEN
+    ! Apoio inferior
+    CMSEL,S,COMPL_VerSupport
+    NSLL,S,1
+    D,ALL,UY,0
+
+    ! Apoios laterais
+    CMSEL,S,COMPL_HorSupport
+    NSLL,S,1
+    D,ALL,UX,0
+*endif
+
+
+
+!!
+!! 5.2 FIRST LOAD STEP: DEAD WEIGHT
+!!
+! Peso próprio
+ACEL,,LOAD_g
+
+! Write load step
+ALLSEL
+NSUBST,NINT(SOLU_nSubstep/1)
+*if,SOLU_largeDisp,EQ,1,THEN
+   NLGEOM,ON
+*else
+   NLGEOM,OFF
+*endif
+LSWRITE,1
+
+
+
+!!
+!! 5.3 SECOND LOAD STEP: LIVE LOADS
+!!
+! Point loads (load train)
+CMSEL,S,COMPL_PointLoads
+KSLL,S
+*get,YMin,KP,,MNLOC,Y
+KSEL,R,LOC,Y,YMin
+NSEL,S,LOC,Y,YMin
+CM,COMPK_loadPoints,KP
+CM,COMPN_loadNodes,NODE
+*do,nthLoad,1,LOADTRAIN_VAR_count,1
+    xPos=SewerCenterX+LOADTRAIN_ARR_positions(nthLoad)
+    qVal=LOADTRAIN_ARR_loads(nthLoad)
+
+    CMSEL,S,COMPK_loadPoints
+    KSEL,R,LOC,X,xPos
+    *get,KNum,KP,,NUM,MIN
+
+    *if,KNum,GT,0,THEN
+        x=KX(KNum)
+        y=KY(KNum)
+        z=KZ(KNum)
+        CMSEL,S,COMPN_loadNodes
+        nearestNode=NODE(x,y,z)
+        F,nearestNode,FY,-qVal
+    *endif
+
+*enddo
+
+! Uniform load
+ALLSEL
+LSLA,S
+KSLL,S
+*get,YMax,KP,,MXLOC,Y
+LSEL,R,LOC,Y,YMax
+SFL,ALL,PRES,LOAD_Uniform
+ALLSEL
+
+! Write load step
+ALLSEL
+NSUBST,SOLU_nSubstep
+*if,SOLU_largeDisp,EQ,1,THEN
+   NLGEOM,ON
+*else
+   NLGEOM,OFF
+*endif
+LSWRITE,2
+
+! Capturar imagem: malha de elementos finitos
+ALLSEL
+/pnum,MAT,1
+/number,1
+/edge,ALL,0
+EPLOT
+/cwd,'%imgFolderPath(1)%'
+TAKEPIC,'MESH_01'
+/cwd,'%currDir(1)%'
+
+! Capture image: loads
+EPLOT
+/edge,ALL,1
+/device,VECTOR,1
+/psf,DEFA, ,1,0,1
+/pbf,DEFA, ,1
+/pbc,U, ,0,,,,
+/pbc,ROT, ,0,,,,
+/pbc,TEMP, ,0,,,,
+/pbc,PRES, ,0,,,,
+/pbc,F, ,2,,,,
+/pbc,M, ,0,,,,
+/psf,PRES,NORM,2,0,1
+EPLOT
+/cwd,'%imgFolderPath(1)%'
+TAKEPIC,'LOAD',1000
+/cwd,'%currDir(1)%'
+/device,VECTOR,OFF
+/edge,ALL,0
+/PBC,F, ,0,,,,
+
+
+
+
+
+
+
+

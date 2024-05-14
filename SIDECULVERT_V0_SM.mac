@@ -1,0 +1,162 @@
+!!
+!!
+!! 3. SOLID MODEL
+!!
+!!
+
+!! ────────────────────────────────────────────────────────────────────────────────────────────── !!
+!! Croquis: coordenadas do solid model.                                                           !!
+!!                                                                                                !!
+!!                                                                      ¸¸¸¸¸¸ y12                !!
+!!       PAVIMENTO ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓¸¸¸¸¸¸ y11                !!
+!!                 │                                             ¸¸¸¸¸¸│¸¸¸¸¸¸ y10                !!
+!!                 │  LAJE █████████████████████████████████████ ¸¸¸¸¸¸│¸¸¸¸¸¸ y9                 !!
+!!                 │       ¦                                   ¦       │                          !!
+!!                 │       ¦                                   ¦ ¸¸¸¸¸¸│¸¸¸¸¸¸ y8                 !!
+!!        SOLO SUBSTITUÍDO ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ¸¸¸¸¸¸│¸¸¸¸¸¸ y7                 !!
+!!                 │       ¦                                   ¦       │                          !!
+!!                 │       ¦                                   ¦       │                          !!
+!!                 │       ¦                               ¸¸¸¸¦¸¸¸¸¸¸¸│¸¸¸¸¸¸ y6                 !!
+!!                 │       ¦ EPS ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ¸¸¸¸¦¸¸¸¸¸¸¸│¸¸¸¸¸¸ y5                 !!
+!!                 │       ¦     ¦                       ¦     ¦       │                          !!
+!!                 │       ¦     ¦                       ¦     ¦       │                          !!
+!!                 │       ¦     ¦    ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ ···¦·····¦·······│······ y4                 !!
+!!                 │       ¦     ¦    ███████████████ ¸¸¸¦¸¸¸¸¸¦¸¸¸¸¸¸¸│¸¸¸¸¸¸ y3                 !!
+!!                 │       ¦     ¦    ███         ███    ¦     ¦       │                          !!
+!!                 │       ¦     ¦    ███         ███    ¦     ¦       │                          !!
+!!                 │       ¦     ¦    ███ GALERIA ███    ¦     ¦       │                          !!
+!!                 │       ¦     ¦    ███         ███ ¸¸¸¦¸¸¸¸¸¦¸¸¸¸¸¸¸│¸¸¸¸¸¸ y2                 !!
+!!                 │       ¦     ¦    ███████████████    ¦     ¦       │                          !!
+!!                 │       ¦     ¦    ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀ ···¦·····¦·······│······ y1                 !!
+!!                 │       ¦     ¦    ¦ ¦         ¦ ¦    ¦     ¦       │                          !!
+!!                 │       ¦     ¦    ¦ ¦         ¦ ¦    ¦     ¦       │                          !!
+!!                 │       ¦     ¦    ¦ ¦         ¦ ¦    ¦     ¦       │                          !!
+!!                 ⌂───────⌂─────⌂────⌂─⌂─────────⌂─⌂────⌂─────⌂───────⌂ ····· y0                 !!
+!!                 x0      x1    x2  x3 x4       x5 x6   x7    x8     x9                          !!
+!!                                                                                                !!
+!!                                                                                                !!
+!! ────────────────────────────────────────────────────────────────────────────────────────────── !!
+
+! Solid model components:
+! COMPA_Culvert
+! COMPA_EPS
+! COMPA_Pavement
+! COMPA_SoilSubs
+! COMPA_SoilBase
+! COMPA_Slab
+! COMPA_SoilRefill
+! COMPA_SoilBed
+! COMPL_HorSupport
+! COMPL_VerSupport
+! COMPL_PointLoads
+
+/prep7
+
+!!
+!! 3.1 SOIL & BOX CULVERT
+!!
+RECTNG,0,TotalWidth,0,TotalHeight
+
+
+
+!!
+!! 3.3 SLICE AREAS
+!!
+ALLSEL
+WPSLICEYZ,X3
+WPSLICEYZ,X6
+WPSLICEYZ,X10
+WPSLICEYZ,X11
+WPSLICEXZ,Y4
+WPSLICEXZ,Y1
+WPSLICEXZ,Y13
+
+
+
+!!
+!! 3.5 CREATE COMPONENTS
+!!
+ASEL,S,LOC,X,X3,X6
+ASEL,R,LOC,Y,Y1,Y4
+CM,COMPA_Culvert,AREA
+
+ASEL,S,LOC,Y,Y11,Y12
+CM,COMPA_Pavement,AREA
+
+ASEL,S,LOC,Y,Y0,Y1
+CM,COMPA_SoilBase,AREA
+
+*if,EPSStatus,EQ,1,THEN
+    ASEL,S,LOC,X,X2,X7
+    ASEL,R,LOC,Y,Y5,Y6
+    CM,COMPA_EPS,AREA
+*else
+    ASEL,U,AREA,,ALL
+    CM,COMPA_EPS,AREA
+*endif
+
+*if,SlabStatus,EQ,1,THEN
+    ASEL,S,LOC,X,X1,X8
+    ASEL,R,LOC,Y,Y9,Y10
+    CM,COMPA_Slab,AREA
+*else
+    ASEL,U,AREA,,ALL
+    CM,COMPA_Slab,AREA
+*endif
+
+*if,SoilSubsStatus,EQ,1,THEN
+    ASEL,S,LOC,X,X1,X8
+    ASEL,R,LOC,Y,Y7,Y8
+    CM,COMPA_SoilSubs,AREA
+*else
+    ASEL,U,AREA,,ALL
+    CM,COMPA_SoilSubs,AREA
+*endif
+
+*if,SoilBedStatus,EQ,1,THEN
+    ASEL,S,LOC,X,X10,X11
+    ASEL,R,LOC,Y,Y13,Y1
+    CM,COMPA_SoilBed,AREA
+    CMSEL,S,COMPA_SoilBase
+    CMSEL,U,COMPA_SoilBed
+    CM,COMPA_SoilBase,AREA
+*else
+    ASEL,U,AREA,,ALL
+    CM,COMPA_SoilBed,AREA
+*endif
+
+ALLSEL
+CMSEL,U,COMPA_Culvert
+CMSEL,U,COMPA_EPS
+CMSEL,U,COMPA_Pavement
+CMSEL,U,COMPA_SoilBase
+CMSEL,U,COMPA_Slab
+CMSEL,U,COMPA_SoilSubs
+CMSEL,U,COMPA_SoilBed
+CM,COMPA_SoilRefill,AREA
+
+LSEL,S,LOC,Y,Y0
+CM,COMPL_VerSupport,LINE
+
+LSEL,S,LOC,X,X0
+LSEL,A,LOC,X,X9
+CM,COMPL_HorSupport,LINE
+
+LSEL,U,LINE,,ALL
+*get,KMaxD,KP,,NUM,MAXD
+KNum=KMaxD+1
+*do,nthLoad,1,LOADTRAIN_VAR_count,1
+    xCoord=SewerCenterX+LOADTRAIN_ARR_positions(nthLoad)
+    *if,xCoord,GE,x0,AND,xCoord,LE,x9,THEN
+        K,KNum,xCoord,Y12,0
+        K,KNum+1,xCoord,Y12+1,0
+        L,KNum,KNum+1
+        KNum=KNum+2
+    *endif
+*enddo
+CM,COMPL_PointLoads,LINE
+
+ALLSEL
+/auto,ALL
+
+

@@ -1,0 +1,156 @@
+!!
+!! CULVERT_M
+!!
+view1w
+windefa,1
+CMSEL,S,COMPA_culvert
+ESLA,S
+NSLE,S,1
+/auto,1
+NPLOT
+/user,1
+/dist,1,1.2,1
+
+! Plot bending moments
+*del,MPATHPLOT_ARR_pathNames
+*del,MPATHPLOT_ARR_labels
+*dim,MPATHPLOT_ARR_pathNames,CHAR,4+CulvertCells-1
+*dim,MPATHPLOT_ARR_labels,CHAR,4+CulvertCells-1
+MPATHPLOT_ARR_pathNames(1)= 'MN_Top_T', 'MN_Bot_T', 'MN_Lft_T', 'MN_Rgt_T'
+MPATHPLOT_ARR_labels(1)=        'MKNM',     'MKNM',     'MKNM',     'MKNM'
+
+*if,CulvertCells,GT,1,THEN
+    *do,nthCell,1,CulvertCells-1,1
+        nthPathName=STRCAT('MN_In',STRCAT(CHRVAL(nthCell),'_T'))
+        MPATHPLOT_ARR_pathNames(4+nthCell)= nthPathName
+        MPATHPLOT_ARR_labels(4+nthCell)=    'MKNM'
+    *enddo
+*endif
+
+*do,i,1,4+CulvertCells-1,1
+    name=MPATHPLOT_ARR_pathNames(i)
+    path,%name%
+    pcalc,add,'MKNM','M',,1e-3
+*enddo
+
+! mPATHPLOT, 2
+
+BOXCULVERT_V0_PTHPLOTS, 'BENDING MOMENT [kNm]',2*CulvertCells,'memo_CULVERT_M'
+
+!!
+!! CULVERT_N
+!!
+/annot,dele
+view1w
+windefa,1
+CMSEL,S,COMPA_culvert
+ESLA,S
+NSLE,S,1
+/auto,1
+NPLOT
+/user,1
+/dist,1,1.2,1
+
+! Plot bending moments
+*del,MPATHPLOT_ARR_pathNames
+*del,MPATHPLOT_ARR_labels
+*dim,MPATHPLOT_ARR_pathNames,CHAR,4+CulvertCells-1
+*dim,MPATHPLOT_ARR_labels,CHAR,4+CulvertCells-1
+MPATHPLOT_ARR_pathNames(1)= 'MN_Lft_T', 'MN_Rgt_T', 'MN_Top_T', 'MN_Bot_T'
+MPATHPLOT_ARR_labels(1)=         'NKN',      'NKN',      'NKN',      'NKN'
+
+*if,CulvertCells,GT,1,THEN
+    *do,nthCell,1,CulvertCells-1,1
+        nthPathName=STRCAT('MN_In',STRCAT(CHRVAL(nthCell),'_T'))
+        MPATHPLOT_ARR_pathNames(4+nthCell)= nthPathName
+        MPATHPLOT_ARR_labels(4+nthCell)=    'NKN'
+    *enddo
+*endif
+
+*do,i,1,4+CulvertCells-1,1
+    name=MPATHPLOT_ARR_pathNames(i)
+    path,%name%
+    pcalc,add,'NKN','N',,1e-3
+*enddo
+
+! mPATHPLOT, 2
+
+BOXCULVERT_V0_PTHPLOTS, 'AXIAL FORCE [kN]',2*CulvertCells,'memo_CULVERT_N'
+
+!!
+!! CULVERT_V
+!!
+/annot,dele
+view1w
+windefa,1
+CMSEL,S,COMPA_culvert
+ESLA,S
+NSLE,S,1
+/auto,1
+NPLOT
+/user,1
+/dist,1,1.2,1
+
+! Plot bending moments
+*del,MPATHPLOT_ARR_pathNames
+*del,MPATHPLOT_ARR_labels
+*dim,MPATHPLOT_ARR_pathNames,CHAR,4+CulvertCells-1
+*dim,MPATHPLOT_ARR_labels,CHAR,4+CulvertCells-1
+MPATHPLOT_ARR_pathNames(1)=    'V_Top',    'V_Bot',    'V_Lft',    'V_Rgt'
+MPATHPLOT_ARR_labels(1)=         'VKN',      'VKN',      'VKN',      'VKN'
+
+*if,CulvertCells,GT,1,THEN
+    *do,nthCell,1,CulvertCells-1,1
+        nthPathName=STRCAT('V_In',STRCAT(CHRVAL(nthCell),'_T'))
+        MPATHPLOT_ARR_pathNames(4+nthCell)= nthPathName
+        MPATHPLOT_ARR_labels(4+nthCell)=    'VKN'
+    *enddo
+*endif
+
+*do,i,1,4+CulvertCells-1,1
+    name=MPATHPLOT_ARR_pathNames(i)
+    path,%name%
+    pcalc,add,'VKN','V',,1e-3
+*enddo
+
+! mPATHPLOT, 2
+
+BOXCULVERT_V0_PTHPLOTS, 'SHEAR FORCE [kN]',2*CulvertCells,'memo_CULVERT_V'
+
+!!
+!! CULVERT_UY
+!!
+*del,y
+
+/annot,dele
+view1w
+windefa,1
+wincln,1
+/plopts,leg3,on
+/udoc,1,cntr,right
+/gformat,f,1,1
+
+CMSEL,S,COMPA_culvert
+ESLA,S
+NSLE,S,1
+/auto,1
+/dscale,1,200
+pldisp
+/user,1
+/dist,1,1.2,1
+clims
+
+wntitle,'VERTICAL DISPLACEMENTS [mm]',1,1
+
+go2png,1200
+    /device,vector,on
+    /edge,,1
+    pldisp
+    /noerase
+    /device,vector,off
+    cleanplot,'plnsol','u','y',,,,,,1e3
+endpng,'memo_CULVERT_UY'
+/erase
+/annot,dele
+view1w
+
