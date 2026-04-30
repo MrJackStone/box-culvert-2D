@@ -20,6 +20,10 @@ sadd,'S1KPA','S1',,1e-3
 !!
 ! Display mode
 ALLSEL
+view1w
+windefa,1
+/view,1,0,0,1
+/dscale,1,auto
 /auto,1
 /type,,3
 /edge,,0

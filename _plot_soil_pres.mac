@@ -1,8 +1,4 @@
-/device,font,3,Arial,1000,0,-64,0,0
-/device,font,1,Arial,1000,0,-42,0,0
-/device,text,1,100
-/tspec,15,1.5,4,0,0
-/annot,dele
+boldfont,1
 
 
 !!
@@ -11,9 +7,10 @@
 view1w
 windefa,1
 wincln,1
-wintitle,' ','SOIL PRESSURES [kPa]',' ',,1,13
-/plopts,leg3,on
+wintitle,1,' ','SOIL PRESSURES [kPa]',' ',,1,13
 
+/view,1,0,0,1
+/plopts,leg3,on
 /udoc,1,cntr,right
 /gformat,f,1,1
 /edge,1,1
@@ -53,9 +50,10 @@ windefa,1
 view1w
 windefa,1
 wincln,1
-wintitle,' ','SOIL BED PRESSURES [kPa]',' ',,1,13
-/plopts,leg3,on
+wintitle,1,' ','SOIL BED PRESSURES [kPa]',' ',,1,13
 
+/view,1,0,0,1
+/plopts,leg3,on
 /udoc,1,cntr,right
 /gformat,f,1,1
 /edge,1,1
@@ -95,13 +93,14 @@ windefa,1
 view1w
 windefa,1
 wincln,1
+clims
+/view,1,0,0,1
 /edge,,0
 /udoc,1,cntr,right
 /plopts,leg3,on
-clims
 /gformat,f,1,1
 
-wintitle,' ','FIRST PRINCIPAL STRESS S1 [kPa]',' ',,1,13
+wintitle,1,' ','FIRST PRINCIPAL STRESS S1 [kPa]',' ',,1,13
 
 allsel
 /auto,1
@@ -137,13 +136,14 @@ view1w
 view1w
 windefa,1
 wincln,1
+clims
+/view,1,0,0,1
 /edge,,0
 /udoc,1,cntr,right
 /plopts,leg3,on
-clims
 /gformat,f,1,1
 
-wintitle,' ','1st PLASTIC STRAIN (e1 x 1000)',' ',,1,13
+wintitle,1,' ','1st PLASTIC STRAIN (e1 x 1000)',' ',,1,13
 
 allsel
 /auto,1

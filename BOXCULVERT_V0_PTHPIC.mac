@@ -14,6 +14,8 @@ view1w
 wincln,1
 boldfont,1
 clims
+/view,1,0,0,1
+/auto,1
 /plopts,leg3,on
 /udoc,1,cntr,right
 /gformat,f,1,1
@@ -22,6 +24,7 @@ go2png
   /device,vector,on
   eplot
   /noerase
+  /user,1
   /device,vector,off
   cleanplot , 'mpathplot' , baseScale , ,'namesContainer','labelContainer'
 endpng,_imgName
