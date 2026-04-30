@@ -141,7 +141,7 @@ pldisp
 /dist,1,1.2,1
 clims
 
-wntitle,'VERTICAL DISPLACEMENTS [mm]',1,1
+wintitle,1,' ','VERTICAL DISPLACEMENTS [mm]',' ',,1,13
 
 go2png,1200
     /device,vector,on
