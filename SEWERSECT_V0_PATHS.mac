@@ -158,43 +158,43 @@ LPLOT
 /annot,DELE
 
 GO2PNG
-/device,VECTOR,ON
-EPLOT
-/device,VECTOR,OFF
-/noerase
-PATH,'SewerTop'
-PTHLIMS,'SX'
-v1Min=PTHLIMS_MIN_OUTPUT
-v1Max=PTHLIMS_MAX_OUTPUT
-/tlabel,0.8,-0.8,'SX (t. slab) = %v1Min% ; %v1Max%'
-PLPAGM,'SX',10,NODE
-PATH,'SewerBot'
-PTHLIMS,'SX'
-v2Min=PTHLIMS_MIN_OUTPUT
-v2Max=PTHLIMS_MAX_OUTPUT
-/tlabel,0.8,-0.85,'SX (b. slab) = %v2Min% ; %v2Max%'
-PLPAGM,'SX',10,NODE
+  /device,VECTOR,ON
+  EPLOT
+  /device,VECTOR,OFF
+  /noerase
+  PATH,'SewerTop'
+  PTHLIMS,'SX'
+  v1Min=PTHLIMS_MIN_OUTPUT
+  v1Max=PTHLIMS_MAX_OUTPUT
+  /tlabel,0.8,-0.8,'SX (t. slab) = %v1Min% ; %v1Max%'
+  PLPAGM,'SX',10,NODE
+  PATH,'SewerBot'
+  PTHLIMS,'SX'
+  v2Min=PTHLIMS_MIN_OUTPUT
+  v2Max=PTHLIMS_MAX_OUTPUT
+  /tlabel,0.8,-0.85,'SX (b. slab) = %v2Min% ; %v2Max%'
+  PLPAGM,'SX',10,NODE
 ENDPNG,'PATH_SEWER_SX'
 /erase
 /annot,DELE
 
 GO2PNG
-/device,VECTOR,ON
-EPLOT
-/device,VECTOR,OFF
-/noerase
-PATH,'SoilLeft'
-PTHLIMS,'SX'
-v1Min=PTHLIMS_MIN_OUTPUT
-v1Max=PTHLIMS_MAX_OUTPUT
-/tlabel,0.8,-0.8,'SX (left) = %v1Min% ; %v1Max%'
-PLPAGM,'SX',10,NODE
-PATH,'SoilRight'
-PTHLIMS,'SX'
-v2Min=PTHLIMS_MIN_OUTPUT
-v2Max=PTHLIMS_MAX_OUTPUT
-/tlabel,0.8,-0.85,'SX (right) = %v2Min% ; %v2Max%'
-PLPAGM,'SX',10,NODE
+  /device,VECTOR,ON
+  EPLOT
+  /device,VECTOR,OFF
+  /noerase
+  PATH,'SoilLeft'
+  PTHLIMS,'SX'
+  v1Min=PTHLIMS_MIN_OUTPUT
+  v1Max=PTHLIMS_MAX_OUTPUT
+  /tlabel,0.8,-0.8,'SX (left) = %v1Min% ; %v1Max%'
+  PLPAGM,'SX',10,NODE
+  PATH,'SoilRight'
+  PTHLIMS,'SX'
+  v2Min=PTHLIMS_MIN_OUTPUT
+  v2Max=PTHLIMS_MAX_OUTPUT
+  /tlabel,0.8,-0.85,'SX (right) = %v2Min% ; %v2Max%'
+  PLPAGM,'SX',10,NODE
 ENDPNG,'PATH_SOIL_SX'
 /erase
 /annot,DELE
@@ -204,44 +204,44 @@ sewer_bot_pos_output=v2Max*1e-6
 sewer_bot_neg_output=v2Min*1e-6
 
 GO2PNG
-/device,VECTOR,ON
-EPLOT
-/device,VECTOR,OFF
-/noerase
-PATH,'SewerLeft'
-PTHLIMS,'SY'
-v1Min=PTHLIMS_MIN_OUTPUT
-v1Max=PTHLIMS_MAX_OUTPUT
-/tlabel,0.8,-0.8,'SY (l. wall) = %v1Min% ; %v1Max%'
-PLPAGM,'SY',10,NODE
-PATH,'SewerRight'
-PTHLIMS,'SY'
-v2Min=PTHLIMS_MIN_OUTPUT
-v2Max=PTHLIMS_MAX_OUTPUT
-/tlabel,0.8,-0.85,'SY (r. wall) = %v2Min% ; %v2Max%'
-PLPAGM,'SY',10,NODE
+  /device,VECTOR,ON
+  EPLOT
+  /device,VECTOR,OFF
+  /noerase
+  PATH,'SewerLeft'
+  PTHLIMS,'SY'
+  v1Min=PTHLIMS_MIN_OUTPUT
+  v1Max=PTHLIMS_MAX_OUTPUT
+  /tlabel,0.8,-0.8,'SY (l. wall) = %v1Min% ; %v1Max%'
+  PLPAGM,'SY',10,NODE
+  PATH,'SewerRight'
+  PTHLIMS,'SY'
+  v2Min=PTHLIMS_MIN_OUTPUT
+  v2Max=PTHLIMS_MAX_OUTPUT
+  /tlabel,0.8,-0.85,'SY (r. wall) = %v2Min% ; %v2Max%'
+  PLPAGM,'SY',10,NODE
 ENDPNG,'PATH_SEWER_SY'
 /erase
 /annot,DELE
 sewer_wall_neg_output=v1Min*1e-6
 
 GO2PNG
-/device,VECTOR,ON
-EPLOT
-/device,VECTOR,OFF
-/noerase
-PATH,'SoilTop'
-PTH2ARR,'AVG_SY'
-*get,arrLen,PARM,PTH2ARR_ARR_OUTPUT,DIM,X
-v1Avg=PTH2ARR_ARR_OUTPUT(arrLen)
-/tlabel,0.8,-0.8,'SY (top) = %v1Avg%'
-PLPAGM,'AVG_SY',10,NODE
-PATH,'SoilBot'
-PTH2ARR,'AVG_SY'
-*get,arrLen,PARM,PTH2ARR_ARR_OUTPUT,DIM,X
-v2Avg=PTH2ARR_ARR_OUTPUT(arrLen)
-/tlabel,0.8,-0.85,'SY (bottom) = %v2Avg%'
-PLPAGM,'AVG_SY',10,NODE
+  /device,VECTOR,ON
+  EPLOT
+  /device,VECTOR,OFF
+  /noerase
+  PATH,'SoilTop'
+  PTH2ARR,'AVG_SY'
+  *get,arrLen,PARM,PTH2ARR_ARR_OUTPUT,DIM,X
+  v1Avg=PTH2ARR_ARR_OUTPUT(arrLen)
+  /tlabel,0.8,-0.8,'SY (top) = %v1Avg%'
+  PLPAGM,'AVG_SY',10,NODE
+  PATH,'SoilBot'
+  PTH2ARR,'AVG_SY'
+  *get,arrLen,PARM,PTH2ARR_ARR_OUTPUT,DIM,X
+  v2Avg=PTH2ARR_ARR_OUTPUT(arrLen)
+  /tlabel,0.8,-0.85,'SY (bottom) = %v2Avg%'
+  PLPAGM,'AVG_SY',10,NODE
 ENDPNG,'PATH_SOIL_avgSY'
 /erase
 /annot,DELE
@@ -249,22 +249,22 @@ soil_top_output=ABS(v1Avg*1e-3)
 soil_bot_output=ABS(v2Avg*1e-3)
 
 GO2PNG
-/device,VECTOR,ON
-EPLOT
-/device,VECTOR,OFF
-/noerase
-PATH,'SoilTop'
-PTHLIMS,'SY'
-v1Min=PTHLIMS_MIN_OUTPUT
-v1Max=PTHLIMS_MAX_OUTPUT
-/tlabel,0.8,-0.8,'SY (top) = %v1Min% ; %v1Max%'
-PLPAGM,'SY',10,NODE
-PATH,'SoilBot'
-PTHLIMS,'SY'
-v2Min=PTHLIMS_MIN_OUTPUT
-v2Max=PTHLIMS_MAX_OUTPUT
-/tlabel,0.8,-0.85,'SY (bottom) = %v2Min% ; %v2Max%'
-PLPAGM,'SY',10,NODE
+  /device,VECTOR,ON
+  EPLOT
+  /device,VECTOR,OFF
+  /noerase
+  PATH,'SoilTop'
+  PTHLIMS,'SY'
+  v1Min=PTHLIMS_MIN_OUTPUT
+  v1Max=PTHLIMS_MAX_OUTPUT
+  /tlabel,0.8,-0.8,'SY (top) = %v1Min% ; %v1Max%'
+  PLPAGM,'SY',10,NODE
+  PATH,'SoilBot'
+  PTHLIMS,'SY'
+  v2Min=PTHLIMS_MIN_OUTPUT
+  v2Max=PTHLIMS_MAX_OUTPUT
+  /tlabel,0.8,-0.85,'SY (bottom) = %v2Min% ; %v2Max%'
+  PLPAGM,'SY',10,NODE
 ENDPNG,'PATH_SOIL_SY'
 /erase
 /annot,DELE

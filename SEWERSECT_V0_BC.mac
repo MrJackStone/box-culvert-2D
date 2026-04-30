@@ -9,15 +9,15 @@
 !! 5.1 SUPPORTS
 !!
 *if,SOLU_BCopt,EQ,0,THEN
-    ! Apoio inferior
-    CMSEL,S,COMPL_VerSupport
-    NSLL,S,1
-    D,ALL,UY,0
+  ! Apoio inferior
+  CMSEL,S,COMPL_VerSupport
+  NSLL,S,1
+  D,ALL,UY,0
 
-    ! Apoios laterais
-    CMSEL,S,COMPL_HorSupport
-    NSLL,S,1
-    D,ALL,UX,0
+  ! Apoios laterais
+  CMSEL,S,COMPL_HorSupport
+  NSLL,S,1
+  D,ALL,UX,0
 *endif
 
 
@@ -32,9 +32,9 @@ ACEL,,LOAD_g
 ALLSEL
 NSUBST,NINT(SOLU_nSubstep/1)
 *if,SOLU_largeDisp,EQ,1,THEN
-   NLGEOM,ON
+  NLGEOM,ON
 *else
-   NLGEOM,OFF
+  NLGEOM,OFF
 *endif
 LSWRITE,1
 
@@ -52,21 +52,21 @@ NSEL,S,LOC,Y,YMin
 CM,COMPK_loadPoints,KP
 CM,COMPN_loadNodes,NODE
 *do,nthLoad,1,LOADTRAIN_VAR_count,1
-    xPos=SewerCenterX+LOADTRAIN_ARR_positions(nthLoad)
-    qVal=LOADTRAIN_ARR_loads(nthLoad)
+  xPos=SewerCenterX+LOADTRAIN_ARR_positions(nthLoad)
+  qVal=LOADTRAIN_ARR_loads(nthLoad)
 
-    CMSEL,S,COMPK_loadPoints
-    KSEL,R,LOC,X,xPos
-    *get,KNum,KP,,NUM,MIN
+  CMSEL,S,COMPK_loadPoints
+  KSEL,R,LOC,X,xPos
+  *get,KNum,KP,,NUM,MIN
 
-    *if,KNum,GT,0,THEN
-        x=KX(KNum)
-        y=KY(KNum)
-        z=KZ(KNum)
-        CMSEL,S,COMPN_loadNodes
-        nearestNode=NODE(x,y,z)
-        F,nearestNode,FY,-qVal
-    *endif
+  *if,KNum,GT,0,THEN
+    x=KX(KNum)
+    y=KY(KNum)
+    z=KZ(KNum)
+    CMSEL,S,COMPN_loadNodes
+    nearestNode=NODE(x,y,z)
+    F,nearestNode,FY,-qVal
+  *endif
 
 *enddo
 
@@ -83,9 +83,9 @@ ALLSEL
 ALLSEL
 NSUBST,SOLU_nSubstep
 *if,SOLU_largeDisp,EQ,1,THEN
-   NLGEOM,ON
+  NLGEOM,ON
 *else
-   NLGEOM,OFF
+  NLGEOM,OFF
 *endif
 LSWRITE,2
 

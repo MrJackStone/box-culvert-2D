@@ -111,50 +111,50 @@ SEWERSECT_V0_SOLU
 
 ! Report file: initialize
 *if,SOLU_reportMode,EQ,0,THEN
-    BOXCULVERT_V0_REPHDR
+  BOXCULVERT_V0_REPHDR
 *endif
 
 *if,SewerType,NE,2,THEN
-    ! Results from first load step (dead weight)
-    SET,1,LAST
-    /cwd,'%dwFolderPath(1)%'
-    BOXCULVERT_V0_POST
-    /cwd,'%currDir(1)%'
-    BOXCULVERT_V0_WRRES
+  ! Results from first load step (dead weight)
+  SET,1,LAST
+  /cwd,'%dwFolderPath(1)%'
+  BOXCULVERT_V0_POST
+  /cwd,'%currDir(1)%'
+  BOXCULVERT_V0_WRRES
 
-    ! Results from second load step (load train)
-    SET,2,LAST
-    /cwd,'%ltFolderPath(1)%'
-    BOXCULVERT_V0_POST
-    /cwd,'%currDir(1)%'
-    BOXCULVERT_V0_WRRES
+  ! Results from second load step (load train)
+  SET,2,LAST
+  /cwd,'%ltFolderPath(1)%'
+  BOXCULVERT_V0_POST
+  /cwd,'%currDir(1)%'
+  BOXCULVERT_V0_WRRES
 
 *else
-    /post1
-    SET,LAST
-    ALLSEL
-    /auto,1
-    /type,,3
-    /edge,,0
-    /plopts,MINM,0
-    /plopts,DATE,OFF
-    baseScale=SewerOuterWidth+SewerOuterHeight
-    /device,VECTOR,OFF
-    /edge,,0
-    /uis,MSGPOP,3
-    ALLSEL
-    CMSEL,S,COMPA_SoilSubs
-    CMSEL,A,COMPA_SoilBase
-    CMSEL,A,COMPA_SoilRefill
-    CMSEL,A,COMPA_SoilBed
-    ESLA,S
-    NSLE,S
-    PATH,'SoilTop',2,20,200
-    PPATH,1,,X9,Y4,0
-    PPATH,2,,X0,Y4,0
-    PATH,'SoilTop'
-    SEWERSECT_V0_PTHMAP
-    PLPAGM,SY,10,NODE
+  /post1
+  SET,LAST
+  ALLSEL
+  /auto,1
+  /type,,3
+  /edge,,0
+  /plopts,MINM,0
+  /plopts,DATE,OFF
+  baseScale=SewerOuterWidth+SewerOuterHeight
+  /device,VECTOR,OFF
+  /edge,,0
+  /uis,MSGPOP,3
+  ALLSEL
+  CMSEL,S,COMPA_SoilSubs
+  CMSEL,A,COMPA_SoilBase
+  CMSEL,A,COMPA_SoilRefill
+  CMSEL,A,COMPA_SoilBed
+  ESLA,S
+  NSLE,S
+  PATH,'SoilTop',2,20,200
+  PPATH,1,,X9,Y4,0
+  PPATH,2,,X0,Y4,0
+  PATH,'SoilTop'
+  SEWERSECT_V0_PTHMAP
+  PLPAGM,SY,10,NODE
 
 *endif
 

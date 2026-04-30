@@ -66,14 +66,14 @@ rightWall_M_min=PTHLIMS_MIN_OUTPUT
 rightWall_M_max=PTHLIMS_MAX_OUTPUT
 
 *if,ABS(leftWall_M_min),GT,ABS(rightWall_M_min),THEN
-    wall_M_min=leftWall_M_min
+  wall_M_min=leftWall_M_min
 *else
-    wall_M_min=rightWall_M_min
+  wall_M_min=rightWall_M_min
 *endif
 *if,ABS(leftWall_M_max),GT,ABS(rightWall_M_max),THEN
-    wall_M_max=leftWall_M_max
+  wall_M_max=leftWall_M_max
 *else
-    wall_M_max=rightWall_M_max
+  wall_M_max=rightWall_M_max
 *endif
 
 
@@ -87,23 +87,23 @@ rightWall_M_max=PTHLIMS_MAX_OUTPUT
 ALLSEL
 
 GO2PNG
-/device,VECTOR,ON
-/edge,,1
-EPLOT
-/device,VECTOR,OFF
-/noerase
-/tlabel,0.8,-0.70,'Top Slab: %topSlab_M_min% ; %topSlab_M_max%'
-/tlabel,0.8,-0.75,'Bot Slab: %botSlab_M_min% ; %botSlab_M_max%'
-/tlabel,0.8,-0.80,'Lft Wall: %leftWall_M_min% ; %leftWall_M_max%'
-/tlabel,0.8,-0.85,'Rgt Wall: %rightWall_M_min% ; %rightWall_M_max%'
-PATH,'LJ_INF_B'
-PLPAGM,'M',5,NODE
-PATH,'LJ_SUP_T'
-PLPAGM,'M',5,NODE
-PATH,'PR_ESQ_T'
-PLPAGM,'M',5,NODE
-PATH,'PR_DIR_T'
-PLPAGM,'M',5,NODE
+  /device,VECTOR,ON
+  /edge,,1
+  EPLOT
+  /device,VECTOR,OFF
+  /noerase
+  /tlabel,0.8,-0.70,'Top Slab: %topSlab_M_min% ; %topSlab_M_max%'
+  /tlabel,0.8,-0.75,'Bot Slab: %botSlab_M_min% ; %botSlab_M_max%'
+  /tlabel,0.8,-0.80,'Lft Wall: %leftWall_M_min% ; %leftWall_M_max%'
+  /tlabel,0.8,-0.85,'Rgt Wall: %rightWall_M_min% ; %rightWall_M_max%'
+  PATH,'LJ_INF_B'
+  PLPAGM,'M',5,NODE
+  PATH,'LJ_SUP_T'
+  PLPAGM,'M',5,NODE
+  PATH,'PR_ESQ_T'
+  PLPAGM,'M',5,NODE
+  PATH,'PR_DIR_T'
+  PLPAGM,'M',5,NODE
 ENDPNG,'SEWER_M'
 /erase
 /annot,DELE

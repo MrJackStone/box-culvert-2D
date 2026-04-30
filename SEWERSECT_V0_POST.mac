@@ -71,8 +71,8 @@ CMSEL,S,COMPA_Slab
 ESLA,S
 *get,ECount,ELEM,,COUNT
 *if,ECount,GT,0,THEN
-    PLNSOL,S,X
-    TAKEPIC,'LAJE_SX'
+  PLNSOL,S,X
+  TAKEPIC,'LAJE_SX'
 *endif
 
 

@@ -87,42 +87,42 @@ ASEL,S,LOC,Y,Y0,Y1
 CM,COMPA_SoilBase,AREA
 
 *if,EPSStatus,EQ,1,THEN
-    ASEL,S,LOC,X,X2,X7
-    ASEL,R,LOC,Y,Y5,Y6
-    CM,COMPA_EPS,AREA
+  ASEL,S,LOC,X,X2,X7
+  ASEL,R,LOC,Y,Y5,Y6
+  CM,COMPA_EPS,AREA
 *else
-    ASEL,U,AREA,,ALL
-    CM,COMPA_EPS,AREA
+  ASEL,U,AREA,,ALL
+  CM,COMPA_EPS,AREA
 *endif
 
 *if,SlabStatus,EQ,1,THEN
-    ASEL,S,LOC,X,X1,X8
-    ASEL,R,LOC,Y,Y9,Y10
-    CM,COMPA_Slab,AREA
+  ASEL,S,LOC,X,X1,X8
+  ASEL,R,LOC,Y,Y9,Y10
+  CM,COMPA_Slab,AREA
 *else
-    ASEL,U,AREA,,ALL
-    CM,COMPA_Slab,AREA
+  ASEL,U,AREA,,ALL
+  CM,COMPA_Slab,AREA
 *endif
 
 *if,SoilSubsStatus,EQ,1,THEN
-    ASEL,S,LOC,X,X1,X8
-    ASEL,R,LOC,Y,Y7,Y8
-    CM,COMPA_SoilSubs,AREA
+  ASEL,S,LOC,X,X1,X8
+  ASEL,R,LOC,Y,Y7,Y8
+  CM,COMPA_SoilSubs,AREA
 *else
-    ASEL,U,AREA,,ALL
-    CM,COMPA_SoilSubs,AREA
+  ASEL,U,AREA,,ALL
+  CM,COMPA_SoilSubs,AREA
 *endif
 
 *if,SoilBedStatus,EQ,1,THEN
-    ASEL,S,LOC,X,X10,X11
-    ASEL,R,LOC,Y,Y13,Y1
-    CM,COMPA_SoilBed,AREA
-    CMSEL,S,COMPA_SoilBase
-    CMSEL,U,COMPA_SoilBed
-    CM,COMPA_SoilBase,AREA
+  ASEL,S,LOC,X,X10,X11
+  ASEL,R,LOC,Y,Y13,Y1
+  CM,COMPA_SoilBed,AREA
+  CMSEL,S,COMPA_SoilBase
+  CMSEL,U,COMPA_SoilBed
+  CM,COMPA_SoilBase,AREA
 *else
-    ASEL,U,AREA,,ALL
-    CM,COMPA_SoilBed,AREA
+  ASEL,U,AREA,,ALL
+  CM,COMPA_SoilBed,AREA
 *endif
 
 ALLSEL
@@ -146,13 +146,13 @@ LSEL,U,LINE,,ALL
 *get,KMaxD,KP,,NUM,MAXD
 KNum=KMaxD+1
 *do,nthLoad,1,LOADTRAIN_VAR_count,1
-    xCoord=SewerCenterX+LOADTRAIN_ARR_positions(nthLoad)
-    *if,xCoord,GE,x0,AND,xCoord,LE,x9,THEN
-        K,KNum,xCoord,Y12,0
-        K,KNum+1,xCoord,Y12+1,0
-        L,KNum,KNum+1
-        KNum=KNum+2
-    *endif
+  xCoord=SewerCenterX+LOADTRAIN_ARR_positions(nthLoad)
+  *if,xCoord,GE,x0,AND,xCoord,LE,x9,THEN
+    K,KNum,xCoord,Y12,0
+    K,KNum+1,xCoord,Y12+1,0
+    L,KNum,KNum+1
+    KNum=KNum+2
+  *endif
 *enddo
 CM,COMPL_PointLoads,LINE
 

@@ -70,8 +70,8 @@ CMSEL,S,COMPA_Slab
 ESLA,S
 *get,ECount,ELEM,,COUNT
 *if,ECount,GT,0,THEN
-    PLNSOL,S,X
-    TAKEPIC,'SLAB_SX'
+  PLNSOL,S,X
+  TAKEPIC,'SLAB_SX'
 *endif
 
 
@@ -316,46 +316,46 @@ PTH2ARR,'YG','RGT_YV'
 
 ! Inner walls
 *if,CulvertCells,GT,1,THEN
-    *del,INN_M_table
-    *del,INN_N_table
-    *del,INN_V_table
-    *dim,INN_M_table,ARRAY,200,CulvertCells-1
-    *dim,INN_N_table,ARRAY,200,CulvertCells-1
-    *dim,INN_V_table,ARRAY,VSEC_verCount,CulvertCells-1
-    *do,nthCell,1,CulvertCells-1,1
-        xLeft=Xi(nthCell)
-        xRight=Xj(nthCell)
-        N_llc=NODE(xLeft,Y2,0)
-        N_lrc=NODE(xRight,Y2,0)
-        N_ulc=NODE(xLeft,Y3,0)
-        N_urc=NODE(xRight,Y3,0)
+  *del,INN_M_table
+  *del,INN_N_table
+  *del,INN_V_table
+  *dim,INN_M_table,ARRAY,200,CulvertCells-1
+  *dim,INN_N_table,ARRAY,200,CulvertCells-1
+  *dim,INN_V_table,ARRAY,VSEC_verCount,CulvertCells-1
+  *do,nthCell,1,CulvertCells-1,1
+    xLeft=Xi(nthCell)
+    xRight=Xj(nthCell)
+    N_llc=NODE(xLeft,Y2,0)
+    N_lrc=NODE(xRight,Y2,0)
+    N_ulc=NODE(xLeft,Y3,0)
+    N_urc=NODE(xRight,Y3,0)
 
-        MNpathName=STRCAT('MN_In',CHRVAL(nthCell))
-        VpathName=STRCAT('V_In',CHRVAL(nthCell))
+    MNpathName=STRCAT('MN_In',CHRVAL(nthCell))
+    VpathName=STRCAT('V_In',CHRVAL(nthCell))
 
-        *del,nthINN_M
-        *del,nthINN_N
-        *del,nthINN_V
-        *del,INN_YG
-        *del,INN_YV
+    *del,nthINN_M
+    *del,nthINN_N
+    *del,nthINN_V
+    *del,INN_YG
+    *del,INN_YV
 
-        PTHS2MN,N_lrc,N_urc,N_llc,N_ulc,MNpathName,'Y',200,secProp_W,secProp_A,0
-        PTH2ARR,'YG','INN_YG'
-        *voper,nthINN_M,PTHS2MN_ARR_bendingMoment,DIV,1000
-        *voper,nthINN_N,PTHS2MN_ARR_axialForce,DIV,1000
+    PTHS2MN,N_lrc,N_urc,N_llc,N_ulc,MNpathName,'Y',200,secProp_W,secProp_A,0
+    PTH2ARR,'YG','INN_YG'
+    *voper,nthINN_M,PTHS2MN_ARR_bendingMoment,DIV,1000
+    *voper,nthINN_N,PTHS2MN_ARR_axialForce,DIV,1000
 
-        PTHS2V,N_llc,N_ulc,N_lrc,N_urc,VpathName,'XY',VSEC_verCount,,secProp_A,0
-        PTH2ARR,'YG','INN_YV'
-        *voper,nthINN_V,PTHS2V_ARR_shear,DIV,1000
+    PTHS2V,N_llc,N_ulc,N_lrc,N_urc,VpathName,'XY',VSEC_verCount,,secProp_A,0
+    PTH2ARR,'YG','INN_YV'
+    *voper,nthINN_V,PTHS2V_ARR_shear,DIV,1000
 
-        *do,nthValue,1,200,1
-            INN_M_table(nthValue,nthCell)=nthINN_M(nthValue)
-            INN_N_table(nthValue,nthCell)=nthINN_N(nthValue)
-        *enddo
-        *do,nthValue,1,VSEC_verCount,1
-            INN_V_table(nthValue,nthCell)=nthINN_V(nthValue)
-        *enddo
+    *do,nthValue,1,200,1
+      INN_M_table(nthValue,nthCell)=nthINN_M(nthValue)
+      INN_N_table(nthValue,nthCell)=nthINN_N(nthValue)
     *enddo
+    *do,nthValue,1,VSEC_verCount,1
+      INN_V_table(nthValue,nthCell)=nthINN_V(nthValue)
+    *enddo
+  *enddo
 *endif
 
 !! 7.2.2.2 PLOT PATHS
@@ -385,12 +385,12 @@ MULTIPATHPLOT_ARR_pathNames(1)= 'MN_Top_T', 'MN_Bot_T', 'MN_Lft_T', 'MN_Rgt_T'
 MULTIPATHPLOT_ARR_parts(1)=     'Top Slab', 'Bot Slab', 'Lft Wall', 'Rgt Wall'
 MULTIPATHPLOT_ARR_labels(1)=           'M',        'M',        'M',        'M'
 *if,CulvertCells,GT,1,THEN
-    *do,nthCell,1,CulvertCells-1,1
-        nthPathName=STRCAT('MN_In',STRCAT(CHRVAL(nthCell),'_T'))
-        MULTIPATHPLOT_ARR_pathNames(4+nthCell)= nthPathName
-        MULTIPATHPLOT_ARR_parts(4+nthCell)=     'Inn Wall'
-        MULTIPATHPLOT_ARR_labels(4+nthCell)=    'M'
-    *enddo
+  *do,nthCell,1,CulvertCells-1,1
+    nthPathName=STRCAT('MN_In',STRCAT(CHRVAL(nthCell),'_T'))
+    MULTIPATHPLOT_ARR_pathNames(4+nthCell)= nthPathName
+    MULTIPATHPLOT_ARR_parts(4+nthCell)=     'Inn Wall'
+    MULTIPATHPLOT_ARR_labels(4+nthCell)=    'M'
+  *enddo
 *endif
 MULTIPATHPLOT, 'CULVERT_M', baseScale, 0.8, -0.60
 
@@ -405,12 +405,12 @@ MULTIPATHPLOT_ARR_pathNames(1)= 'MN_Lft_T', 'MN_Rgt_T', 'MN_Top_T', 'MN_Bot_T'
 MULTIPATHPLOT_ARR_labels(1)=           'N',        'N',        'N',        'N'
 MULTIPATHPLOT_ARR_parts(1)=     'Lft Wall', 'Rgt Wall', 'Top Slab', 'Bot Slab'
 *if,CulvertCells,GT,1,THEN
-    *do,nthCell,1,CulvertCells-1,1
-        nthPathName=STRCAT('MN_In',STRCAT(CHRVAL(nthCell),'_T'))
-        MULTIPATHPLOT_ARR_pathNames(4+nthCell)= nthPathName
-        MULTIPATHPLOT_ARR_parts(4+nthCell)=     'Inn Wall'
-        MULTIPATHPLOT_ARR_labels(4+nthCell)=    'N'
-    *enddo
+  *do,nthCell,1,CulvertCells-1,1
+    nthPathName=STRCAT('MN_In',STRCAT(CHRVAL(nthCell),'_T'))
+    MULTIPATHPLOT_ARR_pathNames(4+nthCell)= nthPathName
+    MULTIPATHPLOT_ARR_parts(4+nthCell)=     'Inn Wall'
+    MULTIPATHPLOT_ARR_labels(4+nthCell)=    'N'
+  *enddo
 *endif
 MULTIPATHPLOT, 'CULVERT_N', baseScale, 0.8, -0.60
 
@@ -425,12 +425,12 @@ MULTIPATHPLOT_ARR_pathNames(1)=    'V_Top',    'V_Bot',    'V_Lft',    'V_Rgt'
 MULTIPATHPLOT_ARR_labels(1)=           'V',        'V',        'V',        'V'
 MULTIPATHPLOT_ARR_parts(1)=     'Top Slab', 'Bot Slab', 'Lft Wall', 'Rgt Wall'
 *if,CulvertCells,GT,1,THEN
-    *do,nthCell,1,CulvertCells-1,1
-        nthPathName=STRCAT('V_In',STRCAT(CHRVAL(nthCell),'_T'))
-        MULTIPATHPLOT_ARR_pathNames(4+nthCell)= nthPathName
-        MULTIPATHPLOT_ARR_parts(4+nthCell)=     'Inn Wall'
-        MULTIPATHPLOT_ARR_labels(4+nthCell)=    'V'
-    *enddo
+  *do,nthCell,1,CulvertCells-1,1
+    nthPathName=STRCAT('V_In',STRCAT(CHRVAL(nthCell),'_T'))
+    MULTIPATHPLOT_ARR_pathNames(4+nthCell)= nthPathName
+    MULTIPATHPLOT_ARR_parts(4+nthCell)=     'Inn Wall'
+    MULTIPATHPLOT_ARR_labels(4+nthCell)=    'V'
+  *enddo
 *endif
 MULTIPATHPLOT, 'CULVERT_V', baseScale, 0.8, -0.60
 

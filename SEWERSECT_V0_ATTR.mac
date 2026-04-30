@@ -38,7 +38,7 @@ LMAT_SOIL_BED=MAT_SOIL_BED+100
 
 !! 2.1.2.1 GEOMETRY
 *if,CulvertCells,GT,1,AND,SewerType,EQ,1,THEN
-    SewerType=0
+  SewerType=0
 *endif
 
 SewerOuterWidth=CulvertCells*(SewerWidth)+(CulvertCells+1)*SewerWallThk
@@ -54,12 +54,12 @@ temp_widths(1)=SewerOuterWidth, SlabWidth, EPSWidth, BedWidth
 *vscfun,MaxWidth,MAX,temp_widths
 
 *if,SoilExtraWidth,LT,0,THEN
-    ExtraWidth=ABS(SoilExtraWidth)
+  ExtraWidth=ABS(SoilExtraWidth)
 *else
-    *del,temp_widths
-    *dim,temp_widths,ARRAY,4
-    temp_widths(1)=SoilExtraWidth, SoilCover, SewerOuterHeight, MaxWidth
-    *vscfun,ExtraWidth,MAX,temp_widths
+  *del,temp_widths
+  *dim,temp_widths,ARRAY,4
+  temp_widths(1)=SoilExtraWidth, SoilCover, SewerOuterHeight, MaxWidth
+  *vscfun,ExtraWidth,MAX,temp_widths
 *endif
 
 TotalWidth=MaxWidth+(2*ExtraWidth)
@@ -84,11 +84,11 @@ X11=X6+SoildBedExtraWidth
 *dim,Xj,ARRAY,CulvertCells
 xPrev=X4
 *do,nthCell,1,CulvertCells,1
-    nthXi=xPrev+SewerWidth
-    nthXj=xPrev+SewerWidth+SewerWallThk
-    Xi(nthCell)=nthXi
-    Xj(nthCell)=nthXj
-    xPrev=nthXj
+  nthXi=xPrev+SewerWidth
+  nthXj=xPrev+SewerWidth+SewerWallThk
+  Xi(nthCell)=nthXi
+  Xj(nthCell)=nthXj
+  xPrev=nthXj
 *enddo
 
 *del,ARRADD_ARR_input
@@ -147,17 +147,17 @@ LOAD_dmpImpactCoef = (1>beta*LOAD_impactCoef)
 
 ! Uniformly distributed loads on top of the pavement
 *if,LOAD_liveMode,EQ,0,OR,LOAD_liveMode,EQ,2,THEN
-    LOAD_uniform=LOAD_deadUniform+(LOAD_liveUniform*LOAD_dmpImpactCoef)
+  LOAD_uniform=LOAD_deadUniform+(LOAD_liveUniform*LOAD_dmpImpactCoef)
 *else
-    LOAD_uniform=LOAD_deadUniform
+  LOAD_uniform=LOAD_deadUniform
 *endif
 
 ! Load train
 *if,LOAD_liveMode,EQ,0,OR,LOAD_liveMode,EQ,1,THEN
-    LTrepeats=3
-    LOADTRAIN,LOADTRAIN_name,LTrepeats,LOADTRAIN_offset,LOAD_dmpImpactCoef,50
+  LTrepeats=3
+  LOADTRAIN,LOADTRAIN_name,LTrepeats,LOADTRAIN_offset,LOAD_dmpImpactCoef,50
 *else
-    LOADTRAIN,'NONE'
+  LOADTRAIN,'NONE'
 *endif
 
 
