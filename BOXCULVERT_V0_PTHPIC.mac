@@ -1,0 +1,34 @@
+! BOXCULVERT_V0_PTHPIC , path_names , path_labels , imgName
+! BOXCULVERT_V0_PTHPIC , ARG1       , ARG2        , ARG3
+
+
+_path_names    = ARG1
+_path_labels   = ARG2
+_imgName       = ARG3
+pathNamesStr   = _path_names
+pathLabelsStr  = _path_labels
+namesContainer = 'pathNamesStr'
+labelContainer = 'pathLabelsStr'
+
+view1w
+wincln,1
+boldfont,1
+clims
+/plopts,leg3,on
+/udoc,1,cntr,right
+/gformat,f,1,1
+
+go2png
+  /device,vector,on
+  eplot
+  /noerase
+  /device,vector,off
+  cleanplot , 'mpathplot' , baseScale , ,'namesContainer','labelContainer'
+endpng,_imgName
+
+/erase
+/annot,dele
+view1w
+windefa,1
+clims
+boldfont
