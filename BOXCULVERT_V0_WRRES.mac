@@ -203,7 +203,3 @@ COMPARE,'INN_N_ends','SABSMAX',2,INN_N_bot,INN_N_top
     *vwrite,SOIL_S_avg*1e-3,SOIL_S_max*1e-3,TOP_U_max,BOT_U_max,TOP_D_max,BOT_D_max
     (F8.1,'  ',F8.1,'  ',F8.3,'  ',F8.3,'  ',F8.3,'  ',F8.3)
 *cfclos
-
-
-
-

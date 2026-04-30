@@ -363,7 +363,3 @@ MULTIPATHPLOT, 'SOILBED_SY', baseScale, 0.8, -0.70
 !    /erase
 !    /annot,DELE
 !    CLIMS
-
-
-
-

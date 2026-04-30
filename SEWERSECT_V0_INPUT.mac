@@ -113,7 +113,3 @@ SOLU_largeDisp=0
 
 ! Número de substeps
 SOLU_nSubstep=200
-
-
-
-

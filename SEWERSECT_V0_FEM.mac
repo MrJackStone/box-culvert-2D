@@ -108,4 +108,3 @@ AMESH,ALL
             EINFIN,,refNode1,,,infMat
         *endif
     *enddo
-

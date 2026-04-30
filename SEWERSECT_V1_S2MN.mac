@@ -85,13 +85,3 @@ MULTIPATHPLOT_ARR_pathNames(1)=    'V_Bot',    'V_Top',    'V_Lft',    'V_Rgt'
 MULTIPATHPLOT_ARR_labels(1)=           'V',        'V',        'V',        'V'
 MULTIPATHPLOT_ARR_parts(1)=     'Bot Slab', 'Top Slab', 'Lft Wall', 'Rgt Wall'
 MULTIPATHPLOT, 'CULVERT_V', baseScale, 0.8, -0.70
-
-
-
-
-
-
-
-
-
-
