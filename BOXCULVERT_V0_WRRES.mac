@@ -157,27 +157,23 @@ VMFUN,'RGT_N_span', 'RGT_N', 'SABSMAX', 'RGT_YG', WALLSPAN_b, WALLSPAN_e
 *vabs
 
 !!  7.3.2.8 COMBINE SIMILAR ZONES
-! Top slab (ends)
-COMPARE,'TOP_M_ends','SABSMAX',2,TOP_M_left,TOP_M_right
-COMPARE,'TOP_V_ends','SABSMAX',2,TOP_V_left,TOP_V_right
-COMPARE,'TOP_N_ends','SABSMAX',2,TOP_N_left,TOP_N_right
+TOP_M_ends = (abs(TOP_M_left)>abs(TOP_M_right))
+TOP_V_ends = (abs(TOP_V_left)>abs(TOP_V_right))
+TOP_N_ends = (abs(TOP_N_left)>abs(TOP_N_right))
 
-! Bottom slab (ends)
-COMPARE,'BOT_M_ends','SABSMAX',2,BOT_M_left,BOT_M_right
-COMPARE,'BOT_V_ends','SABSMAX',2,BOT_V_left,BOT_V_right
-COMPARE,'BOT_N_ends','SABSMAX',2,BOT_N_left,BOT_N_right
+BOT_M_ends = (abs(BOT_M_left)>abs(BOT_M_right))
+BOT_V_ends = (abs(BOT_V_left)>abs(BOT_V_right))
+BOT_N_ends = (abs(BOT_N_left)>abs(BOT_N_right))
 
-! External walls (left & write, ends & span)
-COMPARE,'OUT_M_ends','SABSMAX',4,LFT_M_bot,LFT_M_top,RGT_M_bot,RGT_M_top
-COMPARE,'OUT_V_ends','SABSMAX',4,LFT_V_bot,LFT_V_top,RGT_V_bot,RGT_V_top
-COMPARE,'OUT_N_ends','SABSMAX',4,LFT_N_bot,LFT_N_top,RGT_N_bot,RGT_N_top
-COMPARE,'OUT_M_span','SABSMAX',2,LFT_M_span,RGT_M_span
-COMPARE,'OUT_N_span','SABSMAX',2,LFT_N_span,RGT_N_span
+OUT_M_ends = ((abs(LFT_M_bot)>abs(LFT_M_top))>(abs(RGT_M_bot)>abs(RGT_M_top)))
+OUT_V_ends = ((abs(LFT_V_bot)>abs(LFT_V_top))>(abs(RGT_V_bot)>abs(RGT_V_top)))
+OUT_N_ends = ((abs(LFT_N_bot)>abs(LFT_N_top))>(abs(RGT_N_bot)>abs(RGT_N_top)))
+OUT_M_span = (abs(LFT_M_span)>abs(RGT_M_span))
+OUT_N_span = (abs(LFT_N_span)>abs(RGT_N_span))
 
-! Inner walls (ends)
-COMPARE,'INN_M_ends','SABSMAX',2,INN_M_bot,INN_M_top
-COMPARE,'INN_V_ends','SABSMAX',2,INN_V_bot,INN_V_top
-COMPARE,'INN_N_ends','SABSMAX',2,INN_N_bot,INN_N_top
+INN_M_ends = (abs(INN_M_bot)>abs(INN_M_top))
+INN_V_ends = (abs(INN_V_bot)>abs(INN_V_top))
+INN_N_ends = (abs(INN_N_bot)>abs(INN_N_top))
 
 
 !! 7.3.3 WRITE TO FILE
