@@ -65,72 +65,61 @@ temp_widths(1)=SewerOuterWidth, SlabWidth, EPSWidth, BedWidth
 TotalWidth=MaxWidth+(2*ExtraWidth)
 TotalHeight=SewerOuterHeight+SoilCover+SoilBase+PavementThk
 
-X0=0
-X1=(TotalWidth-SlabWidth)/2
-X2=(TotalWidth-EPSWidth)/2
-X3=(TotalWidth-SewerOuterWidth)/2
-X4=X3+SewerWallThk
-X5=X3+SewerOuterWidth-SewerWallThk
-X6=X5+SewerWallThk
-X7=(TotalWidth+EPSWidth)/2
-X8=(TotalWidth+SlabWidth)/2
-X9=TotalWidth
-X10=X3-SoildBedExtraWidth
-X11=X6+SoildBedExtraWidth
+X0  = 0
+X1  = (TotalWidth-SlabWidth)/2
+X2  = (TotalWidth-EPSWidth)/2
+X3  = (TotalWidth-SewerOuterWidth)/2
+X4  = X3+SewerWallThk
+X5  = X3+SewerOuterWidth-SewerWallThk
+X6  = X5+SewerWallThk
+X7  = (TotalWidth+EPSWidth)/2
+X8  = (TotalWidth+SlabWidth)/2
+X9  = TotalWidth
+X10 = X3-SoildBedExtraWidth
+X11 = X6+SoildBedExtraWidth
 
-*del,Xi
-*dim,Xi,ARRAY,CulvertCells
-*del,Xj
-*dim,Xj,ARRAY,CulvertCells
-xPrev=X4
+*del,x_key_coords,,nopr
+*dim,x_key_coords,,10
+x_key_coords(1) = X1 , X2 , X3 , X4 , X5 , X6 , X7 , X8 , X10 , X11
+
+*del , Xi ,  , nopr
+*del , Xj ,  , nopr
+*dim , Xi ,  , CulvertCells
+*dim , Xj ,  , CulvertCells
+xPrev = X4
 *do,nthCell,1,CulvertCells,1
-  nthXi=xPrev+SewerWidth
-  nthXj=xPrev+SewerWidth+SewerWallThk
-  Xi(nthCell)=nthXi
-  Xj(nthCell)=nthXj
-  xPrev=nthXj
+  nthXi       = xPrev+SewerWidth
+  nthXj       = xPrev+SewerWidth+SewerWallThk
+  Xi(nthCell) = nthXi
+  Xj(nthCell) = nthXj
+  xPrev       = nthXj
 *enddo
 
-*del,ARRADD_ARR_input
-*vfun,ARRADD_ARR_input,COPY,Xi
-*del,ARRADD_ARR_new
-*vfun,ARRADD_ARR_new,COPY,Xj
-ARRADD
-*del,ARRADD_ARR_input
-*vfun,ARRADD_ARR_input,COPY,ARRADD_ARR_output
-*del,ARRADD_ARR_new
-*dim,ARRADD_ARR_new,ARRAY,10
-ARRADD_ARR_new(1)=X1,X2,X3,X4,X5,X6,X7,X8,X10,X11
-ARRADD
-*del,ARRUNIQ_ARR_input
-*vfun,ARRUNIQ_ARR_input,COPY,ARRADD_ARR_output
-ARRUNIQ
-*del,xSlices
-*vfun,xSlices,COPY,ARRUNIQ_ARR_OUTPUT
-*get,xSliceCount,PARM,xSlices,DIM,X
+arrjoin , 'xSlices' , 'Xi' , 'Xj' , 'x_key_coords'
+arruniq , 'xSlices' , 'xSlices' , 1
+*get , xSliceCount , parm , xSlices , dim , x
 
-Y0=0
-Y1=SoilBase
-Y2=Y1+SewerWallThk
-Y3=Y2+SewerHeight
-Y4=Y3+SewerWallThk
-Y5=TotalHeight-PavementThk-EPSDepth-EPSThk
-Y6=TotalHeight-PavementThk-EPSDepth
-Y7=TotalHeight-PavementThk-SlabDepth-SlabThk-SoilSubsThk
-Y8=TotalHeight-PavementThk-SlabDepth-SlabThk
-Y9=TotalHeight-PavementThk-SlabDepth-SlabThk
-Y10=TotalHeight-PavementThk-SlabDepth
-Y11=TotalHeight-PavementThk
-Y12=TotalHeight
-Y13=Y1-SoilBedThk
+Y0  = 0
+Y1  = SoilBase
+Y2  = Y1+SewerWallThk
+Y3  = Y2+SewerHeight
+Y4  = Y3+SewerWallThk
+Y5  = TotalHeight-PavementThk-EPSDepth-EPSThk
+Y6  = TotalHeight-PavementThk-EPSDepth
+Y7  = TotalHeight-PavementThk-SlabDepth-SlabThk-SoilSubsThk
+Y8  = TotalHeight-PavementThk-SlabDepth-SlabThk
+Y9  = TotalHeight-PavementThk-SlabDepth-SlabThk
+Y10 = TotalHeight-PavementThk-SlabDepth
+Y11 = TotalHeight-PavementThk
+Y12 = TotalHeight
+Y13 = Y1-SoilBedThk
 
-*del,ARRUNIQ_ARR_input
-*dim,ARRUNIQ_ARR_input,ARRAY,12
-ARRUNIQ_ARR_input(1)=Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,Y9,Y10,Y11,Y13
-ARRUNIQ
-*del,ySlices
-*vfun,ySlices,COPY,ARRUNIQ_ARR_OUTPUT
-*get,ySliceCount,PARM,ySlices,DIM,X
+*del,y_key_coords,,nopr
+*dim,y_key_coords,,12
+y_key_coords(1) = Y1 , Y2 , Y3 , Y4 , Y5 , Y6 , Y7 , Y8 , Y9 , Y10 , Y11 , Y13
+
+arruniq , 'y_key_coords' , 'ySlices' , 1
+*get , ySliceCount , parm , ySlices , dim , x
 
 SewerCenterX=TotalWidth/2
 SewerCenterY=Y2+(SewerHeight/2)
