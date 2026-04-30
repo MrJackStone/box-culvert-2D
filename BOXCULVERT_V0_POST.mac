@@ -421,5 +421,5 @@ BOXCULVERT_V0_PTHPIC , 'v_path_names' , 'v_path_labels' , 'CULVERT_V'
 
 
 !! memo images
-/input,'F:\Cloud\Code\02 APDL\04 Structures\02 Box Culvert (2D)\_plot_bending_moments',mac
-/input,'F:\Cloud\Code\02 APDL\04 Structures\02 Box Culvert (2D)\_plot_soil_pres',mac
+/input , 'D:\Tools\Code\box-culvert-2D\_plot_bending_moments' , mac
+/input , 'D:\Tools\Code\box-culvert-2D\_plot_soil_pres'       , mac
