@@ -15,80 +15,15 @@ sadd,'S1KPA','S1',,1e-3
 BOXCULVERT_V0_POSTCONTOURS
 
 
-!!
-!! 7.2 PATH PLOTS
-!!
-baseScale=SewerOuterWidth+SewerOuterHeight
+! Path plots
+baseScale = SewerOuterWidth+SewerOuterHeight
 /device,vector,off
 /edge,,0
 /uis,msgpop,3
 allsel
 
-!! 7.2.1 SOIL RESULTS
-!!
-
-!! 7.2.1.1 CREATE PATHS
-! Select soil elements
-CMSEL,S,COMPA_SoilSubs
-CMSEL,A,COMPA_SoilBase
-CMSEL,A,COMPA_SoilRefill
-CMSEL,A,COMPA_SoilBed
-ESLA,S
-NSLE,S
-
-! Top slab
-PATH,'SoilTop',2,20,200
-PPATH,1,,X9,Y4,0
-PPATH,2,,X0,Y4,0
-PATH,'SoilTop'
-SEWERSECT_V0_PTHMAP
-
-! Bottom slab
-PATH,'SoilBot',2,20,200
-PPATH,1,,X0,Y1,0
-PPATH,2,,X9,Y1,0
-PATH,'SoilBot'
-SEWERSECT_V0_PTHMAP
-
-! Left wall
-PATH,'SoilLeft',2,20,200
-PPATH,1,,X3,Y12,0
-PPATH,2,,X3,Y0,0
-PATH,'SoilLeft'
-SEWERSECT_V0_PTHMAP
-
-! Right wall
-PATH,'SoilRight',2,20,200
-PPATH,1,,X6,Y0,0
-PPATH,2,,X6,Y12,0
-PATH,'SoilRight'
-SEWERSECT_V0_PTHMAP
-
-! Foundation (left side)
-PATH,'BedLeft',2,20,200
-PPATH,1,,X3,Y1,0
-PPATH,2,,X3,Y0,0
-PATH,'BedLeft'
-SEWERSECT_V0_PTHMAP
-
-! Foundation (center)
-PATH,'BedCntr',2,20,200
-PPATH,1,,(X4+X5)/2,Y1,0
-PPATH,2,,(X4+X5)/2,Y0,0
-PATH,'BedCntr'
-SEWERSECT_V0_PTHMAP
-
-! Foundation (right side)
-PATH,'BedRight',2,20,200
-PPATH,1,,X6,Y1,0
-PPATH,2,,X6,Y0,0
-PATH,'BedRight'
-SEWERSECT_V0_PTHMAP
-
-!! 7.2.1.2 COLLECT RESULTS
-PATH,'SoilBot'
-PTH2ARR,'SY','SOIL_S'
-
+! Soil results
+BOXCULVERT_V0_POSTSOILPATHS
 
 
 !! 7.2.2 CULVERT RESULTS

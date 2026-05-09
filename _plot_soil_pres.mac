@@ -1,9 +1,7 @@
 boldfont,1
 
 
-!!
-!! SOIL_PRES
-!!
+! Soil pressures at concrete interfaces
 view1w
 windefa,1
 wincln,1
@@ -15,38 +13,30 @@ wintitle,1,' ','SOIL PRESSURES [kPa]',' ',,1,13
 /gformat,f,1,1
 /edge,1,1
 
+*del , MPATHPLOT_ARR_pathNames
+*dim , MPATHPLOT_ARR_pathNames , char , 4
+*del , MPATHPLOT_ARR_labels
+*dim , MPATHPLOT_ARR_labels    , char , 4
+MPATHPLOT_ARR_pathNames(1) = 'SoilTop' , 'SoilBot' , 'SoilLeft' , 'SoilRight'
+MPATHPLOT_ARR_labels(1)    = 'SYKPA'   , 'SYKPA'   , 'SXKPA'    , 'SXKPA'
 
 go2png,1200
-    allsel
-    /auto,1
-    /device,vector,on
-    eplot
-    /user,1
-    /noerase
-    /device,vector,off
-
-    *del,MPATHPLOT_ARR_pathNames
-    *dim,MPATHPLOT_ARR_pathNames,char,4
-    *del,MPATHPLOT_ARR_labels
-    *dim,MPATHPLOT_ARR_labels,char,4
-
-    MPATHPLOT_ARR_pathNames(1)='SoilTop', 'SoilBot', 'SoilLeft', 'SoilRight'
-    MPATHPLOT_ARR_labels(1)=     'SYKPA',   'SYKPA',    'SXKPA',     'SXKPA'
-    !mpathplot,4
-    cleanplot,'mpathplot','4'
-
+  allsel
+  /auto,1
+  /device,vector,on
+  eplot
+  /user,1
+  /noerase
+  /device,vector,off
+  cleanplot,'mpathplot','4'
 endpng,'memo_SOIL_PRES'
+
 /erase
 /annot,dele
 view1w
 windefa,1
-! MPATHPLOT, baseScale, manualClim
-! MPATHPLOT_ARR_pathNames  -  names of the paths to be plotted
-! MPATHPLOT_ARR_labels     -  label to be plotted for each path
 
-!!
-!! SOILBED_SY
-!!
+! Soilbed SY
 view1w
 windefa,1
 wincln,1
@@ -58,38 +48,30 @@ wintitle,1,' ','SOIL BED PRESSURES [kPa]',' ',,1,13
 /gformat,f,1,1
 /edge,1,1
 
+*del,MPATHPLOT_ARR_pathNames
+*dim,MPATHPLOT_ARR_pathNames,char,3
+*del,MPATHPLOT_ARR_labels
+*dim,MPATHPLOT_ARR_labels,char,3
+MPATHPLOT_ARR_pathNames(1) = 'BedLeft' , 'BedCntr' , 'BedRight'
+MPATHPLOT_ARR_labels(1)    = 'SYKPA'   , 'SYKPA'   , 'SYKPA'
 
 go2png,1200
-    allsel
-    /auto,1
-    /device,vector,on
-    eplot
-    /user,1
-    /noerase
-    /device,vector,off
-
-    *del,MPATHPLOT_ARR_pathNames
-    *dim,MPATHPLOT_ARR_pathNames,char,3
-    *del,MPATHPLOT_ARR_labels
-    *dim,MPATHPLOT_ARR_labels,char,3
-
-    MPATHPLOT_ARR_pathNames(1)= 'BedLeft', 'BedCntr', 'BedRight'
-    MPATHPLOT_ARR_labels(1)=      'SYKPA',   'SYKPA',    'SYKPA'
-    !mpathplot,4
-    cleanplot,'mpathplot','4'
-
+  allsel
+  /auto,1
+  /device,vector,on
+  eplot
+  /user,1
+  /noerase
+  /device,vector,off
+  cleanplot,'mpathplot','4'
 endpng,'memo_SOILBED_SY'
+
 /erase
 /annot,dele
 view1w
 windefa,1
-! MPATHPLOT, baseScale, manualClim
-! MPATHPLOT_ARR_pathNames  -  names of the paths to be plotted
-! MPATHPLOT_ARR_labels     -  label to be plotted for each path
 
-!!
-!! SOIL_S1
-!!
+! First principal stress
 view1w
 windefa,1
 wincln,1
@@ -110,29 +92,27 @@ pldisp
 /user,1
 
 go2png,1200
-    /device,vector,on
-    /edge,,1
-    CMSEL,S,COMPA_culvert
-    esla,s
-    nsle,s
-    pldisp
-    /noerase
-    /device,vector,off
-    CMSEL,S,COMPA_SoilSubs
-    CMSEL,A,COMPA_SoilRefill
-    CMSEL,A,COMPA_SoilBase
-    CMSEL,A,COMPA_SoilBed
-    ESLA,S
-    nsle,s
-    cleanplot,'pletab','S1KPA','avg'
+  /device,vector,on
+  /edge,,1
+  CMSEL,S,COMPA_culvert
+  esla,s
+  nsle,s
+  pldisp
+  /noerase
+  /device,vector,off
+  CMSEL,S,COMPA_SoilSubs
+  CMSEL,A,COMPA_SoilRefill
+  CMSEL,A,COMPA_SoilBase
+  CMSEL,A,COMPA_SoilBed
+  ESLA,S
+  nsle,s
+  cleanplot,'pletab','S1KPA','avg'
 endpng,'memo_SOIL_S1'
 /erase
 /annot,dele
 view1w
 
-!!
-!! SOIL_EPPL
-!!
+! Plastic strain
 view1w
 windefa,1
 wincln,1
@@ -153,21 +133,21 @@ pldisp
 /user,1
 
 go2png,1200
-    /device,vector,on
-    /edge,,1
-    CMSEL,S,COMPA_culvert
-    esla,s
-    nsle,s
-    pldisp
-    /noerase
-    /device,vector,off
-    CMSEL,S,COMPA_SoilSubs
-    CMSEL,A,COMPA_SoilRefill
-    CMSEL,A,COMPA_SoilBase
-    CMSEL,A,COMPA_SoilBed
-    ESLA,S
-    nsle,s
-    cleanplot,'plnsol','eppl','1','avg',,,,,1e3
+  /device,vector,on
+  /edge,,1
+  CMSEL,S,COMPA_culvert
+  esla,s
+  nsle,s
+  pldisp
+  /noerase
+  /device,vector,off
+  CMSEL,S,COMPA_SoilSubs
+  CMSEL,A,COMPA_SoilRefill
+  CMSEL,A,COMPA_SoilBase
+  CMSEL,A,COMPA_SoilBed
+  ESLA,S
+  nsle,s
+  cleanplot,'plnsol','eppl','1','avg',,,,,1e3
 endpng,'memo_SOIL_EPPL1'
 /erase
 /annot,dele

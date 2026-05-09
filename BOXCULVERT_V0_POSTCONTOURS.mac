@@ -36,12 +36,6 @@ takepic,'SOIL_SY'
 plnsol,s,xy
 takepic,'SOIL_SXY'
 
-plnsol,eppl,eqv
-takepic,'SOIL_EPPL'
-
-plnsol,s,1
-takepic,'SOIL_S1'
-
 clims,-1,1
 plnsol,s,1
 takepic,'SOIL_S1b'
