@@ -22,7 +22,6 @@ path_labels_m(1) = 'MKNM'     , 'MKNM'     , 'MKNM'     , 'MKNM'
 
 BOXCULVERT_V0_PTHPLOTS , 'BENDING MOMENT [kNm]' , 2*CulvertCells , 'path_names_m' , 'path_labels_m' , 'memo_CULVERT_M'
 
-
 ! Axial force
 *del , path_names_n  ,      , nopr
 *del , path_labels_n ,      , nopr
@@ -71,11 +70,7 @@ path_labels_v(1) = 'VKN'   , 'VKN'   , 'VKN'   , 'VKN'
 
 BOXCULVERT_V0_PTHPLOTS , 'SHEAR FORCE [kN]' , 2*CulvertCells , 'path_names_v' , 'path_labels_v' , 'memo_CULVERT_V'
 
-!!
-!! CULVERT_UY
-!!
-*del,y
-
+! Vertical displacement
 /annot,dele
 view1w
 windefa,1
@@ -83,12 +78,12 @@ wincln,1
 /plopts,leg3,on
 /udoc,1,cntr,right
 /gformat,f,1,1
+/dscale,1,1
 
-CMSEL,S,COMPA_culvert
-ESLA,S
-NSLE,S,1
+cmsel,s,COMPA_culvert
+esla,s
+nsle,s,1
 /auto,1
-/dscale,1,200
 pldisp
 /user,1
 /dist,1,1.2,1
@@ -97,13 +92,18 @@ clims
 wintitle,1,' ','VERTICAL DISPLACEMENTS [mm]',' ',,1,13
 
 go2png,1200
-    /device,vector,on
-    /edge,,1
-    pldisp
-    /noerase
-    /device,vector,off
-    cleanplot,'plnsol','u','y',,,,,,1e3
+  allsel
+  /device,vector,on
+  /edge,,1
+  pldisp
+  /noerase
+  /device,vector,off
+  cmsel,s,COMPA_culvert
+  esla
+  nsle,,1
+  cleanplot,'plnsol','u','y',,,,,,1e3
 endpng,'memo_CULVERT_UY'
+
 /erase
 /annot,dele
 view1w
