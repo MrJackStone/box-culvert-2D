@@ -4,67 +4,45 @@
 ! Populate path name/label arrays
 slabCount = 4+CulvertCells-1
 
-*del , path_names_m  ,      , nopr
+*del , path_names    ,      , nopr
 *del , path_labels_m ,      , nopr
-*del , path_names_n  ,      , nopr
 *del , path_labels_n ,      , nopr
-*del , path_names_v  ,      , nopr
 *del , path_labels_v ,      , nopr
-*dim , path_names_m  , char , slabCount
-*dim , path_labels_m , char , slabCount
-*dim , path_names_n  , char , slabCount
-*dim , path_labels_n , char , slabCount
-*dim , path_names_v  , char , slabCount
-*dim , path_labels_v , char , slabCount
+*dim , path_names    , char , slabCount*2
+*dim , path_labels_m , char , slabCount*2
+*dim , path_labels_n , char , slabCount*2
+*dim , path_labels_v , char , slabCount*2
 
-path_names_m(1)  = 'MN_Top_T' , 'MN_Bot_T' , 'MN_Lft_T' , 'MN_Rgt_T'
-path_names_n(1)  = 'MN_Lft_T' , 'MN_Rgt_T' , 'MN_Top_T' , 'MN_Bot_T'
-path_names_v(1)  = 'V_Top'    , 'V_Bot'    , 'V_Lft'    , 'V_Rgt'
-path_labels_m(1) = 'MKNM'     , 'MKNM'     , 'MKNM'     , 'MKNM'
-path_labels_n(1) = 'NKN'      , 'NKN'      , 'NKN'      , 'NKN'
-path_labels_v(1) = 'VKN'      , 'VKN'      , 'VKN'      , 'VKN'
+path_names(1)    = 'ROOF'   , 'ROOF'   , 'FLOOR'  , 'FLOOR'  , 'LEFT'   , 'LEFT'   , 'RIGHT'  , 'RIGHT'
+path_labels_m(1) = 'MP_MIN' , 'MP_MAX' , 'MP_MIN' , 'MP_MAX' , 'MP_MIN' , 'MP_MAX' , 'MP_MIN' , 'MP_MAX'
+path_labels_n(1) = 'N_MIN'  , 'N_MAX'  , 'N_MIN'  , 'N_MAX'  , 'N_MIN'  , 'N_MAX'  , 'N_MIN'  , 'N_MAX'
+path_labels_v(1) = 'V_MIN'  , 'V_MAX'  , 'V_MIN'  , 'V_MAX'  , 'V_MIN'  , 'V_MAX'  , 'V_MIN'  , 'V_MAX'
 
-*if,CulvertCells,gt,1,then
-  *do,nthCell,1,CulvertCells-1,1
-    idx                = 4+nthCell
-    path_names_m(idx)  = strcat('MN_In',strcat(chrval(nthCell),'_T'))
-    path_names_n(idx)  = strcat('MN_In',strcat(chrval(nthCell),'_T'))
-    path_names_v(idx)  = strcat('V_In',strcat(chrval(nthCell),'_T'))
-    path_labels_m(idx) = 'MKNM'
-    path_labels_n(idx) = 'NKN'
-    path_labels_v(idx) = 'VKN'
-  *enddo
-*endif
-
-! Scale paths from N to kN
-*do,i,1,slabCount,1
-  name = path_names_m(i)
-  path,%name%
-  pcalc,add,'MKNM','M',,1e-3
-
-  name = path_names_n(i)
-  path,%name%
-  pcalc,add,'NKN','N',,1e-3
-
-  name = path_names_v(i)
-  path,%name%
-  pcalc,add,'VKN','V',,1e-3
+*do,nthIWall,1,CulvertCells-1,1
+  idx                = 8+(2*nthIWall-1)
+  path_names(idx)    = 'INW%nthIWall%' , 'INW%nthIWall%'
+  path_labels_m(idx) = 'MP_MIN'        , 'MP_MAX'
+  path_labels_n(idx) = 'N_MIN'         , 'N_MAX'
+  path_labels_v(idx) = 'V_MIN'         , 'V_MAX'
 *enddo
 
 ! Plot bending moment
-BOXCULVERT_V0_PTHPLOTS , 'BENDING MOMENT [kNm]' , 2*CulvertCells , 'path_names_m' , 'path_labels_m' , 'memo_CULVERT_M'
+BOXCULVERT_V0_PTHPLOTS , 'BENDING MOMENT [kNm]' , 2*CulvertCells , 'path_names' , 'path_labels_m' , 'memo_CULVERT_M'
 
 ! Plot axial force
-BOXCULVERT_V0_PTHPLOTS , 'AXIAL FORCE [kN]' , 2*CulvertCells , 'path_names_n' , 'path_labels_n' , 'memo_CULVERT_N'
+BOXCULVERT_V0_PTHPLOTS , 'AXIAL FORCE [kN]'     , 2*CulvertCells , 'path_names' , 'path_labels_n' , 'memo_CULVERT_N'
 
 ! Plot shear force
-BOXCULVERT_V0_PTHPLOTS , 'SHEAR FORCE [kN]' , 2*CulvertCells , 'path_names_v' , 'path_labels_v' , 'memo_CULVERT_V'
+BOXCULVERT_V0_PTHPLOTS , 'SHEAR FORCE [kN]'     , 2*CulvertCells , 'path_names' , 'path_labels_v' , 'memo_CULVERT_V'
 
 ! Plot vertical displacement
 /annot,dele
 view1w
 windefa,1
 wincln,1
+clims
+boldfont,1
+/view,1,0,0,1
 /plopts,leg3,on
 /udoc,1,cntr,right
 /gformat,f,1,1
@@ -77,7 +55,6 @@ nsle,s,1
 pldisp
 /user,1
 /dist,1,1.2,1
-clims
 
 wintitle,1,' ','VERTICAL DISPLACEMENTS [mm]',' ',,1,13
 
@@ -96,4 +73,6 @@ endpng,'memo_CULVERT_UY'
 
 /erase
 /annot,dele
+boldfont
+clims
 view1w
