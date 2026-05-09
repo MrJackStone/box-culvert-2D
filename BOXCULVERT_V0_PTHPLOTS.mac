@@ -1,27 +1,25 @@
-! BOXCULVERT_V0_PTHPLOTS , title , scale , fname
-! BOXCULVERT_V0_PTHPLOTS , ARG1  , ARG2  , ARG3
+! BOXCULVERT_V0_PTHPLOTS , title , scale , path_names , path_labels , fname
+! BOXCULVERT_V0_PTHPLOTS , ARG1  , ARG2  , ARG3       , ARG4        , ARG5
 
 
-
-!    *del,MPATHPLOT_ARR_pathNames
-!    *dim,MPATHPLOT_ARR_pathNames,char,4
-!    *del,MPATHPLOT_ARR_labels
-!    *dim,MPATHPLOT_ARR_labels,char,4
-!
-!    MPATHPLOT_ARR_pathNames(1)=       'SoilTop',       'SoilBot',      'SoilLeft',     'SoilRight'
-!    MPATHPLOT_ARR_labels(1)=            'SYKPA',         'SYKPA',         'SXKPA',         'SXKPA'
-
-_title = ARG1
-_scale = ARG2
-_fname = ARG3
+_title         = ARG1
+_scale         = ARG2
+_path_names    = ARG3
+_path_labels   = ARG4
+_fname         = ARG5
+pathNamesStr   = _path_names
+pathLabelsStr  = _path_labels
+namesContainer = 'pathNamesStr'
+labelContainer = 'pathLabelsStr'
 
 cmsel,s,COMPA_culvert
 esla,s
 nsle,s,1
 
 view1w
-boldfont,1
 wincln,1
+boldfont,1
+clims
 wintitle,1,' ',_title,' ',,1,13
 
 /view,1,0,0,1
@@ -39,10 +37,12 @@ go2png,1200
   eplot
   /noerase
   /device,vector,off
-  cleanplot,'mpathplot',_scale
+  cleanplot,'mpathplot',_scale,,'namesContainer','labelContainer'
 endpng,_fname
 
 /erase
 /annot,dele
 view1w
 windefa,1
+clims
+boldfont

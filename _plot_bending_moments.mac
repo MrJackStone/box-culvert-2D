@@ -1,122 +1,75 @@
-!!
-!! CULVERT_M
-!!
-view1w
-windefa,1
-CMSEL,S,COMPA_culvert
-ESLA,S
-NSLE,S,1
-/auto,1
-NPLOT
-/user,1
-/dist,1,1.2,1
-
-! Plot bending moments
-*del,MPATHPLOT_ARR_pathNames
-*del,MPATHPLOT_ARR_labels
-*dim,MPATHPLOT_ARR_pathNames,CHAR,4+CulvertCells-1
-*dim,MPATHPLOT_ARR_labels,CHAR,4+CulvertCells-1
-MPATHPLOT_ARR_pathNames(1)= 'MN_Top_T', 'MN_Bot_T', 'MN_Lft_T', 'MN_Rgt_T'
-MPATHPLOT_ARR_labels(1)=        'MKNM',     'MKNM',     'MKNM',     'MKNM'
+! Bending moment
+*del , path_names_m  ,      , nopr
+*del , path_labels_m ,      , nopr
+*dim , path_names_m  , char , 4+CulvertCells-1
+*dim , path_labels_m , char , 4+CulvertCells-1
+path_names_m(1)  = 'MN_Top_T' , 'MN_Bot_T' , 'MN_Lft_T' , 'MN_Rgt_T'
+path_labels_m(1) = 'MKNM'     , 'MKNM'     , 'MKNM'     , 'MKNM'
 
 *if,CulvertCells,GT,1,THEN
-    *do,nthCell,1,CulvertCells-1,1
-        nthPathName=STRCAT('MN_In',STRCAT(CHRVAL(nthCell),'_T'))
-        MPATHPLOT_ARR_pathNames(4+nthCell)= nthPathName
-        MPATHPLOT_ARR_labels(4+nthCell)=    'MKNM'
-    *enddo
+  *do,nthCell,1,CulvertCells-1,1
+    nthPathName              = strcat('MN_In',strcat(chrval(nthCell),'_T'))
+    path_names_m(4+nthCell)  = nthPathName
+    path_labels_m(4+nthCell) = 'MKNM'
+  *enddo
 *endif
 
 *do,i,1,4+CulvertCells-1,1
-    name=MPATHPLOT_ARR_pathNames(i)
-    path,%name%
-    pcalc,add,'MKNM','M',,1e-3
+  name = path_names_m(i)
+  path,%name%
+  pcalc,add,'MKNM','M',,1e-3
 *enddo
 
-! mPATHPLOT, 2
+BOXCULVERT_V0_PTHPLOTS , 'BENDING MOMENT [kNm]' , 2*CulvertCells , 'path_names_m' , 'path_labels_m' , 'memo_CULVERT_M'
 
-BOXCULVERT_V0_PTHPLOTS, 'BENDING MOMENT [kNm]',2*CulvertCells,'memo_CULVERT_M'
 
-!!
-
-!! CULVERT_N
-!!
-/annot,dele
-view1w
-windefa,1
-CMSEL,S,COMPA_culvert
-ESLA,S
-NSLE,S,1
-/auto,1
-NPLOT
-/user,1
-/dist,1,1.2,1
-
-! Plot bending moments
-*del,MPATHPLOT_ARR_pathNames
-*del,MPATHPLOT_ARR_labels
-*dim,MPATHPLOT_ARR_pathNames,CHAR,4+CulvertCells-1
-*dim,MPATHPLOT_ARR_labels,CHAR,4+CulvertCells-1
-MPATHPLOT_ARR_pathNames(1)= 'MN_Lft_T', 'MN_Rgt_T', 'MN_Top_T', 'MN_Bot_T'
-MPATHPLOT_ARR_labels(1)=         'NKN',      'NKN',      'NKN',      'NKN'
+! Axial force
+*del , path_names_n  ,      , nopr
+*del , path_labels_n ,      , nopr
+*dim , path_names_n  , char , 4+CulvertCells-1
+*dim , path_labels_n , char , 4+CulvertCells-1
+path_names_n(1)  = 'MN_Lft_T' , 'MN_Rgt_T' , 'MN_Top_T' , 'MN_Bot_T'
+path_labels_n(1) = 'NKN'      , 'NKN'      , 'NKN'      , 'NKN'
 
 *if,CulvertCells,GT,1,THEN
-    *do,nthCell,1,CulvertCells-1,1
-        nthPathName=STRCAT('MN_In',STRCAT(CHRVAL(nthCell),'_T'))
-        MPATHPLOT_ARR_pathNames(4+nthCell)= nthPathName
-        MPATHPLOT_ARR_labels(4+nthCell)=    'NKN'
-    *enddo
+  *do,nthCell,1,CulvertCells-1,1
+    nthPathName              = strcat('MN_In',strcat(chrval(nthCell),'_T'))
+    path_names_n(4+nthCell)  = nthPathName
+    path_labels_n(4+nthCell) = 'NKN'
+  *enddo
 *endif
 
 *do,i,1,4+CulvertCells-1,1
-    name=MPATHPLOT_ARR_pathNames(i)
-    path,%name%
-    pcalc,add,'NKN','N',,1e-3
+  name = path_names_n(i)
+  path,%name%
+  pcalc,add,'NKN','N',,1e-3
 *enddo
 
-! mPATHPLOT, 2
+BOXCULVERT_V0_PTHPLOTS , 'AXIAL FORCE [kN]' , 2*CulvertCells , 'path_names_n' , 'path_labels_n' , 'memo_CULVERT_N'
 
-BOXCULVERT_V0_PTHPLOTS, 'AXIAL FORCE [kN]',2*CulvertCells,'memo_CULVERT_N'
-
-!!
-!! CULVERT_V
-!!
-/annot,dele
-view1w
-windefa,1
-CMSEL,S,COMPA_culvert
-ESLA,S
-NSLE,S,1
-/auto,1
-NPLOT
-/user,1
-/dist,1,1.2,1
-
-! Plot bending moments
-*del,MPATHPLOT_ARR_pathNames
-*del,MPATHPLOT_ARR_labels
-*dim,MPATHPLOT_ARR_pathNames,CHAR,4+CulvertCells-1
-*dim,MPATHPLOT_ARR_labels,CHAR,4+CulvertCells-1
-MPATHPLOT_ARR_pathNames(1)=    'V_Top',    'V_Bot',    'V_Lft',    'V_Rgt'
-MPATHPLOT_ARR_labels(1)=         'VKN',      'VKN',      'VKN',      'VKN'
+! Shear force
+*del , path_names_v  ,      , nopr
+*del , path_labels_v ,      , nopr
+*dim , path_names_v  , char , 4+CulvertCells-1
+*dim , path_labels_v , char , 4+CulvertCells-1
+path_names_v(1)  = 'V_Top' , 'V_Bot' , 'V_Lft' , 'V_Rgt'
+path_labels_v(1) = 'VKN'   , 'VKN'   , 'VKN'   , 'VKN'
 
 *if,CulvertCells,GT,1,THEN
-    *do,nthCell,1,CulvertCells-1,1
-        nthPathName=STRCAT('V_In',STRCAT(CHRVAL(nthCell),'_T'))
-        MPATHPLOT_ARR_pathNames(4+nthCell)= nthPathName
-        MPATHPLOT_ARR_labels(4+nthCell)=    'VKN'
-    *enddo
+  *do,nthCell,1,CulvertCells-1,1
+    nthPathName              = strcat('V_In',strcat(chrval(nthCell),'_T'))
+    path_names_v(4+nthCell)  = nthPathName
+    path_labels_v(4+nthCell) = 'VKN'
+  *enddo
 *endif
 
 *do,i,1,4+CulvertCells-1,1
-    name=MPATHPLOT_ARR_pathNames(i)
-    path,%name%
-    pcalc,add,'VKN','V',,1e-3
+  name = path_names_v(i)
+  path,%name%
+  pcalc,add,'VKN','V',,1e-3
 *enddo
 
-! mPATHPLOT, 2
-
-BOXCULVERT_V0_PTHPLOTS, 'SHEAR FORCE [kN]',2*CulvertCells,'memo_CULVERT_V'
+BOXCULVERT_V0_PTHPLOTS , 'SHEAR FORCE [kN]' , 2*CulvertCells , 'path_names_v' , 'path_labels_v' , 'memo_CULVERT_V'
 
 !!
 !! CULVERT_UY
