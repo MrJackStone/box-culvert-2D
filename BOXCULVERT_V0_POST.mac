@@ -154,38 +154,6 @@ SEWERSECT_V0_PTHMAP
 PATH,'SoilBot'
 PTH2ARR,'SY','SOIL_S'
 
-!! 7.2.1.3 PLOT PATHS
-ALLSEL
-VIEW1W
-/auto,1
-LPLOT
-/annot,DEFA
-/annot,TMOD,1
-/device,FONT,3,ARIAL,800,0,-21
-/annot,ON
-/annot,SCALE,1
-/tspec,15,100,100
-/annot,DELE
-
-! Plot contact pressures
-*del , path_names  ,      , nopr
-*del , path_labels ,      , nopr
-*dim , path_names  , char , 4
-*dim , path_labels , char , 4
-path_names(1)  = 'SoilTop' , 'SoilBot' , 'SoilLeft' , 'SoilRight'
-path_labels(1) = 'SY'      , 'SY'      , 'SX'       , 'SX'
-
-BOXCULVERT_V0_PTHPIC , 'path_names' , 'path_labels' , 'SOIL_PRES'
-
-! Plot pressure dissipation beneath soil bed
-*del , path_names  ,      , nopr
-*del , path_labels ,      , nopr
-*dim , path_names  , char , 3
-*dim , path_labels , char , 3
-path_names(1)  = 'BedLeft' , 'BedCntr' , 'BedRight'
-path_labels(1) = 'SY'      , 'SY'      , 'SY'
-
-BOXCULVERT_V0_PTHPIC , 'path_names' , 'path_labels' , 'SOILBED_SY'
 
 
 !! 7.2.2 CULVERT RESULTS
@@ -357,67 +325,6 @@ PTH2ARR,'YG','RGT_YV'
     *enddo
   *enddo
 *endif
-
-!! 7.2.2.2 PLOT PATHS
-! Display settings
-/annot,DEFA
-/annot,TMOD,1
-/device,FONT,3,ARIAL,800,0,-21
-/annot,ON
-/annot,SCALE,1
-/tspec,15,100,100
-/annot,DELE
-CMSEL,S,COMPA_culvert
-ESLA,S
-NSLE,S,1
-/auto
-NPLOT
-/dist,1,2,1
-
-! Plot internal reaction diagrams
-slabCount = 4+CulvertCells-1
-
-*del , m_path_names  ,  , nopr
-*del , n_path_names  ,  , nopr
-*del , v_path_names  ,  , nopr
-*del , m_path_labels ,  , nopr
-*del , n_path_labels ,  , nopr
-*del , v_path_labels ,  , nopr
-
-*dim , m_path_names  , char , slabCount
-*dim , n_path_names  , char , slabCount
-*dim , v_path_names  , char , slabCount
-*dim , m_path_labels , char , slabCount
-*dim , n_path_labels , char , slabCount
-*dim , v_path_labels , char , slabCount
-
-m_path_names(1)  = 'MN_Top_T' , 'MN_Bot_T' , 'MN_Lft_T' , 'MN_Rgt_T'
-n_path_names(1)  = 'MN_Top_T' , 'MN_Bot_T' , 'MN_Lft_T' , 'MN_Rgt_T'
-v_path_names(1)  = 'V_Top'    , 'V_Bot'    , 'V_Lft'    , 'V_Rgt'
-m_path_labels(1) = 'M'        , 'M'        , 'M'        , 'M'
-n_path_labels(1) = 'N'        , 'N'        , 'N'        , 'N'
-v_path_labels(1) = 'V'        , 'V'        , 'V'        , 'V'
-
-*do,nthCell,1,CulvertCells-1,1
-  m_path_names(4+nthCell)  = 'MN_In%nthCell%_T'
-  n_path_names(4+nthCell)  = 'MN_In%nthCell%_T'
-  v_path_names(4+nthCell)  = 'V_In%nthCell%'
-  m_path_labels(4+nthCell) = 'M'
-  n_path_labels(4+nthCell) = 'N'
-  v_path_labels(4+nthCell) = 'V'
-*enddo
-
-! Plot bending moments
-BOXCULVERT_V0_PTHPIC , 'm_path_names' , 'm_path_labels' , 'CULVERT_M'
-
-! Plot axial forces
-BOXCULVERT_V0_PTHPIC , 'n_path_names' , 'n_path_labels' , 'CULVERT_N'
-
-! Plot shear forces
-BOXCULVERT_V0_PTHPIC , 'v_path_names' , 'v_path_labels' , 'CULVERT_V'
-
-
-
 
 
 !! memo images
