@@ -1,6 +1,8 @@
 ! BOXCULVERT_V0_POSTCULVERT
 
 
+pthScale = 2*CulvertCells
+
 ! Populate path name/label arrays
 slabCount = 4+CulvertCells-1
 
@@ -8,15 +10,18 @@ slabCount = 4+CulvertCells-1
 *del , path_labels_m ,      , nopr
 *del , path_labels_n ,      , nopr
 *del , path_labels_v ,      , nopr
+*del , path_labels_d ,      , nopr
 *dim , path_names    , char , slabCount*2
 *dim , path_labels_m , char , slabCount*2
 *dim , path_labels_n , char , slabCount*2
 *dim , path_labels_v , char , slabCount*2
+*dim , path_labels_d , char , slabCount*2
 
-path_names(1)    = 'ROOF'   , 'ROOF'   , 'FLOOR'  , 'FLOOR'  , 'LEFT'   , 'LEFT'   , 'RIGHT'  , 'RIGHT'
-path_labels_m(1) = 'MP_MIN' , 'MP_MAX' , 'MP_MIN' , 'MP_MAX' , 'MP_MIN' , 'MP_MAX' , 'MP_MIN' , 'MP_MAX'
-path_labels_n(1) = 'N_MIN'  , 'N_MAX'  , 'N_MIN'  , 'N_MAX'  , 'N_MIN'  , 'N_MAX'  , 'N_MIN'  , 'N_MAX'
-path_labels_v(1) = 'V_MIN'  , 'V_MAX'  , 'V_MIN'  , 'V_MAX'  , 'V_MIN'  , 'V_MAX'  , 'V_MIN'  , 'V_MAX'
+path_names(1)    = 'ROOF'    , 'ROOF'    , 'FLOOR'   , 'FLOOR'   , 'LEFT'    , 'LEFT'    , 'RIGHT'   , 'RIGHT'
+path_labels_m(1) = 'MP_MIN'  , 'MP_MAX'  , 'MP_MIN'  , 'MP_MAX'  , 'MP_MIN'  , 'MP_MAX'  , 'MP_MIN'  , 'MP_MAX'
+path_labels_n(1) = 'N_MIN'   , 'N_MAX'   , 'N_MIN'   , 'N_MAX'   , 'N_MIN'   , 'N_MAX'   , 'N_MIN'   , 'N_MAX'
+path_labels_v(1) = 'V_MIN'   , 'V_MAX'   , 'V_MIN'   , 'V_MAX'   , 'V_MIN'   , 'V_MAX'   , 'V_MIN'   , 'V_MAX'
+path_labels_d(1) = 'DYT_MIN' , 'DYT_MAX' , 'DYT_MIN' , 'DYT_MAX' , 'DXT_MIN' , 'DXT_MAX' , 'DXT_MIN' , 'DXT_MAX'
 
 *do,nthIWall,1,CulvertCells-1,1
   idx                = 8+(2*nthIWall-1)
@@ -24,16 +29,20 @@ path_labels_v(1) = 'V_MIN'  , 'V_MAX'  , 'V_MIN'  , 'V_MAX'  , 'V_MIN'  , 'V_MAX
   path_labels_m(idx) = 'MP_MIN'        , 'MP_MAX'
   path_labels_n(idx) = 'N_MIN'         , 'N_MAX'
   path_labels_v(idx) = 'V_MIN'         , 'V_MAX'
+  path_labels_d(idx) = 'DXT_MIN'       , 'DXT_MAX'
 *enddo
 
 ! Plot bending moment
-BOXCULVERT_V0_PTHPLOTS , 'BENDING MOMENT [kNm]' , 2*CulvertCells , 'path_names' , 'path_labels_m' , 'memo_CULVERT_M'
+BOXCULVERT_V0_PTHPLOTS , 'BENDING MOMENT [kNm]' , pthScale , 'path_names' , 'path_labels_m' , 'memo_CULVERT_M'
 
 ! Plot axial force
-BOXCULVERT_V0_PTHPLOTS , 'AXIAL FORCE [kN]'     , 2*CulvertCells , 'path_names' , 'path_labels_n' , 'memo_CULVERT_N'
+BOXCULVERT_V0_PTHPLOTS , 'AXIAL FORCE [kN]'     , pthScale , 'path_names' , 'path_labels_n' , 'memo_CULVERT_N'
 
 ! Plot shear force
-BOXCULVERT_V0_PTHPLOTS , 'SHEAR FORCE [kN]'     , 2*CulvertCells , 'path_names' , 'path_labels_v' , 'memo_CULVERT_V'
+BOXCULVERT_V0_PTHPLOTS , 'SHEAR FORCE [kN]'     , pthScale , 'path_names' , 'path_labels_v' , 'memo_CULVERT_V'
+
+! Plot deflection
+BOXCULVERT_V0_PTHPLOTS , 'DEFLECTION [mm]'      , pthScale , 'path_names' , 'path_labels_d' , 'memo_CULVERT_D'
 
 ! Plot vertical displacement
 /annot,dele
