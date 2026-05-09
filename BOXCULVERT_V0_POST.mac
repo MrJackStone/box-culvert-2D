@@ -1,13 +1,9 @@
-!!
-!!
-!! 7. POST-PROCESS
-!!
-!!
+! BOXCULVERT_V0_POST
+
+
 /post1
 
-!!
-!! 7.0 ELEMENT TABLES
-!!
+! Element tables
 allsel
 etable,'SY',s,y
 etable,'SX',s,x
@@ -15,79 +11,18 @@ etable,'SX',s,x
 etable,'S1',s,1
 sadd,'S1KPA','S1',,1e-3
 
-!!
-!! 7.1 CONTOUR PLOTS
-!!
-! Display mode
-ALLSEL
-view1w
-windefa,1
-/view,1,0,0,1
-/dscale,1,auto
-/auto,1
-/type,,3
-/edge,,0
-/plopts,MINM,0
-/plopts,DATE,OFF
-clims
-
-! Global X and Y displacements
-PLNSOL,U,Y
-TAKEPIC,'UY'
-PLNSOL,U,X
-TAKEPIC,'UX'
-
-! Soil stresses & strains
-CMSEL,S,COMPA_SoilSubs
-CMSEL,A,COMPA_SoilRefill
-CMSEL,A,COMPA_SoilBase
-CMSEL,A,COMPA_SoilBed
-ESLA,S
-PLNSOL,S,X
-TAKEPIC,'SOIL_SX'
-PLNSOL,S,Y
-TAKEPIC,'SOIL_SY'
-PLNSOL,S,XY
-TAKEPIC,'SOIL_SXY'
-PLNSOL,EPPL,EQV
-TAKEPIC,'SOIL_EPPL'
-PLNSOL,S,1
-TAKEPIC,'SOIL_S1'
-/contour,1,1,-1,,0
-/color,SMIN,BLUE
-/color,SMAX,RED
-PLNSOL,S,1
-TAKEPIC,'SOIL_S1b'
-/contour,1,9
-PLNSOL,EPTO,EQV
-TAKEPIC,'SOIL_EPTO'
-
-! Box culvert first principal stress
-CMSEL,S,COMPA_Culvert
-ESLA,S
-DSCALEFCT,5,1,1
-PLNSOL,S,X
-TAKEPIC,'CULVERT_S1'
-/dscale,1,AUTO
-
-CMSEL,S,COMPA_Slab
-ESLA,S
-*get,ECount,ELEM,,COUNT
-*if,ECount,GT,0,THEN
-  PLNSOL,S,X
-  TAKEPIC,'SLAB_SX'
-*endif
-
+! Contour plots
+BOXCULVERT_V0_POSTCONTOURS
 
 
 !!
 !! 7.2 PATH PLOTS
 !!
 baseScale=SewerOuterWidth+SewerOuterHeight
-/device,VECTOR,OFF
+/device,vector,off
 /edge,,0
-/uis,MSGPOP,3
-ALLSEL
+/uis,msgpop,3
+allsel
 
 !! 7.2.1 SOIL RESULTS
 !!

@@ -1,0 +1,68 @@
+! BOXCULVERT_V0_POSTCONTOURS
+
+
+! Display mode
+allsel
+view1w
+windefa,1
+/view,1,0,0,1
+/dscale,1,auto
+/auto,1
+/type,,3
+/edge,,0
+/plopts,MINM,0
+/plopts,DATE,OFF
+clims
+
+! Global X and Y displacements
+plnsol,u,y
+takepic,'UY'
+plnsol,u,x
+takepic,'UX'
+
+! Soil stresses & strains
+cmsel,s,COMPA_SoilSubs
+cmsel,a,COMPA_SoilRefill
+cmsel,a,COMPA_SoilBase
+cmsel,a,COMPA_SoilBed
+esla,s
+
+plnsol,s,x
+takepic,'SOIL_SX'
+
+plnsol,s,y
+takepic,'SOIL_SY'
+
+plnsol,s,xy
+takepic,'SOIL_SXY'
+
+plnsol,eppl,eqv
+takepic,'SOIL_EPPL'
+
+plnsol,s,1
+takepic,'SOIL_S1'
+
+clims,-1,1
+plnsol,s,1
+takepic,'SOIL_S1b'
+clims
+
+plnsol,epto,eqv
+takepic,'SOIL_EPTO'
+
+! Box culvert first principal stress
+cmsel,s,COMPA_Culvert
+esla,s
+dscalefct,5,1,1
+plnsol,s,x
+takepic,'CULVERT_S1'
+/dscale,1,auto
+
+! Slab horizontal stress
+cmsel,s,COMPA_Slab
+esla,s
+*get,ECount,elem,,count
+*if,ECount,gt,0,then
+  plnsol,s,x
+  takepic,'SLAB_SX'
+*endif
