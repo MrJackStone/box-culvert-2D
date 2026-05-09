@@ -198,5 +198,5 @@ PTH2ARR,'YG','RGT_YV'
 
 
 !! memo images
-/input , 'D:\Tools\Code\box-culvert-2D\_plot_bending_moments' , mac
+BOXCULVERT_V0_POSTCULVERT
 /input , 'D:\Tools\Code\box-culvert-2D\_plot_soil_pres'       , mac
