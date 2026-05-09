@@ -43,20 +43,3 @@ clims
 
 plnsol,epto,eqv
 takepic,'SOIL_EPTO'
-
-! Box culvert first principal stress
-cmsel,s,COMPA_Culvert
-esla,s
-dscalefct,5,1,1
-plnsol,s,x
-takepic,'CULVERT_S1'
-/dscale,1,auto
-
-! Slab horizontal stress
-cmsel,s,COMPA_Slab
-esla,s
-*get,ECount,elem,,count
-*if,ECount,gt,0,then
-  plnsol,s,x
-  takepic,'SLAB_SX'
-*endif
