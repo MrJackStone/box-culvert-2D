@@ -300,19 +300,5 @@ LSEL,S,LOC,X,X0
 LSEL,A,LOC,X,X9
 CM,COMPL_HorSupport,LINE
 
-LSEL,U,LINE,,ALL
-*get,KMaxD,KP,,NUM,MAXD
-KNum=KMaxD+1
-*do,nthLoad,1,LOADTRAIN_VAR_count,1
-  xCoord=SewerCenterX+LOADTRAIN_ARR_positions(nthLoad)
-  *if,xCoord,GE,x0,AND,xCoord,LE,x9,THEN
-    K,KNum,xCoord,Y12,0
-    K,KNum+1,xCoord,Y12+1,0
-    L,KNum,KNum+1
-    KNum=KNum+2
-  *endif
-*enddo
-CM,COMPL_PointLoads,LINE
-
 ALLSEL
 /auto,ALL

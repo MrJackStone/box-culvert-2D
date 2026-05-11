@@ -144,7 +144,7 @@ LOAD_dmpImpactCoef = (1>beta*LOAD_impactCoef)
 ! Load train
 *if,LOAD_liveMode,EQ,0,OR,LOAD_liveMode,EQ,1,THEN
   LTrepeats=3
-  LOADTRAIN,LOADTRAIN_name,LTrepeats,LOADTRAIN_offset,LOAD_dmpImpactCoef,50
+  LOADTRAIN,LOADTRAIN_name,LTrepeats,0,LOAD_dmpImpactCoef,50
 *else
   LOADTRAIN,'NONE'
 *endif

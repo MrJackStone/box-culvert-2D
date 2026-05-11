@@ -201,7 +201,10 @@ LOADTRAIN,'COOPER E-80'
 ! LOADTRAIN_ARR_loads
 
 ! Load train offset
-LOADTRAIN_offset=-4.65
+LOADTRAIN_posCount = 5
+*del,LOADTRAIN_positions,,nopr
+*dim,LOADTRAIN_positions,,LOADTRAIN_posCount
+LOADTRAIN_positions(1)= 0 , 1 , 2 , 3 , 4
 
 
 

@@ -109,3 +109,9 @@ AMESH,ALL
     *endif
   *enddo
 *endif
+
+! Exported selection components
+allsel
+*get,yMax,node,,mxloc,y
+nsel,r,loc,y,yMax
+cm,COMPN_surface,node

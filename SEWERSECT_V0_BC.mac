@@ -4,6 +4,8 @@
 !!
 !!
 /solu
+antype,0,new
+outres,all,last
 
 !!
 !! 5.1 SUPPORTS
@@ -36,58 +38,75 @@ NSUBST,NINT(SOLU_nSubstep/1)
 *else
   NLGEOM,OFF
 *endif
-LSWRITE,1
-
+time,1
+solve
 
 
 !!
 !! 5.3 SECOND LOAD STEP: LIVE LOADS
 !!
-! Point loads (load train)
-CMSEL,S,COMPL_PointLoads
-KSLL,S
-*get,YMin,KP,,MNLOC,Y
-KSEL,R,LOC,Y,YMin
-NSEL,S,LOC,Y,YMin
-CM,COMPK_loadPoints,KP
-CM,COMPN_loadNodes,NODE
-*do,nthLoad,1,LOADTRAIN_VAR_count,1
-  xPos=SewerCenterX+LOADTRAIN_ARR_positions(nthLoad)
-  qVal=LOADTRAIN_ARR_loads(nthLoad)
 
-  CMSEL,S,COMPK_loadPoints
-  KSEL,R,LOC,X,xPos
-  *get,KNum,KP,,NUM,MIN
+cmsel,s,COMPN_surface
+*get , ySurface , node ,  , mxloc , y
+*get , xMin     , node ,  , mnloc , x
+*get , xMax     , node ,  , mxloc , x
 
-  *if,KNum,GT,0,THEN
-    xCoord = KX(KNum)
-    yCoord = KY(KNum)
-    zCoord = KZ(KNum)
-    CMSEL,S,COMPN_loadNodes
-    nearestNode=NODE(xCoord,yCoord,zCoord)
-    F,nearestNode,FY,-qVal
-  *endif
+*do,nthPos,1,LOADTRAIN_posCount,1
+
+  ! Inherit BCs from 1st load step
+  /solu
+  allsel
+  f,COMPN_surface,fy,-0.1
+
+  ! Point loads
+  lsNum  = nthPos+1
+  offset = LOADTRAIN_positions(nthPos)
+
+  *do,nthLoad,1,LOADTRAIN_VAR_count,1
+    xPos = offset+LOADTRAIN_ARR_positions(nthLoad)
+    qVal = LOADTRAIN_ARR_loads(nthLoad)
+
+    *if,xPos,le,xMin,or,xPos,ge,xMax,cycle
+
+    cmsel,s,COMPN_surface
+    fNode = node(xPos,ySurface,0)
+    f,fNode,fy,-qVal
+  *enddo
+
+  ! Uniform load
+  lsel,s,loc,y,ySurface
+  sfl,all,pres,LOAD_Uniform
+
+  ! Capture image: loads
+  allsel
+  eplot
+  /edge,all,1
+  /device,vector,1
+  /pbc , u    ,      , 0
+  /pbc , rot  ,      , 0
+  /pbc , temp ,      , 0
+  /pbc , pres ,      , 0
+  /pbc , f    ,      , 2
+  /pbc , m    ,      , 0
+  /psf , defa ,      , 1 , 0 , 1
+  /psf , pres , norm , 2 , 0 , 1
+  /pbf , defa ,      , 1
+  eplot
+  /cwd,'%imgFolderPath(1)%'
+  takepic,'LOAD_LS%lsNum%',1000
+  /cwd,'%currDir(1)%'
+  /device,vector,off
+  /edge,all,0
+  /pbc,f,,0
+
+  allsel
+  time,lsNum
+  kbc,0
+  solve
 
 *enddo
 
-! Uniform load
-ALLSEL
-LSLA,S
-KSLL,S
-*get,YMax,KP,,MXLOC,Y
-LSEL,R,LOC,Y,YMax
-SFL,ALL,PRES,LOAD_Uniform
-ALLSEL
-
-! Write load step
-ALLSEL
-NSUBST,SOLU_nSubstep
-*if,SOLU_largeDisp,EQ,1,THEN
-  NLGEOM,ON
-*else
-  NLGEOM,OFF
-*endif
-LSWRITE,2
+lastLS = LOADTRAIN_posCount+1
 
 ! Capturar imagem: malha de elementos finitos
 ALLSEL
@@ -98,24 +117,3 @@ EPLOT
 /cwd,'%imgFolderPath(1)%'
 TAKEPIC,'MESH_01'
 /cwd,'%currDir(1)%'
-
-! Capture image: loads
-EPLOT
-/edge,ALL,1
-/device,VECTOR,1
-/psf,DEFA, ,1,0,1
-/pbf,DEFA, ,1
-/pbc,U, ,0,,,,
-/pbc,ROT, ,0,,,,
-/pbc,TEMP, ,0,,,,
-/pbc,PRES, ,0,,,,
-/pbc,F, ,2,,,,
-/pbc,M, ,0,,,,
-/psf,PRES,NORM,2,0,1
-EPLOT
-/cwd,'%imgFolderPath(1)%'
-TAKEPIC,'LOAD',1000
-/cwd,'%currDir(1)%'
-/device,VECTOR,OFF
-/edge,ALL,0
-/PBC,F, ,0,,,,
