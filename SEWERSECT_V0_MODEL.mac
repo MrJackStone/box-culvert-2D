@@ -117,11 +117,14 @@ SAVE,,,,ALL
   *del , right_envelope ,  , nopr
   *del , iwall_envelope ,  , nopr
 
+  BOXCULVERT_V0_REPHDR
+
   ! Results from first load step (dead weight)
   set,1,last
   /cwd,'%dwFolderPath(1)%'
   BOXCULVERT_V0_POST
   /cwd,'%currDir(1)%'
+  BOXCULVERT_V0_WRRES
 
   ! Results from second load step (load train)
   *do,nthLS,2,lastLS,1
@@ -131,8 +134,6 @@ SAVE,,,,ALL
     BOXCULVERT_V0_POST
     /cwd,'%currDir(1)%'
   *enddo
-
-  BOXCULVERT_V0_REPHDR
   BOXCULVERT_V0_WRRES
 
 *else
