@@ -116,18 +116,26 @@ SEWERSECT_V0_SOLU
 *endif
 
 *if,SewerType,NE,2,THEN
+
+  *del , roof_envelope  ,  , nopr
+  *del , floor_envelope ,  , nopr
+  *del , left_envelope  ,  , nopr
+  *del , right_envelope ,  , nopr
+  *del , iwall_envelope ,  , nopr
+
   ! Results from first load step (dead weight)
   SET,1,LAST
   /cwd,'%dwFolderPath(1)%'
   BOXCULVERT_V0_POST
   /cwd,'%currDir(1)%'
-  BOXCULVERT_V0_WRRES
 
   ! Results from second load step (load train)
   SET,2,LAST
   /cwd,'%ltFolderPath(1)%'
   BOXCULVERT_V0_POST
   /cwd,'%currDir(1)%'
+
+  BOXCULVERT_V0_REPHDR
   BOXCULVERT_V0_WRRES
 
 *else

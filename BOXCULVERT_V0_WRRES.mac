@@ -1,201 +1,271 @@
-!!
-!! 7.3 WRITE RESULTS
-!!
+! BOXCULVERT_V0_WRRES
 
-!! 7.3.1 DEFINE ZONES
-!!
-! Left corners
-LEFT_b=X3
-LEFT_e=X4+SewerWidth/4
 
-! Right corners
-RIGHT_b=X5-SewerWidth/4
-RIGHT_e=X6
+! Define end/span zones
+LEFT_b  = X3
+LEFT_e  = X4+SewerWidth/4
+RIGHT_b = X5-SewerWidth/4
+RIGHT_e = X6
 
-! Inner supports
-*del,INNER_b
-*dim,INNER_b,ARRAY,CulvertCells-1
-*del,INNER_e
-*dim,INNER_e,ARRAY,CulvertCells-1
+*del , HENDS_b ,  , nopr
+*del , HENDS_e ,  , nopr
+*dim , HENDS_b ,  , 2
+*dim , HENDS_e ,  , 2
+HENDS_b(1) = LEFT_b , RIGHT_b
+HENDS_e(1) = LEFT_e , RIGHT_e
+
+*del , INNER_b ,  , nopr
+*del , INNER_e ,  , nopr
+*dim , INNER_b ,  , CulvertCells-1
+*dim , INNER_e ,  , CulvertCells-1
 *do,nthCell,1,CulvertCells-1,1
-  beg=Xi(nthCell)-SewerWidth/4
-  end=Xj(nthCell)+SewerWidth/4
-  INNER_b(nthCell)=beg
-  INNER_e(nthCell)=end
+  beg              = Xi(nthCell)-SewerWidth/4
+  end              = Xj(nthCell)+SewerWidth/4
+  INNER_b(nthCell) = beg
+  INNER_e(nthCell) = end
 *enddo
 
-! Bottom corners
-BOTTOM_b=Y1
-BOTTOM_e=Y2+SewerHeight/4
+BOTTOM_b = Y1
+BOTTOM_e = Y2+SewerHeight/4
+TOP_b    = Y3-SewerHeight/4
+TOP_e    = Y4
 
-! Top corners
-TOP_b=Y3-SewerHeight/4
-TOP_e=Y4
+*del , VENDS_b ,  , nopr
+*del , VENDS_e ,  , nopr
+*dim , VENDS_b ,  , 2
+*dim , VENDS_e ,  , 2
+VENDS_b(1) = BOTTOM_b , TOP_b
+VENDS_e(1) = BOTTOM_e , TOP_e
 
 ! Slab spans
-*del,SLABSPAN_b
-*dim,SLABSPAN_b,ARRAY,CulvertCells
-*del,SLABSPAN_e
-*dim,SLABSPAN_e,ARRAY,CulvertCells
+*del , SLABSPAN_b ,  , nopr
+*del , SLABSPAN_e ,  , nopr
+*dim , SLABSPAN_b ,  , CulvertCells
+*dim , SLABSPAN_e ,  , CulvertCells
 *do,nthCell,1,CulvertCells,1
-  beg=Xi(nthCell)-(3*SewerWidth/4)
-  end=beg+(SewerWidth/2)
-  SLABSPAN_b(nthCell)=beg
-  SLABSPAN_e(nthCell)=end
+  beg                 = Xi(nthCell)-(3*SewerWidth/4)
+  end                 = beg+(SewerWidth/2)
+  SLABSPAN_b(nthCell) = beg
+  SLABSPAN_e(nthCell) = end
 *enddo
 
-! Wall spans
-WALLSPAN_b=Y2+(SewerHeight/4)
-WALLSPAN_e=Y3-(SewerHeight/4)
+WALLSPAN_b = Y2+(SewerHeight/4)
+WALLSPAN_e = Y3-(SewerHeight/4)
 
+! Collect values from envelopes
+*vfun , roof_mp_min , copy , roof_envelope(1 , 1)
+*vfun , roof_mp_max , copy , roof_envelope(1 , 2)
+*vfun , roof_n_max  , copy , roof_envelope(1 , 5)
+*vfun , roof_n_min  , copy , roof_envelope(1 , 6)
+*vfun , roof_v_max  , copy , roof_envelope(1 , 7)
+*vfun , roof_v_min  , copy , roof_envelope(1 , 8)
+*vfun , roof_d_max  , copy , roof_envelope(1 , 11)
+*vfun , roof_d_min  , copy , roof_envelope(1 , 12)
+path,ROOF
+pth2arr,'XG','ROOF_XG'
 
-!! 7.3.2 COLLECT VALUES
-!!
+*vfun , floor_mp_min , copy , floor_envelope(1 , 1)
+*vfun , floor_mp_max , copy , floor_envelope(1 , 2)
+*vfun , floor_n_max  , copy , floor_envelope(1 , 5)
+*vfun , floor_n_min  , copy , floor_envelope(1 , 6)
+*vfun , floor_v_max  , copy , floor_envelope(1 , 7)
+*vfun , floor_v_min  , copy , floor_envelope(1 , 8)
+*vfun , floor_d_max  , copy , floor_envelope(1 , 11)
+*vfun , floor_d_min  , copy , floor_envelope(1 , 12)
+path,FLOOR
+pth2arr,'XG','FLOOR_XG'
 
-!! 7.3.2.1 TOP SLAB
-! Left support
-VMFUN,'TOP_M_left',  'TOP_M',     'MAX', 'TOP_XG',       LEFT_b,       LEFT_e
-VMFUN,'TOP_V_left',  'TOP_V', 'SABSMAX', 'TOP_XV',       LEFT_b,       LEFT_e
-VMFUN,'TOP_N_left',  'TOP_N', 'SABSMAX', 'TOP_XG',       LEFT_b,       LEFT_e
-! Right support
-VMFUN,'TOP_M_right', 'TOP_M',     'MAX', 'TOP_XG',      RIGHT_b,      RIGHT_e
-VMFUN,'TOP_V_right', 'TOP_V', 'SABSMAX', 'TOP_XV',      RIGHT_b,      RIGHT_e
-VMFUN,'TOP_N_right', 'TOP_N', 'SABSMAX', 'TOP_XG',      RIGHT_b,      RIGHT_e
-! Inner supports
-VMFUN,'TOP_M_inner', 'TOP_M',     'MAX', 'TOP_XG',    'INNER_b',    'INNER_e'
-VMFUN,'TOP_V_inner', 'TOP_V', 'SABSMAX', 'TOP_XV',    'INNER_b',    'INNER_e'
-VMFUN,'TOP_N_inner', 'TOP_N', 'SABSMAX', 'TOP_XG',    'INNER_b',    'INNER_e'
-! Span
-VMFUN,'TOP_M_span',  'TOP_M',     'MIN', 'TOP_XG', 'SLABSPAN_b', 'SLABSPAN_e'
-VMFUN,'TOP_N_span',  'TOP_N', 'SABSMAX', 'TOP_XG', 'SLABSPAN_b', 'SLABSPAN_e'
+*vfun , left_mp_min , copy , left_envelope(1 , 1)
+*vfun , left_mp_max , copy , left_envelope(1 , 2)
+*vfun , left_n_max  , copy , left_envelope(1 , 5)
+*vfun , left_n_min  , copy , left_envelope(1 , 6)
+*vfun , left_v_max  , copy , left_envelope(1 , 7)
+*vfun , left_v_min  , copy , left_envelope(1 , 8)
+*vfun , left_d_max  , copy , left_envelope(1 , 9)
+*vfun , left_d_min  , copy , left_envelope(1 , 10)
+path,LEFT
+pth2arr,'YG','LEFT_YG'
 
-!! 7.3.2.2 BOTTOM SLAB
-! Left support
-VMFUN,'BOT_M_left',  'BOT_M',     'MAX', 'BOT_XG',       LEFT_b,       LEFT_e
-VMFUN,'BOT_V_left',  'BOT_V', 'SABSMAX', 'BOT_XV',       LEFT_b,       LEFT_e
-VMFUN,'BOT_N_left',  'BOT_N', 'SABSMAX', 'BOT_XG',       LEFT_b,       LEFT_e
-! Right support
-VMFUN,'BOT_M_right', 'BOT_M',     'MAX', 'BOT_XG',      RIGHT_b,      RIGHT_e
-VMFUN,'BOT_V_right', 'BOT_V', 'SABSMAX', 'BOT_XV',      RIGHT_b,      RIGHT_e
-VMFUN,'BOT_N_right', 'BOT_N', 'SABSMAX', 'BOT_XG',      RIGHT_b,      RIGHT_e
-! Inner supports
-VMFUN,'BOT_M_inner', 'BOT_M',     'MAX', 'BOT_XG',    'INNER_b',    'INNER_e'
-VMFUN,'BOT_V_inner', 'BOT_V', 'SABSMAX', 'BOT_XV',    'INNER_b',    'INNER_e'
-VMFUN,'BOT_N_inner', 'BOT_N', 'SABSMAX', 'BOT_XG',    'INNER_b',    'INNER_e'
-! Span
-VMFUN,'BOT_M_span',  'BOT_M',     'MIN', 'BOT_XG', 'SLABSPAN_b', 'SLABSPAN_e'
-VMFUN,'BOT_N_span',  'BOT_N', 'SABSMAX', 'BOT_XG', 'SLABSPAN_b', 'SLABSPAN_e'
+*vfun , right_mp_min , copy , right_envelope(1 , 1)
+*vfun , right_mp_max , copy , right_envelope(1 , 2)
+*vfun , right_n_max  , copy , right_envelope(1 , 5)
+*vfun , right_n_min  , copy , right_envelope(1 , 6)
+*vfun , right_v_max  , copy , right_envelope(1 , 7)
+*vfun , right_v_min  , copy , right_envelope(1 , 8)
+*vfun , right_d_max  , copy , right_envelope(1 , 9)
+*vfun , right_d_min  , copy , right_envelope(1 , 10)
+path,RIGHT
+pth2arr,'YG','RIGHT_YG'
 
-!! 7.3.2.3 LEFT WALL
-! Bottom support
-VMFUN,'LFT_M_bot',  'LFT_M',     'MAX', 'LFT_YG',   BOTTOM_b,   BOTTOM_e
-VMFUN,'LFT_V_bot',  'LFT_V', 'SABSMAX', 'LFT_YV',   BOTTOM_b,   BOTTOM_e
-VMFUN,'LFT_N_bot',  'LFT_N', 'SABSMAX', 'LFT_YG',   BOTTOM_b,   BOTTOM_e
-! Top support
-VMFUN,'LFT_M_top',  'LFT_M',     'MAX', 'LFT_YG',      TOP_b,      TOP_e
-VMFUN,'LFT_V_top',  'LFT_V', 'SABSMAX', 'LFT_YV',      TOP_b,      TOP_e
-VMFUN,'LFT_N_top',  'LFT_N', 'SABSMAX', 'LFT_YG',      TOP_b,      TOP_e
-! Span
-VMFUN,'LFT_M_span', 'LFT_M',     'MIN', 'LFT_YG', WALLSPAN_b, WALLSPAN_e
-VMFUN,'LFT_N_span', 'LFT_N', 'SABSMAX', 'LFT_YG', WALLSPAN_b, WALLSPAN_e
-
-!! 7.3.2.4 RIGHT WALL
-! Bottom support
-VMFUN,'RGT_M_bot',  'RGT_M',     'MAX', 'RGT_YG',   BOTTOM_b,   BOTTOM_e
-VMFUN,'RGT_V_bot',  'RGT_V', 'SABSMAX', 'RGT_YV',   BOTTOM_b,   BOTTOM_e
-VMFUN,'RGT_N_bot',  'RGT_N', 'SABSMAX', 'RGT_YG',   BOTTOM_b,   BOTTOM_e
-! Top support
-VMFUN,'RGT_M_top',  'RGT_M',     'MAX', 'RGT_YG',      TOP_b,      TOP_e
-VMFUN,'RGT_V_top',  'RGT_V', 'SABSMAX', 'RGT_YV',      TOP_b,      TOP_e
-VMFUN,'RGT_N_top',  'RGT_N', 'SABSMAX', 'RGT_YG',      TOP_b,      TOP_e
-! Span
-VMFUN,'RGT_M_span', 'RGT_M',     'MIN', 'RGT_YG', WALLSPAN_b, WALLSPAN_e
-VMFUN,'RGT_N_span', 'RGT_N', 'SABSMAX', 'RGT_YG', WALLSPAN_b, WALLSPAN_e
-
-!! 7.3.2.5 INNER WALLS
 *if,CulvertCells,GT,1,THEN
-  ! Compile data from all inner walls into a single array
-  TBL2ARR,'INN_M', 'SABSMAX', 'INN_M_table'
-  TBL2ARR,'INN_N', 'SABSMAX', 'INN_N_table'
-  TBL2ARR,'INN_V', 'SABSMAX', 'INN_V_table'
+  *vfun , iwall_mp_min , copy , iwall_envelope(1 , 1)
+  *vfun , iwall_mp_max , copy , iwall_envelope(1 , 2)
+  *vfun , iwall_n_max  , copy , iwall_envelope(1 , 5)
+  *vfun , iwall_n_min  , copy , iwall_envelope(1 , 6)
+  *vfun , iwall_v_max  , copy , iwall_envelope(1 , 7)
+  *vfun , iwall_v_min  , copy , iwall_envelope(1 , 8)
+  *vfun , iwall_d_max  , copy , iwall_envelope(1 , 9)
+  *vfun , iwall_d_min  , copy , iwall_envelope(1 , 10)
+  path,IWALL1
+  pth2arr,'YG','IWALL_YG'
+*endif
 
-  ! Bottom support
-  VMFUN,'INN_M_bot',  'INN_M', 'SABSMAX', 'INN_YG',   BOTTOM_b,   BOTTOM_e
-  VMFUN,'INN_V_bot',  'INN_V', 'SABSMAX', 'INN_YV',   BOTTOM_b,   BOTTOM_e
-  VMFUN,'INN_N_bot',  'INN_N', 'SABSMAX', 'INN_YG',   BOTTOM_b,   BOTTOM_e
-  ! Top support
-  VMFUN,'INN_M_top',  'INN_M', 'SABSMAX', 'INN_YG',      TOP_b,      TOP_e
-  VMFUN,'INN_V_top',  'INN_V', 'SABSMAX', 'INN_YV',      TOP_b,      TOP_e
-  VMFUN,'INN_N_top',  'INN_N', 'SABSMAX', 'INN_YG',      TOP_b,      TOP_e
-  ! Span
-  VMFUN,'INN_M_span', 'INN_M', 'SABSMAX', 'INN_YG', WALLSPAN_b, WALLSPAN_e
-  VMFUN,'INN_N_span', 'INN_N', 'SABSMAX', 'INN_YG', WALLSPAN_b, WALLSPAN_e
+! Roof
+vmfun , 'ROOF_Mmax_ends'  , 'roof_mp_max' , 'MAX' , 'ROOF_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'ROOF_Mmin_ends'  , 'roof_mp_min' , 'MIN' , 'ROOF_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'ROOF_Mmax_span'  , 'roof_mp_max' , 'MAX' , 'ROOF_XG' , 'SLABSPAN_b' , 'SLABSPAN_e'
+vmfun , 'ROOF_Mmin_span'  , 'roof_mp_min' , 'MIN' , 'ROOF_XG' , 'SLABSPAN_b' , 'SLABSPAN_e'
+vmfun , 'ROOF_Mmax_inner' , 'roof_mp_max' , 'MAX' , 'ROOF_XG' , 'INNER_b'    , 'INNER_e'
+vmfun , 'ROOF_Mmin_inner' , 'roof_mp_min' , 'MIN' , 'ROOF_XG' , 'INNER_b'    , 'INNER_e'
+
+vmfun , 'ROOF_Nmax_ends'  , 'roof_n_max'  , 'MAX' , 'ROOF_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'ROOF_Nmin_ends'  , 'roof_n_min'  , 'MIN' , 'ROOF_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'ROOF_Nmax_inner' , 'roof_n_max'  , 'MAX' , 'ROOF_XG' , 'INNER_b'    , 'INNER_e'
+vmfun , 'ROOF_Nmin_inner' , 'roof_n_min'  , 'MIN' , 'ROOF_XG' , 'INNER_b'    , 'INNER_e'
+
+vmfun , 'ROOF_Vmax_ends'  , 'roof_v_max'  , 'MAX' , 'ROOF_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'ROOF_Vmin_ends'  , 'roof_v_min'  , 'MIN' , 'ROOF_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'ROOF_Vmax_inner' , 'roof_v_max'  , 'MAX' , 'ROOF_XG' , 'INNER_b'    , 'INNER_e'
+vmfun , 'ROOF_Vmin_inner' , 'roof_v_min'  , 'MIN' , 'ROOF_XG' , 'INNER_b'    , 'INNER_e'
+
+*vscfun , ROOF_Dmax , max , roof_d_max
+*vscfun , ROOF_Dmin , max , roof_d_min
+
+! Floor
+vmfun , 'FLOOR_Mmax_ends'  , 'floor_mp_max' , 'MAX' , 'FLOOR_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'FLOOR_Mmin_ends'  , 'floor_mp_min' , 'MIN' , 'FLOOR_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'FLOOR_Mmax_span'  , 'floor_mp_max' , 'MAX' , 'FLOOR_XG' , 'SLABSPAN_b' , 'SLABSPAN_e'
+vmfun , 'FLOOR_Mmin_span'  , 'floor_mp_min' , 'MIN' , 'FLOOR_XG' , 'SLABSPAN_b' , 'SLABSPAN_e'
+vmfun , 'FLOOR_Mmax_inner' , 'floor_mp_max' , 'MAX' , 'FLOOR_XG' , 'INNER_b'    , 'INNER_e'
+vmfun , 'FLOOR_Mmin_inner' , 'floor_mp_min' , 'MIN' , 'FLOOR_XG' , 'INNER_b'    , 'INNER_e'
+
+vmfun , 'FLOOR_Nmax_ends'  , 'floor_n_max'  , 'MAX' , 'FLOOR_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'FLOOR_Nmin_ends'  , 'floor_n_min'  , 'MIN' , 'FLOOR_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'FLOOR_Nmax_inner' , 'floor_n_max'  , 'MAX' , 'FLOOR_XG' , 'INNER_b'    , 'INNER_e'
+vmfun , 'FLOOR_Nmin_inner' , 'floor_n_min'  , 'MIN' , 'FLOOR_XG' , 'INNER_b'    , 'INNER_e'
+
+vmfun , 'FLOOR_Vmax_ends'  , 'floor_v_max'  , 'MAX' , 'FLOOR_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'FLOOR_Vmin_ends'  , 'floor_v_min'  , 'MIN' , 'FLOOR_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'FLOOR_Vmax_inner' , 'floor_v_max'  , 'MAX' , 'FLOOR_XG' , 'INNER_b'    , 'INNER_e'
+vmfun , 'FLOOR_Vmin_inner' , 'floor_v_min'  , 'MIN' , 'FLOOR_XG' , 'INNER_b'    , 'INNER_e'
+
+*vscfun , FLOOR_Dmax , max , floor_d_max
+*vscfun , FLOOR_Dmin , max , floor_d_min
+
+! Left wall
+vmfun , 'LEFT_Mmax_ends' , 'left_mp_max' , 'MAX' , 'LEFT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'LEFT_Mmin_ends' , 'left_mp_min' , 'MIN' , 'LEFT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'LEFT_Mmax_span' , 'left_mp_max' , 'MAX' , 'LEFT_YG' , WALLSPAN_b , WALLSPAN_e
+vmfun , 'LEFT_Mmin_span' , 'left_mp_min' , 'MIN' , 'LEFT_YG' , WALLSPAN_b , WALLSPAN_e
+
+vmfun , 'LEFT_Nmax_ends' , 'left_n_max'  , 'MAX' , 'LEFT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'LEFT_Nmin_ends' , 'left_n_min'  , 'MIN' , 'LEFT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'LEFT_Nmax_span' , 'left_n_max'  , 'MAX' , 'LEFT_YG' , WALLSPAN_b , WALLSPAN_e
+vmfun , 'LEFT_Nmin_span' , 'left_n_min'  , 'MIN' , 'LEFT_YG' , WALLSPAN_b , WALLSPAN_e
+
+vmfun , 'LEFT_Vmax_ends' , 'left_v_max'  , 'MAX' , 'LEFT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'LEFT_Vmin_ends' , 'left_v_min'  , 'MIN' , 'LEFT_YG' , 'VENDS_b'  , 'VENDS_e'
+
+! Right wall
+vmfun , 'RIGHT_Mmax_ends' , 'right_mp_max' , 'MAX' , 'RIGHT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'RIGHT_Mmin_ends' , 'right_mp_min' , 'MIN' , 'RIGHT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'RIGHT_Mmax_span' , 'right_mp_max' , 'MAX' , 'RIGHT_YG' , WALLSPAN_b , WALLSPAN_e
+vmfun , 'RIGHT_Mmin_span' , 'right_mp_min' , 'MIN' , 'RIGHT_YG' , WALLSPAN_b , WALLSPAN_e
+
+vmfun , 'RIGHT_Nmax_ends' , 'right_n_max'  , 'MAX' , 'RIGHT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'RIGHT_Nmin_ends' , 'right_n_min'  , 'MIN' , 'RIGHT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'RIGHT_Nmax_span' , 'right_n_max'  , 'MAX' , 'RIGHT_YG' , WALLSPAN_b , WALLSPAN_e
+vmfun , 'RIGHT_Nmin_span' , 'right_n_min'  , 'MIN' , 'RIGHT_YG' , WALLSPAN_b , WALLSPAN_e
+
+vmfun , 'RIGHT_Vmax_ends' , 'right_v_max'  , 'MAX' , 'RIGHT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'RIGHT_Vmin_ends' , 'right_v_min'  , 'MIN' , 'RIGHT_YG' , 'VENDS_b'  , 'VENDS_e'
+
+! Inner walls
+*if,CulvertCells,GT,1,THEN
+
+  vmfun , 'IWALL_Mmax_ends' , 'iwall_mp_max' , 'MAX' , 'IWALL_YG' , 'VENDS_b'  , 'VENDS_e'
+  vmfun , 'IWALL_Mmin_ends' , 'iwall_mp_min' , 'MIN' , 'IWALL_YG' , 'VENDS_b'  , 'VENDS_e'
+  vmfun , 'IWALL_Mmax_span' , 'iwall_mp_max' , 'MAX' , 'IWALL_YG' , WALLSPAN_b , WALLSPAN_e
+  vmfun , 'IWALL_Mmin_span' , 'iwall_mp_min' , 'MIN' , 'IWALL_YG' , WALLSPAN_b , WALLSPAN_e
+
+  vmfun , 'IWALL_Nmax_ends' , 'iwall_n_max'  , 'MAX' , 'IWALL_YG' , 'VENDS_b'  , 'VENDS_e'
+  vmfun , 'IWALL_Nmin_ends' , 'iwall_n_min'  , 'MIN' , 'IWALL_YG' , 'VENDS_b'  , 'VENDS_e'
+  vmfun , 'IWALL_Nmax_span' , 'iwallr_n_max' , 'MAX' , 'IWALL_XG' , WALLSPAN_b , WALLSPAN_e
+  vmfun , 'IWALL_Nmin_span' , 'iwallr_n_min' , 'MIN' , 'IWALL_XG' , WALLSPAN_b , WALLSPAN_e
+
+  vmfun , 'IWALL_Vmax_ends' , 'iwall_v_max'  , 'MAX' , 'IWALL_YG' , 'VENDS_b'  , 'VENDS_e'
+  vmfun , 'IWALL_Vmin_ends' , 'iwall_v_min'  , 'MIN' , 'IWALL_YG' , 'VENDS_b'  , 'VENDS_e'
 
 *else
-  INN_M_bot=0
-  INN_V_bot=0
-  INN_N_bot=0
-  INN_M_top=0
-  INN_V_top=0
-  INN_N_top=0
-  INN_M_span=0
-  INN_N_span=0
+
+  IWALL_Mmax_ends = 0
+  IWALL_Mmin_ends = 0
+  IWALL_Mmax_span = 0
+  IWALL_Mmin_span = 0
+
+  IWALL_Nmax_ends = 0
+  IWALL_Nmin_ends = 0
+  IWALL_Nmax_span = 0
+  IWALL_Nmin_span = 0
+
+  IWALL_Vmax_ends = 0
+  IWALL_Vmin_ends = 0
 
 *endif
 
-!! 7.3.2.6 DISPLACEMENTS
-*vscfun,TOP_U_max,MAX,TOP_U
-*vscfun,TOP_D_max,MAX,TOP_D
-*vscfun,BOT_U_max,MAX,BOT_U
-*vscfun,BOT_D_max,MAX,BOT_D
-
-!! 7.3.2.7 SOIL
+! Soil
 *vabs,1,1
 *vscfun,SOIL_S_max,MAX,SOIL_S
 *vabs,1
 *vscfun,SOIL_S_avg,MEAN,SOIL_S
 *vabs
 
-!!  7.3.2.8 COMBINE SIMILAR ZONES
-TOP_M_ends = (abs(TOP_M_left)>abs(TOP_M_right))
-TOP_V_ends = (abs(TOP_V_left)>abs(TOP_V_right))
-TOP_N_ends = (abs(TOP_N_left)>abs(TOP_N_right))
+! Combine outer wall results
+OUT_Mmax_ends = (LEFT_Mmax_ends>RIGHT_Mmax_ends)
+OUT_Mmin_ends = (LEFT_Mmin_ends<RIGHT_Mmin_ends)
+OUT_Mmax_span = (LEFT_Mmax_span>RIGHT_Mmax_span)
+OUT_Mmin_span = (LEFT_Mmin_span<RIGHT_Mmin_span)
 
-BOT_M_ends = (abs(BOT_M_left)>abs(BOT_M_right))
-BOT_V_ends = (abs(BOT_V_left)>abs(BOT_V_right))
-BOT_N_ends = (abs(BOT_N_left)>abs(BOT_N_right))
+OUT_Nmax_ends = (LEFT_Nmax_ends>RIGHT_Nmax_ends)
+OUT_Nmin_ends = (LEFT_Nmin_ends<RIGHT_Nmin_ends)
+OUT_Nmax_span = (LEFT_Nmax_span>RIGHT_Nmax_span)
+OUT_Nmin_span = (LEFT_Nmin_span<RIGHT_Nmin_span)
 
-OUT_M_ends = ((abs(LFT_M_bot)>abs(LFT_M_top))>(abs(RGT_M_bot)>abs(RGT_M_top)))
-OUT_V_ends = ((abs(LFT_V_bot)>abs(LFT_V_top))>(abs(RGT_V_bot)>abs(RGT_V_top)))
-OUT_N_ends = ((abs(LFT_N_bot)>abs(LFT_N_top))>(abs(RGT_N_bot)>abs(RGT_N_top)))
-OUT_M_span = (abs(LFT_M_span)>abs(RGT_M_span))
-OUT_N_span = (abs(LFT_N_span)>abs(RGT_N_span))
+OUT_Vmax_ends = (LEFT_Vmax_ends>RIGHT_Vmax_ends)
+OUT_Vmin_ends = (LEFT_Vmin_ends<RIGHT_Vmin_ends)
 
-INN_M_ends = (abs(INN_M_bot)>abs(INN_M_top))
-INN_V_ends = (abs(INN_V_bot)>abs(INN_V_top))
-INN_N_ends = (abs(INN_N_bot)>abs(INN_N_top))
-
-
-!! 7.3.3 WRITE TO FILE
-!!
 ! Write values to file
 *cfopen,SOLU_reportFilename,TXT,,APPEND
-  ! Depth
+
+  ! TODO  BOT_U_min, BOT_U_max: calculate
+  !       Soil results: currently pulls from LT, needs to also collect DW
+
+  ! Minimum values:
   *vwrite,SoilCover, SewerWallThk
   (F9.2,'  ',F8.2,'    ',\b)
-  ! Top slab results
-  *vwrite,TOP_M_ends,TOP_V_ends,TOP_N_ends,TOP_M_span,TOP_N_span,TOP_M_inner,TOP_V_inner,TOP_N_inner
+  *vwrite , ROOF_Mmin_ends  , ROOF_Vmin_ends  , ROOF_Nmin_ends  , ROOF_Mmin_span  , ROOF_Nmin_span  , ROOF_Mmin_inner  , ROOF_Vmin_inner  , ROOF_Nmin_inner
   (F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'    ',\b)
-  ! Bottom slab results
-  *vwrite,BOT_M_ends,BOT_V_ends,BOT_N_ends,BOT_M_span,BOT_N_span,BOT_M_inner,BOT_V_inner,BOT_N_inner
+  *vwrite , FLOOR_Mmin_ends , FLOOR_Vmin_ends , FLOOR_Nmin_ends , FLOOR_Mmin_span , FLOOR_Nmin_span , FLOOR_Mmin_inner , FLOOR_Vmin_inner , FLOOR_Nmin_inner
   (F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'    ',\b)
-  ! Outer walls results
-  *vwrite,OUT_M_ends,OUT_V_ends,OUT_N_ends,OUT_M_span,OUT_N_span
+  *vwrite , OUT_Mmin_ends   , OUT_Vmin_ends   , OUT_Nmin_ends   , OUT_Mmin_span   , OUT_Nmin_span
   (F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'    ',\b)
-  ! Inner walls results
-  *vwrite,INN_M_ends,INN_V_ends,INN_N_ends,INN_M_span,INN_N_span
+  *vwrite , IWALL_Mmin_ends , IWALL_Vmin_ends , IWALL_Nmin_ends , IWALL_Mmin_span , IWALL_Nmin_span
   (F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'    ',\b)
-  ! Miscellany: soil pressure (bottom), settlements, deflections (top and bottom)
-  *vwrite,SOIL_S_avg*1e-3,SOIL_S_max*1e-3,TOP_U_max,BOT_U_max,TOP_D_max,BOT_D_max
+  *vwrite , SOIL_S_avg*1e-3 , SOIL_S_max*1e-3 , 0               , BOT_U_min       , ROOF_Dmin       , FLOOR_Dmin
   (F8.1,'  ',F8.1,'  ',F8.3,'  ',F8.3,'  ',F8.3,'  ',F8.3)
+
+  ! Maximum values:
+  *vwrite,SoilCover, SewerWallThk
+  (F9.2,'  ',F8.2,'    ',\b)
+  *vwrite , ROOF_Mmax_ends  , ROOF_Vmax_ends  , ROOF_Nmax_ends  , ROOF_Mmax_span  , ROOF_Nmax_span  , ROOF_Mmax_inner  , ROOF_Vmax_inner  , ROOF_Nmax_inner
+  (F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'    ',\b)
+  *vwrite , FLOOR_Mmax_ends , FLOOR_Vmax_ends , FLOOR_Nmax_ends , FLOOR_Mmax_span , FLOOR_Nmax_span , FLOOR_Mmax_inner , FLOOR_Vmax_inner , FLOOR_Nmax_inner
+  (F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'    ',\b)
+  *vwrite , OUT_Mmax_ends   , OUT_Vmax_ends   , OUT_Nmax_ends   , OUT_Mmax_span   , OUT_Nmax_span
+  (F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'    ',\b)
+  *vwrite , IWALL_Mmax_ends , IWALL_Vmax_ends , IWALL_Nmax_ends , IWALL_Mmax_span , IWALL_Nmax_span
+  (F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'  ',F8.1,'    ',\b)
+  *vwrite , SOIL_S_avg*1e-3 , SOIL_S_max*1e-3 , 0               , BOT_U_max       , ROOF_Dmax       , FLOOR_Dmax
+  (F8.1,'  ',F8.1,'  ',F8.3,'  ',F8.3,'  ',F8.3,'  ',F8.3)
+
 *cfclos

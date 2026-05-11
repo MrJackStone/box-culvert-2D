@@ -35,28 +35,28 @@ allsel
 etable , 'SM_11' , s , x
 etable , 'SM_12' , s , xy
 etable , 'M11'   , s , z
-pth2beam , n30 , n40 , n33 , n43 , 'ROOF' , 1 , 20 , secProp_W , secProp_A , 0 , 'none' , 1 , 2
+pth2beam , n30 , n40 , n33 , n43 , 'ROOF' , 1 , 20 , secProp_W , secProp_A , 0 , 'roof_envelope' , 1 , 2
 
 ! Bottom slab
 allsel
 etable , 'SM_11' , s , x
 etable , 'SM_12' , s , xy
 etable , 'M11'   , s , z
-pth2beam , n20 , n10 , n23 , n13 , 'FLOOR' , 1 , 20 , secProp_W , secProp_A , 0 , 'none' , 1 , 2
+pth2beam , n20 , n10 , n23 , n13 , 'FLOOR' , 1 , 20 , secProp_W , secProp_A , 0 , 'floor_envelope' , 1 , 2
 
 ! Left wall
 allsel
 etable , 'SM_11' , s , y
 etable , 'SM_12' , s , xy
 etable , 'M11'   , s , z
-pth2beam , n10 , n30 , n12 , n32 , 'LEFT' , 1 , 20 , secProp_W , secProp_A , 0 , 'none' , 1 , 2
+pth2beam , n10 , n30 , n12 , n32 , 'LEFT' , 1 , 20 , secProp_W , secProp_A , 0 , 'left_envelope' , 1 , 2
 
 ! Right wall
 allsel
 etable , 'SM_11' , s , y
 etable , 'SM_12' , s , xy
 etable , 'M11'   , s , z
-pth2beam , n40 , n20 , n42 , n22 , 'RIGHT' , 1 , 20 , secProp_W , secProp_A , 0 , 'none' , 1 , 2
+pth2beam , n40 , n20 , n42 , n22 , 'RIGHT' , 1 , 20 , secProp_W , secProp_A , 0 , 'right_envelope' , 1 , 2
 
 ! Inner walls
 *if,CulvertCells,gt,1,then
@@ -71,7 +71,7 @@ pth2beam , n40 , n20 , n42 , n22 , 'RIGHT' , 1 , 20 , secProp_W , secProp_A , 0 
     N_lrc  = node(xRight , Y2 , 0)
     N_ulc  = node(xLeft  , Y3 , 0)
     N_urc  = node(xRight , Y3 , 0)
-    pth2beam , N_lrc , N_urc , N_llc , N_ulc , 'INW%nthCell%' , 1 , 20 , secProp_W , secProp_A , 0 , 'none' , 1 , 2
+    pth2beam , N_lrc , N_urc , N_llc , N_ulc , 'INW%nthCell%' , 1 , 20 , secProp_W , secProp_A , 0 , 'iwall_envelope' , 1 , 2
   *enddo
 *endif
 
