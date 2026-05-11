@@ -60,11 +60,11 @@ CM,COMPN_loadNodes,NODE
   *get,KNum,KP,,NUM,MIN
 
   *if,KNum,GT,0,THEN
-    x=KX(KNum)
-    y=KY(KNum)
-    z=KZ(KNum)
+    xCoord = KX(KNum)
+    yCoord = KY(KNum)
+    zCoord = KZ(KNum)
     CMSEL,S,COMPN_loadNodes
-    nearestNode=NODE(x,y,z)
+    nearestNode=NODE(xCoord,yCoord,zCoord)
     F,nearestNode,FY,-qVal
   *endif
 
