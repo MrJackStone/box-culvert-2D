@@ -52,8 +52,8 @@ ltFolderPath(1)=STRCAT(imgFolderPath(1),STRCAT('\',ltFolderName))
 
 
 
-SIDECULVERT_V0_ATTR
-SIDECULVERT_V0_SM
+SIDECULVERT_V1_ATTR
+SIDECULVERT_V1_SM
 
 
 
@@ -68,7 +68,7 @@ SIDECULVERT_V0_SM
 !! 4. FINITE ELEMENT MODEL
 !!
 !!
-SEWERSECT_V0_FEM
+SEWERSECT_V1_FEM
 
 
 
@@ -79,7 +79,7 @@ SEWERSECT_V0_FEM
 !! 5. BOUNDARY CONDITIONS
 !!
 !!
-SEWERSECT_V0_BC
+SEWERSECT_V1_BC
 
 
 
@@ -91,7 +91,7 @@ SEWERSECT_V0_BC
 !!
 !!
 SAVE,,,,ALL
-SEWERSECT_V0_SOLU
+SEWERSECT_V1_SOLU
 
 
 
@@ -159,22 +159,22 @@ plpagm,'sy',50,node
 
 ! Report file: initialize
 *if,SOLU_reportMode,EQ,0,THEN
-    BOXCULVERT_V0_REPHDR
+    BOXCULVERT_V1_REPHDR
 *endif
 
 ! Results from first load step (dead weight)
 SET,1,LAST
 /cwd,'%dwFolderPath(1)%'
-BOXCULVERT_V0_POST
+BOXCULVERT_V1_POST
 /cwd,'%currDir(1)%'
-BOXCULVERT_V0_WRRES
+BOXCULVERT_V1_WRRES
 
 ! Results from second load step (load train)
 SET,2,LAST
 /cwd,'%ltFolderPath(1)%'
-BOXCULVERT_V0_POST
+BOXCULVERT_V1_POST
 /cwd,'%currDir(1)%'
-BOXCULVERT_V0_WRRES
+BOXCULVERT_V1_WRRES
 
 *msg,UI,
 DONE!

@@ -51,7 +51,7 @@ PATH,'SoilTop',2,20,200
 PPATH,1,N1
 PPATH,2,N2
 PATH,'SoilTop'
-SEWERSECT_V0_PTHMAP
+SEWERSECT_V1_PTHMAP
 
 ! Face inferior da laje de cobertura
 ALLSEL
@@ -64,7 +64,7 @@ PATH,'SewerTop',2,20,200
 PPATH,1,N1
 PPATH,2,N2
 PATH,'SewerTop'
-SEWERSECT_V0_PTHMAP
+SEWERSECT_V1_PTHMAP
 
 ! Face inferior da laje de piso
 ALLSEL
@@ -77,7 +77,7 @@ PATH,'SoilBot',2,20,200
 PPATH,1,N1
 PPATH,2,N2
 PATH,'SoilBot'
-SEWERSECT_V0_PTHMAP
+SEWERSECT_V1_PTHMAP
 
 ! Face superior da laje de piso
 ALLSEL
@@ -90,7 +90,7 @@ PATH,'SewerBot',2,20,200
 PPATH,1,N1
 PPATH,2,N2
 PATH,'SewerBot'
-SEWERSECT_V0_PTHMAP
+SEWERSECT_V1_PTHMAP
 
 ! Face externa da parede esquerda
 ALLSEL
@@ -103,7 +103,7 @@ PATH,'SoilLeft',2,20,200
 PPATH,1,N1
 PPATH,2,N2
 PATH,'SoilLeft'
-SEWERSECT_V0_PTHMAP
+SEWERSECT_V1_PTHMAP
 
 ! Face interna da parede esquerda
 ALLSEL
@@ -116,7 +116,7 @@ PATH,'SewerLeft',2,20,200
 PPATH,1,N1
 PPATH,2,N2
 PATH,'SewerLeft'
-SEWERSECT_V0_PTHMAP
+SEWERSECT_V1_PTHMAP
 
 ! Face externa da parede direita
 ALLSEL
@@ -129,7 +129,7 @@ PATH,'SoilRight',2,20,200
 PPATH,1,N1
 PPATH,2,N2
 PATH,'SoilRight'
-SEWERSECT_V0_PTHMAP
+SEWERSECT_V1_PTHMAP
 
 ! Face interna da parede direita
 ALLSEL
@@ -142,7 +142,7 @@ PATH,'SewerRight',2,20,200
 PPATH,1,N1
 PPATH,2,N2
 PATH,'SewerRight'
-SEWERSECT_V0_PTHMAP
+SEWERSECT_V1_PTHMAP
 
 ALLSEL
 VIEW1W
