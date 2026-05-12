@@ -14,49 +14,49 @@ path,'SoilTop',2,20,200
 ppath,1,,X9,Y4,0
 ppath,2,,X0,Y4,0
 path,'SoilTop'
-SEWERSECT_V1_PTHMAP
+BOXCULVERT_V1_PTHMAP
 
 ! Bottom slab
 path,'SoilBot',2,20,200
 ppath,1,,X0,Y1,0
 ppath,2,,X9,Y1,0
 path,'SoilBot'
-SEWERSECT_V1_PTHMAP
+BOXCULVERT_V1_PTHMAP
 
 ! Left wall
 path,'SoilLeft',2,20,200
 ppath,1,,X3,Y12,0
 ppath,2,,X3,Y0,0
 path,'SoilLeft'
-SEWERSECT_V1_PTHMAP
+BOXCULVERT_V1_PTHMAP
 
 ! Right wall
 path,'SoilRight',2,20,200
 ppath,1,,X6,Y0,0
 ppath,2,,X6,Y12,0
 path,'SoilRight'
-SEWERSECT_V1_PTHMAP
+BOXCULVERT_V1_PTHMAP
 
 ! Foundation (left side)
 path,'BedLeft',2,20,200
 ppath,1,,X3,Y1,0
 ppath,2,,X3,Y0,0
 path,'BedLeft'
-SEWERSECT_V1_PTHMAP
+BOXCULVERT_V1_PTHMAP
 
 ! Foundation (center)
 path,'BedCntr',2,20,200
 ppath,1,,(X4+X5)/2,Y1,0
 ppath,2,,(X4+X5)/2,Y0,0
 path,'BedCntr'
-SEWERSECT_V1_PTHMAP
+BOXCULVERT_V1_PTHMAP
 
 ! Foundation (right side)
 path,'BedRight',2,20,200
 ppath,1,,X6,Y1,0
 ppath,2,,X6,Y0,0
 path,'BedRight'
-SEWERSECT_V1_PTHMAP
+BOXCULVERT_V1_PTHMAP
 
 !! 7.2.1.2 COLLECT RESULTS
 path,'SoilBot'
