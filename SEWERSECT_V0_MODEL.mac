@@ -1,6 +1,6 @@
 ! Switch output to file
+/output,outfile,out
 init
-/output,'outfile',OUT
 
 ! Display options
 /prep7
