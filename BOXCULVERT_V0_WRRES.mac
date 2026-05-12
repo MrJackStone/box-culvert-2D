@@ -55,8 +55,8 @@ WALLSPAN_e = Y3-(SewerHeight/4)
 ! Collect values from envelopes
 *vfun , roof_mp_min , copy , roof_envelope(1 , 1)
 *vfun , roof_mp_max , copy , roof_envelope(1 , 2)
-*vfun , roof_n_max  , copy , roof_envelope(1 , 5)
-*vfun , roof_n_min  , copy , roof_envelope(1 , 6)
+*vfun , roof_n_min  , copy , roof_envelope(1 , 5)
+*vfun , roof_n_max  , copy , roof_envelope(1 , 6)
 *vfun , roof_v_max  , copy , roof_envelope(1 , 7)
 *vfun , roof_v_min  , copy , roof_envelope(1 , 8)
 *vfun , roof_d_max  , copy , roof_envelope(1 , 11)
@@ -66,8 +66,8 @@ pth2arr,'XG','ROOF_XG'
 
 *vfun , floor_mp_min , copy , floor_envelope(1 , 1)
 *vfun , floor_mp_max , copy , floor_envelope(1 , 2)
-*vfun , floor_n_max  , copy , floor_envelope(1 , 5)
-*vfun , floor_n_min  , copy , floor_envelope(1 , 6)
+*vfun , floor_n_min  , copy , floor_envelope(1 , 5)
+*vfun , floor_n_max  , copy , floor_envelope(1 , 6)
 *vfun , floor_v_max  , copy , floor_envelope(1 , 7)
 *vfun , floor_v_min  , copy , floor_envelope(1 , 8)
 *vfun , floor_d_max  , copy , floor_envelope(1 , 11)
@@ -77,8 +77,8 @@ pth2arr,'XG','FLOOR_XG'
 
 *vfun , left_mp_min , copy , left_envelope(1 , 1)
 *vfun , left_mp_max , copy , left_envelope(1 , 2)
-*vfun , left_n_max  , copy , left_envelope(1 , 5)
-*vfun , left_n_min  , copy , left_envelope(1 , 6)
+*vfun , left_n_min  , copy , left_envelope(1 , 5)
+*vfun , left_n_max  , copy , left_envelope(1 , 6)
 *vfun , left_v_max  , copy , left_envelope(1 , 7)
 *vfun , left_v_min  , copy , left_envelope(1 , 8)
 *vfun , left_d_max  , copy , left_envelope(1 , 9)
@@ -88,8 +88,8 @@ pth2arr,'YG','LEFT_YG'
 
 *vfun , right_mp_min , copy , right_envelope(1 , 1)
 *vfun , right_mp_max , copy , right_envelope(1 , 2)
-*vfun , right_n_max  , copy , right_envelope(1 , 5)
-*vfun , right_n_min  , copy , right_envelope(1 , 6)
+*vfun , right_n_min  , copy , right_envelope(1 , 5)
+*vfun , right_n_max  , copy , right_envelope(1 , 6)
 *vfun , right_v_max  , copy , right_envelope(1 , 7)
 *vfun , right_v_min  , copy , right_envelope(1 , 8)
 *vfun , right_d_max  , copy , right_envelope(1 , 9)
@@ -100,8 +100,8 @@ pth2arr,'YG','RIGHT_YG'
 *if,CulvertCells,GT,1,THEN
   *vfun , iwall_mp_min , copy , iwall_envelope(1 , 1)
   *vfun , iwall_mp_max , copy , iwall_envelope(1 , 2)
-  *vfun , iwall_n_max  , copy , iwall_envelope(1 , 5)
-  *vfun , iwall_n_min  , copy , iwall_envelope(1 , 6)
+  *vfun , iwall_n_min  , copy , iwall_envelope(1 , 5)
+  *vfun , iwall_n_max  , copy , iwall_envelope(1 , 6)
   *vfun , iwall_v_max  , copy , iwall_envelope(1 , 7)
   *vfun , iwall_v_min  , copy , iwall_envelope(1 , 8)
   *vfun , iwall_d_max  , copy , iwall_envelope(1 , 9)
@@ -239,6 +239,7 @@ OUT_Vmin_ends = (LEFT_Vmin_ends<RIGHT_Vmin_ends)
 
   ! TODO  BOT_U_min, BOT_U_max: calculate
   !       Soil results: currently pulls from LT, needs to also collect DW
+  !       Missing definition: ROOF_Nmin_span & similar
 
   ! Minimum values:
   *vwrite,SoilCover, SewerWallThk
