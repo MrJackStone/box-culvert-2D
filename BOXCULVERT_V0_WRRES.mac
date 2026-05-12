@@ -111,90 +111,94 @@ pth2arr,'YG','RIGHT_YG'
 *endif
 
 ! Roof
-vmfun , 'ROOF_Mmax_ends'  , 'roof_mp_max' , 'MAX' , 'ROOF_XG' , 'HENDS_b'    , 'HENDS_e'
-vmfun , 'ROOF_Mmin_ends'  , 'roof_mp_min' , 'MIN' , 'ROOF_XG' , 'HENDS_b'    , 'HENDS_e'
-vmfun , 'ROOF_Mmax_span'  , 'roof_mp_max' , 'MAX' , 'ROOF_XG' , 'SLABSPAN_b' , 'SLABSPAN_e'
-vmfun , 'ROOF_Mmin_span'  , 'roof_mp_min' , 'MIN' , 'ROOF_XG' , 'SLABSPAN_b' , 'SLABSPAN_e'
-vmfun , 'ROOF_Mmax_inner' , 'roof_mp_max' , 'MAX' , 'ROOF_XG' , 'INNER_b'    , 'INNER_e'
-vmfun , 'ROOF_Mmin_inner' , 'roof_mp_min' , 'MIN' , 'ROOF_XG' , 'INNER_b'    , 'INNER_e'
+vmfun , 'ROOF_Mmax_ends'  , 'roof_mp_max' , 'MAX'    , 'ROOF_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'ROOF_Mmin_ends'  , 'roof_mp_min' , 'MIN'    , 'ROOF_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'ROOF_Mmax_span'  , 'roof_mp_max' , 'MAX'    , 'ROOF_XG' , 'SLABSPAN_b' , 'SLABSPAN_e'
+vmfun , 'ROOF_Mmin_span'  , 'roof_mp_min' , 'MIN'    , 'ROOF_XG' , 'SLABSPAN_b' , 'SLABSPAN_e'
+vmfun , 'ROOF_Mmax_inner' , 'roof_mp_max' , 'MAX'    , 'ROOF_XG' , 'INNER_b'    , 'INNER_e'
+vmfun , 'ROOF_Mmin_inner' , 'roof_mp_min' , 'MIN'    , 'ROOF_XG' , 'INNER_b'    , 'INNER_e'
 
-vmfun , 'ROOF_Nmax_ends'  , 'roof_n_max'  , 'MAX' , 'ROOF_XG' , 'HENDS_b'    , 'HENDS_e'
-vmfun , 'ROOF_Nmin_ends'  , 'roof_n_min'  , 'MIN' , 'ROOF_XG' , 'HENDS_b'    , 'HENDS_e'
-vmfun , 'ROOF_Nmax_inner' , 'roof_n_max'  , 'MAX' , 'ROOF_XG' , 'INNER_b'    , 'INNER_e'
-vmfun , 'ROOF_Nmin_inner' , 'roof_n_min'  , 'MIN' , 'ROOF_XG' , 'INNER_b'    , 'INNER_e'
+vmfun , 'ROOF_Nmax_ends'  , 'roof_n_max'  , 'MAX'    , 'ROOF_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'ROOF_Nmin_ends'  , 'roof_n_min'  , 'MIN'    , 'ROOF_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'ROOF_Nmax_span'  , 'roof_n_max'  , 'MAX'    , 'ROOF_XG' , 'SLABSPAN_b' , 'SLABSPAN_e'
+vmfun , 'ROOF_Nmin_span'  , 'roof_n_min'  , 'MIN'    , 'ROOF_XG' , 'SLABSPAN_b' , 'SLABSPAN_e'
+vmfun , 'ROOF_Nmax_inner' , 'roof_n_max'  , 'MAX'    , 'ROOF_XG' , 'INNER_b'    , 'INNER_e'
+vmfun , 'ROOF_Nmin_inner' , 'roof_n_min'  , 'MIN'    , 'ROOF_XG' , 'INNER_b'    , 'INNER_e'
 
-vmfun , 'ROOF_Vmax_ends'  , 'roof_v_max'  , 'MAX' , 'ROOF_XG' , 'HENDS_b'    , 'HENDS_e'
-vmfun , 'ROOF_Vmin_ends'  , 'roof_v_min'  , 'MIN' , 'ROOF_XG' , 'HENDS_b'    , 'HENDS_e'
-vmfun , 'ROOF_Vmax_inner' , 'roof_v_max'  , 'MAX' , 'ROOF_XG' , 'INNER_b'    , 'INNER_e'
-vmfun , 'ROOF_Vmin_inner' , 'roof_v_min'  , 'MIN' , 'ROOF_XG' , 'INNER_b'    , 'INNER_e'
+vmfun , 'ROOF_Vmax_ends'  , 'roof_v_max'  , 'ABSMAX' , 'ROOF_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'ROOF_Vmin_ends'  , 'roof_v_min'  , 'ABSMIN' , 'ROOF_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'ROOF_Vmax_inner' , 'roof_v_max'  , 'ABSMAX' , 'ROOF_XG' , 'INNER_b'    , 'INNER_e'
+vmfun , 'ROOF_Vmin_inner' , 'roof_v_min'  , 'ABSMIN' , 'ROOF_XG' , 'INNER_b'    , 'INNER_e'
 
 *vscfun , ROOF_Dmax , max , roof_d_max
 *vscfun , ROOF_Dmin , max , roof_d_min
 
 ! Floor
-vmfun , 'FLOOR_Mmax_ends'  , 'floor_mp_max' , 'MAX' , 'FLOOR_XG' , 'HENDS_b'    , 'HENDS_e'
-vmfun , 'FLOOR_Mmin_ends'  , 'floor_mp_min' , 'MIN' , 'FLOOR_XG' , 'HENDS_b'    , 'HENDS_e'
-vmfun , 'FLOOR_Mmax_span'  , 'floor_mp_max' , 'MAX' , 'FLOOR_XG' , 'SLABSPAN_b' , 'SLABSPAN_e'
-vmfun , 'FLOOR_Mmin_span'  , 'floor_mp_min' , 'MIN' , 'FLOOR_XG' , 'SLABSPAN_b' , 'SLABSPAN_e'
-vmfun , 'FLOOR_Mmax_inner' , 'floor_mp_max' , 'MAX' , 'FLOOR_XG' , 'INNER_b'    , 'INNER_e'
-vmfun , 'FLOOR_Mmin_inner' , 'floor_mp_min' , 'MIN' , 'FLOOR_XG' , 'INNER_b'    , 'INNER_e'
+vmfun , 'FLOOR_Mmax_ends'  , 'floor_mp_max' , 'MAX'    , 'FLOOR_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'FLOOR_Mmin_ends'  , 'floor_mp_min' , 'MIN'    , 'FLOOR_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'FLOOR_Mmax_span'  , 'floor_mp_max' , 'MAX'    , 'FLOOR_XG' , 'SLABSPAN_b' , 'SLABSPAN_e'
+vmfun , 'FLOOR_Mmin_span'  , 'floor_mp_min' , 'MIN'    , 'FLOOR_XG' , 'SLABSPAN_b' , 'SLABSPAN_e'
+vmfun , 'FLOOR_Mmax_inner' , 'floor_mp_max' , 'MAX'    , 'FLOOR_XG' , 'INNER_b'    , 'INNER_e'
+vmfun , 'FLOOR_Mmin_inner' , 'floor_mp_min' , 'MIN'    , 'FLOOR_XG' , 'INNER_b'    , 'INNER_e'
 
-vmfun , 'FLOOR_Nmax_ends'  , 'floor_n_max'  , 'MAX' , 'FLOOR_XG' , 'HENDS_b'    , 'HENDS_e'
-vmfun , 'FLOOR_Nmin_ends'  , 'floor_n_min'  , 'MIN' , 'FLOOR_XG' , 'HENDS_b'    , 'HENDS_e'
-vmfun , 'FLOOR_Nmax_inner' , 'floor_n_max'  , 'MAX' , 'FLOOR_XG' , 'INNER_b'    , 'INNER_e'
-vmfun , 'FLOOR_Nmin_inner' , 'floor_n_min'  , 'MIN' , 'FLOOR_XG' , 'INNER_b'    , 'INNER_e'
+vmfun , 'FLOOR_Nmax_ends'  , 'floor_n_max'  , 'MAX'    , 'FLOOR_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'FLOOR_Nmin_ends'  , 'floor_n_min'  , 'MIN'    , 'FLOOR_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'FLOOR_Nmax_span'  , 'floor_n_max'  , 'MAX'    , 'FLOOR_XG' , 'SLABSPAN_b' , 'SLABSPAN_e'
+vmfun , 'FLOOR_Nmin_span'  , 'floor_n_min'  , 'MIN'    , 'FLOOR_XG' , 'SLABSPAN_b' , 'SLABSPAN_e'
+vmfun , 'FLOOR_Nmax_inner' , 'floor_n_max'  , 'MAX'    , 'FLOOR_XG' , 'INNER_b'    , 'INNER_e'
+vmfun , 'FLOOR_Nmin_inner' , 'floor_n_min'  , 'MIN'    , 'FLOOR_XG' , 'INNER_b'    , 'INNER_e'
 
-vmfun , 'FLOOR_Vmax_ends'  , 'floor_v_max'  , 'MAX' , 'FLOOR_XG' , 'HENDS_b'    , 'HENDS_e'
-vmfun , 'FLOOR_Vmin_ends'  , 'floor_v_min'  , 'MIN' , 'FLOOR_XG' , 'HENDS_b'    , 'HENDS_e'
-vmfun , 'FLOOR_Vmax_inner' , 'floor_v_max'  , 'MAX' , 'FLOOR_XG' , 'INNER_b'    , 'INNER_e'
-vmfun , 'FLOOR_Vmin_inner' , 'floor_v_min'  , 'MIN' , 'FLOOR_XG' , 'INNER_b'    , 'INNER_e'
+vmfun , 'FLOOR_Vmax_ends'  , 'floor_v_max'  , 'ABSMAX' , 'FLOOR_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'FLOOR_Vmin_ends'  , 'floor_v_min'  , 'ABSMIN' , 'FLOOR_XG' , 'HENDS_b'    , 'HENDS_e'
+vmfun , 'FLOOR_Vmax_inner' , 'floor_v_max'  , 'ABSMAX' , 'FLOOR_XG' , 'INNER_b'    , 'INNER_e'
+vmfun , 'FLOOR_Vmin_inner' , 'floor_v_min'  , 'ABSMIN' , 'FLOOR_XG' , 'INNER_b'    , 'INNER_e'
 
 *vscfun , FLOOR_Dmax , max , floor_d_max
 *vscfun , FLOOR_Dmin , max , floor_d_min
 
 ! Left wall
-vmfun , 'LEFT_Mmax_ends' , 'left_mp_max' , 'MAX' , 'LEFT_YG' , 'VENDS_b'  , 'VENDS_e'
-vmfun , 'LEFT_Mmin_ends' , 'left_mp_min' , 'MIN' , 'LEFT_YG' , 'VENDS_b'  , 'VENDS_e'
-vmfun , 'LEFT_Mmax_span' , 'left_mp_max' , 'MAX' , 'LEFT_YG' , WALLSPAN_b , WALLSPAN_e
-vmfun , 'LEFT_Mmin_span' , 'left_mp_min' , 'MIN' , 'LEFT_YG' , WALLSPAN_b , WALLSPAN_e
+vmfun , 'LEFT_Mmax_ends' , 'left_mp_max' , 'MAX'    , 'LEFT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'LEFT_Mmin_ends' , 'left_mp_min' , 'MIN'    , 'LEFT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'LEFT_Mmax_span' , 'left_mp_max' , 'MAX'    , 'LEFT_YG' , WALLSPAN_b , WALLSPAN_e
+vmfun , 'LEFT_Mmin_span' , 'left_mp_min' , 'MIN'    , 'LEFT_YG' , WALLSPAN_b , WALLSPAN_e
 
-vmfun , 'LEFT_Nmax_ends' , 'left_n_max'  , 'MAX' , 'LEFT_YG' , 'VENDS_b'  , 'VENDS_e'
-vmfun , 'LEFT_Nmin_ends' , 'left_n_min'  , 'MIN' , 'LEFT_YG' , 'VENDS_b'  , 'VENDS_e'
-vmfun , 'LEFT_Nmax_span' , 'left_n_max'  , 'MAX' , 'LEFT_YG' , WALLSPAN_b , WALLSPAN_e
-vmfun , 'LEFT_Nmin_span' , 'left_n_min'  , 'MIN' , 'LEFT_YG' , WALLSPAN_b , WALLSPAN_e
+vmfun , 'LEFT_Nmax_ends' , 'left_n_max'  , 'MAX'    , 'LEFT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'LEFT_Nmin_ends' , 'left_n_min'  , 'MIN'    , 'LEFT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'LEFT_Nmax_span' , 'left_n_max'  , 'MAX'    , 'LEFT_YG' , WALLSPAN_b , WALLSPAN_e
+vmfun , 'LEFT_Nmin_span' , 'left_n_min'  , 'MIN'    , 'LEFT_YG' , WALLSPAN_b , WALLSPAN_e
 
-vmfun , 'LEFT_Vmax_ends' , 'left_v_max'  , 'MAX' , 'LEFT_YG' , 'VENDS_b'  , 'VENDS_e'
-vmfun , 'LEFT_Vmin_ends' , 'left_v_min'  , 'MIN' , 'LEFT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'LEFT_Vmax_ends' , 'left_v_max'  , 'ABSMAX' , 'LEFT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'LEFT_Vmin_ends' , 'left_v_min'  , 'ABSMIN' , 'LEFT_YG' , 'VENDS_b'  , 'VENDS_e'
 
 ! Right wall
-vmfun , 'RIGHT_Mmax_ends' , 'right_mp_max' , 'MAX' , 'RIGHT_YG' , 'VENDS_b'  , 'VENDS_e'
-vmfun , 'RIGHT_Mmin_ends' , 'right_mp_min' , 'MIN' , 'RIGHT_YG' , 'VENDS_b'  , 'VENDS_e'
-vmfun , 'RIGHT_Mmax_span' , 'right_mp_max' , 'MAX' , 'RIGHT_YG' , WALLSPAN_b , WALLSPAN_e
-vmfun , 'RIGHT_Mmin_span' , 'right_mp_min' , 'MIN' , 'RIGHT_YG' , WALLSPAN_b , WALLSPAN_e
+vmfun , 'RIGHT_Mmax_ends' , 'right_mp_max' , 'MAX'    , 'RIGHT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'RIGHT_Mmin_ends' , 'right_mp_min' , 'MIN'    , 'RIGHT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'RIGHT_Mmax_span' , 'right_mp_max' , 'MAX'    , 'RIGHT_YG' , WALLSPAN_b , WALLSPAN_e
+vmfun , 'RIGHT_Mmin_span' , 'right_mp_min' , 'MIN'    , 'RIGHT_YG' , WALLSPAN_b , WALLSPAN_e
 
-vmfun , 'RIGHT_Nmax_ends' , 'right_n_max'  , 'MAX' , 'RIGHT_YG' , 'VENDS_b'  , 'VENDS_e'
-vmfun , 'RIGHT_Nmin_ends' , 'right_n_min'  , 'MIN' , 'RIGHT_YG' , 'VENDS_b'  , 'VENDS_e'
-vmfun , 'RIGHT_Nmax_span' , 'right_n_max'  , 'MAX' , 'RIGHT_YG' , WALLSPAN_b , WALLSPAN_e
-vmfun , 'RIGHT_Nmin_span' , 'right_n_min'  , 'MIN' , 'RIGHT_YG' , WALLSPAN_b , WALLSPAN_e
+vmfun , 'RIGHT_Nmax_ends' , 'right_n_max'  , 'MAX'    , 'RIGHT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'RIGHT_Nmin_ends' , 'right_n_min'  , 'MIN'    , 'RIGHT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'RIGHT_Nmax_span' , 'right_n_max'  , 'MAX'    , 'RIGHT_YG' , WALLSPAN_b , WALLSPAN_e
+vmfun , 'RIGHT_Nmin_span' , 'right_n_min'  , 'MIN'    , 'RIGHT_YG' , WALLSPAN_b , WALLSPAN_e
 
-vmfun , 'RIGHT_Vmax_ends' , 'right_v_max'  , 'MAX' , 'RIGHT_YG' , 'VENDS_b'  , 'VENDS_e'
-vmfun , 'RIGHT_Vmin_ends' , 'right_v_min'  , 'MIN' , 'RIGHT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'RIGHT_Vmax_ends' , 'right_v_max'  , 'ABSMAX' , 'RIGHT_YG' , 'VENDS_b'  , 'VENDS_e'
+vmfun , 'RIGHT_Vmin_ends' , 'right_v_min'  , 'ABSMIN' , 'RIGHT_YG' , 'VENDS_b'  , 'VENDS_e'
 
 ! Inner walls
 *if,CulvertCells,GT,1,THEN
 
-  vmfun , 'IWALL_Mmax_ends' , 'iwall_mp_max' , 'MAX' , 'IWALL_YG' , 'VENDS_b'  , 'VENDS_e'
-  vmfun , 'IWALL_Mmin_ends' , 'iwall_mp_min' , 'MIN' , 'IWALL_YG' , 'VENDS_b'  , 'VENDS_e'
-  vmfun , 'IWALL_Mmax_span' , 'iwall_mp_max' , 'MAX' , 'IWALL_YG' , WALLSPAN_b , WALLSPAN_e
-  vmfun , 'IWALL_Mmin_span' , 'iwall_mp_min' , 'MIN' , 'IWALL_YG' , WALLSPAN_b , WALLSPAN_e
+  vmfun , 'IWALL_Mmax_ends' , 'iwall_mp_max' , 'MAX'    , 'IWALL_YG' , 'VENDS_b'  , 'VENDS_e'
+  vmfun , 'IWALL_Mmin_ends' , 'iwall_mp_min' , 'MIN'    , 'IWALL_YG' , 'VENDS_b'  , 'VENDS_e'
+  vmfun , 'IWALL_Mmax_span' , 'iwall_mp_max' , 'MAX'    , 'IWALL_YG' , WALLSPAN_b , WALLSPAN_e
+  vmfun , 'IWALL_Mmin_span' , 'iwall_mp_min' , 'MIN'    , 'IWALL_YG' , WALLSPAN_b , WALLSPAN_e
 
-  vmfun , 'IWALL_Nmax_ends' , 'iwall_n_max'  , 'MAX' , 'IWALL_YG' , 'VENDS_b'  , 'VENDS_e'
-  vmfun , 'IWALL_Nmin_ends' , 'iwall_n_min'  , 'MIN' , 'IWALL_YG' , 'VENDS_b'  , 'VENDS_e'
-  vmfun , 'IWALL_Nmax_span' , 'iwallr_n_max' , 'MAX' , 'IWALL_XG' , WALLSPAN_b , WALLSPAN_e
-  vmfun , 'IWALL_Nmin_span' , 'iwallr_n_min' , 'MIN' , 'IWALL_XG' , WALLSPAN_b , WALLSPAN_e
+  vmfun , 'IWALL_Nmax_ends' , 'iwall_n_max'  , 'MAX'    , 'IWALL_YG' , 'VENDS_b'  , 'VENDS_e'
+  vmfun , 'IWALL_Nmin_ends' , 'iwall_n_min'  , 'MIN'    , 'IWALL_YG' , 'VENDS_b'  , 'VENDS_e'
+  vmfun , 'IWALL_Nmax_span' , 'iwallr_n_max' , 'MAX'    , 'IWALL_XG' , WALLSPAN_b , WALLSPAN_e
+  vmfun , 'IWALL_Nmin_span' , 'iwallr_n_min' , 'MIN'    , 'IWALL_XG' , WALLSPAN_b , WALLSPAN_e
 
-  vmfun , 'IWALL_Vmax_ends' , 'iwall_v_max'  , 'MAX' , 'IWALL_YG' , 'VENDS_b'  , 'VENDS_e'
-  vmfun , 'IWALL_Vmin_ends' , 'iwall_v_min'  , 'MIN' , 'IWALL_YG' , 'VENDS_b'  , 'VENDS_e'
+  vmfun , 'IWALL_Vmax_ends' , 'iwall_v_max'  , 'ABSMAX' , 'IWALL_YG' , 'VENDS_b'  , 'VENDS_e'
+  vmfun , 'IWALL_Vmin_ends' , 'iwall_v_min'  , 'ABSMIN' , 'IWALL_YG' , 'VENDS_b'  , 'VENDS_e'
 
 *else
 
@@ -239,7 +243,6 @@ OUT_Vmin_ends = (LEFT_Vmin_ends<RIGHT_Vmin_ends)
 
   ! TODO  BOT_U_min, BOT_U_max: calculate
   !       Soil results: currently pulls from LT, needs to also collect DW
-  !       Missing definition: ROOF_Nmin_span & similar
 
   ! Minimum values:
   *vwrite,SoilCover, SewerWallThk
