@@ -1,6 +1,8 @@
 ! BOXCULVERT_V1_POSTSOILPATHS
 
 
+labelCount = 40
+
 ! Create paths
 cmsel,s,COMPA_SoilSubs
 cmsel,a,COMPA_SoilBase
@@ -10,54 +12,56 @@ esla,s
 nsle,s
 
 ! Top slab
-path,'SoilTop',2,20,200
+path,'SOIL_T',2,labelCount,200
 ppath,1,,X9,Y4,0
 ppath,2,,X0,Y4,0
-path,'SoilTop'
+path,'SOIL_T'
 BOXCULVERT_V1_PTHMAP
 
 ! Bottom slab
-path,'SoilBot',2,20,200
+path,'SOIL_B',2,labelCount,200
 ppath,1,,X0,Y1,0
 ppath,2,,X9,Y1,0
-path,'SoilBot'
+path,'SOIL_B'
 BOXCULVERT_V1_PTHMAP
 
 ! Left wall
-path,'SoilLeft',2,20,200
+path,'SOIL_L',2,labelCount,200
 ppath,1,,X3,Y12,0
 ppath,2,,X3,Y0,0
-path,'SoilLeft'
+path,'SOIL_L'
 BOXCULVERT_V1_PTHMAP
 
 ! Right wall
-path,'SoilRight',2,20,200
+path,'SOIL_R',2,labelCount,200
 ppath,1,,X6,Y0,0
 ppath,2,,X6,Y12,0
-path,'SoilRight'
+path,'SOIL_R'
 BOXCULVERT_V1_PTHMAP
 
 ! Foundation (left side)
-path,'BedLeft',2,20,200
+path,'BED_L',2,labelCount,200
 ppath,1,,X3,Y1,0
 ppath,2,,X3,Y0,0
-path,'BedLeft'
+path,'BED_L'
 BOXCULVERT_V1_PTHMAP
 
 ! Foundation (center)
-path,'BedCntr',2,20,200
+path,'BED_C',2,labelCount,200
 ppath,1,,(X4+X5)/2,Y1,0
 ppath,2,,(X4+X5)/2,Y0,0
-path,'BedCntr'
+path,'BED_C'
 BOXCULVERT_V1_PTHMAP
 
 ! Foundation (right side)
-path,'BedRight',2,20,200
+path,'BED_R',2,labelCount,200
 ppath,1,,X6,Y1,0
 ppath,2,,X6,Y0,0
-path,'BedRight'
+path,'BED_R'
 BOXCULVERT_V1_PTHMAP
 
 !! 7.2.1.2 COLLECT RESULTS
-path,'SoilBot'
+path,'SOIL_B'
 pth2arr,'SY','SOIL_S'
+
+pthenv,'UPDATE','soil_envelope'

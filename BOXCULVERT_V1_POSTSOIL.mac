@@ -16,12 +16,12 @@ wintitle,1,' ','SOIL PRESSURES [kPa]',' ',,1,13
 /gformat,f,1,1
 /edge,1,1
 
-*del , MPATHPLOT_ARR_pathNames
-*dim , MPATHPLOT_ARR_pathNames , char , 4
-*del , MPATHPLOT_ARR_labels
-*dim , MPATHPLOT_ARR_labels    , char , 4
-MPATHPLOT_ARR_pathNames(1) = 'SoilTop' , 'SoilBot' , 'SoilLeft' , 'SoilRight'
-MPATHPLOT_ARR_labels(1)    = 'SYKPA'   , 'SYKPA'   , 'SXKPA'    , 'SXKPA'
+*del , MPATHPLOT_ARR_pathNames ,      , nopr
+*del , MPATHPLOT_ARR_labels    ,      , nopr
+*dim , MPATHPLOT_ARR_pathNames , char , 8
+*dim , MPATHPLOT_ARR_labels    , char , 8
+MPATHPLOT_ARR_pathNames(1) = 'SOIL_T' , 'SOIL_T' , 'SOIL_B' , 'SOIL_B' , 'SOIL_L' , 'SOIL_L' , 'SOIL_R' , 'SOIL_R'
+MPATHPLOT_ARR_labels(1)    = 'SYKPA-' , 'SYKPA+' , 'SYKPA-' , 'SYKPA+' , 'SXKPA-' , 'SXKPA+' , 'SXKPA-' , 'SXKPA+'
 
 go2png,1200
   allsel
@@ -51,12 +51,12 @@ wintitle,1,' ','SOIL BED PRESSURES [kPa]',' ',,1,13
 /gformat,f,1,1
 /edge,1,1
 
-*del,MPATHPLOT_ARR_pathNames
-*dim,MPATHPLOT_ARR_pathNames,char,3
-*del,MPATHPLOT_ARR_labels
-*dim,MPATHPLOT_ARR_labels,char,3
-MPATHPLOT_ARR_pathNames(1) = 'BedLeft' , 'BedCntr' , 'BedRight'
-MPATHPLOT_ARR_labels(1)    = 'SYKPA'   , 'SYKPA'   , 'SYKPA'
+*del , MPATHPLOT_ARR_pathNames ,      , nopr
+*del , MPATHPLOT_ARR_labels    ,      , nopr
+*dim , MPATHPLOT_ARR_pathNames , char , 6
+*dim , MPATHPLOT_ARR_labels    , char , 6
+MPATHPLOT_ARR_pathNames(1) = 'BED_L'  , 'BED_L'  , 'BED_C'  , 'BED_C'  , 'BED_R'  , 'BED_R'
+MPATHPLOT_ARR_labels(1)    = 'SYKPA-' , 'SYKPA+' , 'SYKPA-' , 'SYKPA+' , 'SYKPA-' , 'SYKPA+'
 
 go2png,1200
   allsel

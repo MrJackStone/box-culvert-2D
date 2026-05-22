@@ -118,6 +118,23 @@ SAVE,,,,ALL
   *del , iwall_envelope ,  , nopr
   padele,all
 
+  soilLabelCount = 2
+  soilPathCount  = 7
+  *del , soil_envelope ,      , nopr
+  *dim , soil_envelope , char , soilLabelCount+1 , soilPathCount
+  soil_envelope(1,1) = 'SOIL_T'
+  soil_envelope(1,2) = 'SOIL_B'
+  soil_envelope(1,3) = 'SOIL_L'
+  soil_envelope(1,4) = 'SOIL_R'
+  soil_envelope(1,5) = 'BED_L'
+  soil_envelope(1,6) = 'BED_C'
+  soil_envelope(1,7) = 'BED_R'
+  *do,nthPath,1,soilPathCount,1
+    soil_envelope(2,nthPath) = 'SYKPA'
+    soil_envelope(3,nthPath) = 'SXKPA'
+  *enddo
+  pthenv,'CLEAR','soil_envelope'
+
   BOXCULVERT_V1_REPHDR
 
   ! Results from first load step (dead weight)
@@ -157,10 +174,10 @@ SAVE,,,,ALL
   CMSEL,A,COMPA_SoilBed
   ESLA,S
   NSLE,S
-  PATH,'SoilTop',2,20,200
+  PATH,'SOIL_T',2,20,200
   PPATH,1,,X9,Y4,0
   PPATH,2,,X0,Y4,0
-  PATH,'SoilTop'
+  PATH,'SOIL_T'
   BOXCULVERT_V1_PTHMAP
   PLPAGM,SY,10,NODE
 
