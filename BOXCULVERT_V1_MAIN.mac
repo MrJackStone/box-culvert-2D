@@ -1,6 +1,6 @@
 ! Switch output to file
 /output,outfile,out
-init
+init , 'BOXCULVERT_V1_DEFAULTS'
 
 ! Display options
 /prep7

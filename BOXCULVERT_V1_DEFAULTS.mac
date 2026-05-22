@@ -1,0 +1,45 @@
+! BOXCULVERT_V1_DEFAULTS
+
+
+SlabStatus           = 0
+SlabThk              = 0.2
+SlabDepth            = 0.5
+SlabExtraWidth       = 0
+
+SoilSubsStatus       = 0
+SoilSubsThk          = 0.4
+
+EPSStatus            = 0
+EPSThk               = 0.5
+EPSDepth             = 0.7
+EPSExtraWidth        = 0
+
+
+MAT_SEWER_Poisson    = 0.2
+MAT_SEWER_dens       = 2500
+
+MAT_SLAB_fck         = 40e6
+MAT_SLAB_Poisson     = 0.2
+MAT_SLAB_dens        = 2500
+
+MAT_SOIL_MID_E       = 10e6
+MAT_SOIL_MID_Poisson = 0.2
+MAT_SOIL_MID_dens    = 2000
+MAT_SOIL_MID_fi      = 35
+MAT_SOIL_MID_c       = 5e3
+
+MAT_PAVEMENT_E       = 3e9
+MAT_PAVEMENT_Poisson = 0.2
+MAT_PAVEMENT_dens    = 2400
+
+MAT_EPS_E            = 0.5e9
+MAT_EPS_Poisson      = 0.3
+MAT_EPS_dens         = 45
+
+LOAD_g               = 9.81
+LOAD_deadUniform     = 0
+
+SOLU_BCopt           = 0
+SOLU_largeDisp       = 1
+
+SOLU_reportMode      = 0
